@@ -1,110 +1,69 @@
 <template>
   <div class="hello">
-    <h1>{{ msg }}</h1>
-    <h2>Essential Links</h2>
-    <ul>
-      <li>
-        <a
-          href="https://vuejs.org"
-          target="_blank"
-        >
-          Core Docs
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://forum.vuejs.org"
-          target="_blank"
-        >
-          Forum
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://chat.vuejs.org"
-          target="_blank"
-        >
-          Community Chat
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://twitter.com/vuejs"
-          target="_blank"
-        >
-          Twitter
-        </a>
-      </li>
-      <br>
-      <li>
-        <a
-          href="http://vuejs-templates.github.io/webpack/"
-          target="_blank"
-        >
-          Docs for This Template
-        </a>
-      </li>
-    </ul>
-    <h2>Ecosystem</h2>
-    <ul>
-      <li>
-        <a
-          href="http://router.vuejs.org/"
-          target="_blank"
-        >
-          vue-router
-        </a>
-      </li>
-      <li>
-        <a
-          href="http://vuex.vuejs.org/"
-          target="_blank"
-        >
-          vuex
-        </a>
-      </li>
-      <li>
-        <a
-          href="http://vue-loader.vuejs.org/"
-          target="_blank"
-        >
-          vue-loader
-        </a>
-      </li>
-      <li>
-        <a
-          href="https://github.com/vuejs/awesome-vue"
-          target="_blank"
-        >
-          awesome-vue
-        </a>
-      </li>
-    </ul>
+    <h1>{{ msg }} + {{ num }}</h1>
+
+    <el-button @click="handleChange">+</el-button>
+    {{ myCount }}
+    <el-button>-</el-button>
   </div>
 </template>
 
 <script lang="ts">
-import { Vue, Component } from 'vue-property-decorator'
+import { Vue, Component } from "vue-property-decorator";
+import { State, Getter, Action, Mutation, namespace } from "vuex-class";
 
 @Component({})
 export default class HelloWorld extends Vue {
-  msg:string = 'Welcome to Your Vue.js AppAAA'
+  msg: string = "Welcome to Your Vue.js AppAAA";
+  num: number = 1;
+
+  // @State count;
+  @State("count") myCount;
+  // @Mutation("add") mutationAdd;
+  @Mutation add;
+
+  created() {
+    console.log(this.myCount);
+  }
+
+  mounted() {
+    let self = this;
+    // //显示列表
+    // this.axios.get("http://localhost:4444/api/getBooks").then((res, err):void => {
+    //   if (res.data.code > 0) {
+    //     console.log(res.data.data);
+    //   } else {
+    //     this.$message({
+    //       showClose: true,
+    //       message: `获取书本列表错误：${err}`,
+    //       type: "warning"
+    //     });
+    //   }
+    // });
+  }
+
+  handleChange() {
+    this.add(this.myCount);
+  }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h1, h2 {
+<style scoped lang="scss">
+h1,
+h2 {
   font-weight: normal;
 }
+
 ul {
   list-style-type: none;
   padding: 0;
+  li {
+    display: inline-block;
+    margin: 0 10px;
+  }
 }
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
+
 a {
   color: #42b983;
 }
