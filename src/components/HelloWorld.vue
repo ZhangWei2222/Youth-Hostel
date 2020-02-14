@@ -1,6 +1,6 @@
 <template>
   <div class="hello">
-    <h1>{{ msg }} + {{ num }}</h1>
+    <div class="box ignore">{{ msg }} + {{ num }}</div>
 
     <el-button @click="handleChange">+</el-button>
     {{ myCount }}
@@ -10,7 +10,8 @@
 
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
-import { State, Getter, Action, Mutation, namespace } from "vuex-class";
+import { State, Mutation } from "vuex-class";
+// import { State, Getter, Action, Mutation, namespace } from "vuex-class";
 
 @Component({})
 export default class HelloWorld extends Vue {
@@ -27,7 +28,7 @@ export default class HelloWorld extends Vue {
   }
 
   mounted() {
-    let self = this;
+    // let self = this;
     // //显示列表
     // this.axios.get("http://localhost:4444/api/getBooks").then((res, err):void => {
     //   if (res.data.code > 0) {
@@ -64,7 +65,13 @@ ul {
   }
 }
 
-a {
-  color: #42b983;
+.ignore {
+  margin: 10px;
+  background-color: red;
+}
+.box {
+  width: 180px;
+  height: 300px;
+  font-size: 30px;
 }
 </style>
