@@ -23,10 +23,12 @@ module.exports = {
   ],
   // add your custom rules here
   rules: {
-    "prettier/prettier": "error",
+    "prettier/prettier": "off",
+    // "prettier/prettier": "error",
     // allow async-await
     'generator-star-spacing': 'off',
     // allow debugger during development
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off'
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+    // "prettier.endOfLine": "crlf",
   }
 }

@@ -4,7 +4,7 @@
 
     <el-button @click="handleChange">+</el-button>
     {{ myCount }}
-    <el-button>-</el-button>
+    <el-button type="primary">-</el-button>
   </div>
 </template>
 
