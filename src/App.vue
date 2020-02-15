@@ -2,7 +2,7 @@
   <div id="app">
     <router-view />
 
-    <van-tabbar route>
+    <van-tabbar route active-color="#4f91ce">
       <van-tabbar-item replace to="/home" icon="home-o">首页</van-tabbar-item>
       <van-tabbar-item replace to="/order" icon="orders-o">订单</van-tabbar-item>
       <van-tabbar-item replace to="/owner" icon="user-o">我的</van-tabbar-item>
@@ -19,7 +19,8 @@ export default class App extends Vue {
 }
 </script>
 
-<style lang="scss">
+<style lang="less">
+@import url("./common/style/Default.less");
 *,
 body {
   margin: 0;
@@ -30,6 +31,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  font-size: @normal-size;
+  color: @black;
 }
 </style>

@@ -11,13 +11,14 @@
     "build": "node build/build.js"
   },
   "dependencies": {
-    "@types/node": "^13.7.1",
     "axios": "^0.19.2",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "cssnano": "^4.1.10",
     "element-ui": "^2.13.0",
     "express": "^4.17.1",
+    "less": "^3.11.1",
+    "less-loader": "^5.0.0",
     "mysql": "^2.18.1",
     "postcss-aspect-ratio-mini": "^1.0.1",
     "postcss-cssnext": "^3.1.0",
@@ -34,11 +35,14 @@
     "vuex-class": "^0.3.2"
   },
   "devDependencies": {
+    "@types/node": "^13.7.1",
+    "@types/webpack-env": "^1.15.1",
     "autoprefixer": "^7.1.2",
     "babel-core": "^6.22.1",
     "babel-eslint": "^8.2.1",
     "babel-helper-vue-jsx-merge-props": "^2.0.3",
     "babel-loader": "^7.1.1",
+    "babel-plugin-import": "^1.13.0",
     "babel-plugin-syntax-jsx": "^6.18.0",
     "babel-plugin-transform-runtime": "^6.22.0",
     "babel-plugin-transform-vue-jsx": "^3.5.0",

@@ -1,9 +1,18 @@
 import Vue from "vue";
 import Router from "vue-router";
 // import HelloWorld from "@/components/HelloWorld";
-import HomePage from '@/views/HomePage.vue'
-import Order from '@/views/order/index.vue'
-import Owner from '@/views/owner/index.vue'
+
+const views: any = require['context']('../views', true, /\.vue$/im);
+
+const modules: any = {}
+
+function getFloorConfigName(path): any {
+  return path.match(/([\w-]+)\.vue/)[1];
+} //([\w-]+) ： 匹配数字和字母下划线，中划线的多个字符
+
+views.keys().forEach(key => {
+  modules[getFloorConfigName(key)] = views(key).default || views(key)
+})
 
 Vue.use(Router);
 
@@ -15,16 +24,24 @@ export default new Router({
     },
     {
       path: '/home',
-      component: HomePage
+      component: modules['HomePage']
     },
     {
       path: '/order',
-      component: Order
+      component: modules['Order']
     },
     {
       path: '/owner',
-      component: Owner
-    }
+      component: modules['Owner']
+    },
+    {
+      path: '/info',
+      component: modules['Info']
+    },
+    {
+      path: '/comment',
+      component: modules['Comment']
+    },
 
   ]
 });
