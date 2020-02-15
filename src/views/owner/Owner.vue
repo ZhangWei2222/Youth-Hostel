@@ -61,8 +61,6 @@ export default class OwnerIndex extends Vue {
 <style scoped lang="less">
 @import url("../../common/style/Default.less");
 .own-index {
-  width: 100%;
-  position: fixed;
   .person {
     background: @yellow;
     height: 90px;
