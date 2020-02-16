@@ -83,7 +83,7 @@ export default class HomePage extends Vue {
 }
 </style>
 <style scoped lang="less">
-@import url("../common/style/Default.less");
+@import url("../common/style/Variable.less");
 .home-page {
   height: 100vh;
   background: @incarnadine;

@@ -2,7 +2,7 @@
   <div class="own-index">
     <van-nav-bar title="我的页面" :border="false" />
 
-    <div style="padding: 0 20px 20px;">
+    <div class="wrapper">
       <div class="person">
         <van-image
           round
@@ -11,7 +11,11 @@
           fit="cover"
           src="https://img.yzcdn.cn/vant/cat.jpeg"
         />
-        <div class="name">混世大魔王</div>
+        <div class="name">
+          <span @click="goViews(-1)">注册</span> /
+          <span @click="goViews(-2)">登录</span>
+        </div>
+        <!-- <div class="name">混世大魔王</!-->
       </div>
 
       <div class="icons">
@@ -42,6 +46,12 @@ import { Vue, Component } from "vue-property-decorator";
 export default class OwnerIndex extends Vue {
   goViews(key): void {
     switch (key) {
+      case -1:
+        this.$router.push("/singup");
+        break;
+      case -2:
+        this.$router.push("/singin");
+        break;
       case 0:
         this.$router.push("/info");
         break;
@@ -59,8 +69,12 @@ export default class OwnerIndex extends Vue {
 </script>
 
 <style scoped lang="less">
-@import url("../../common/style/Default.less");
+@import url("../../common/style/Variable.less");
 .own-index {
+  .wrapper {
+    padding: 0 20px 20px;
+  }
+
   .person {
     background: @yellow;
     height: 90px;
@@ -70,6 +84,8 @@ export default class OwnerIndex extends Vue {
     padding: 15px;
 
     .name {
+      font-size: 16px;
+      font-weight: 600;
       margin-left: 15px;
     }
   }

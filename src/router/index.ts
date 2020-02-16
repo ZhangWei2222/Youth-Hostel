@@ -42,6 +42,14 @@ export default new Router({
       path: '/comment',
       component: modules['Comment']
     },
+    {
+      path: '/singin',
+      component: modules['SingIn']
+    },
+    {
+      path: '/singup',
+      component: modules['SingUp']
+    }
 
   ]
 });

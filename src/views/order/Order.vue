@@ -1,7 +1,7 @@
 <template>
   <div class="order-index">
     <van-nav-bar title="我的订单" :border="false" />
-    <div style="padding: 0 20px 20px;">
+    <div class="wrapper">
       <van-tabs class="tabs" v-model="active" color="#86cd71" sticky>
         <van-tab class="tab">
           <div slot="title">全部订单</div>
@@ -44,8 +44,12 @@ export default class OrderIndex extends Vue {
 </style>
 
 <style scoped lang="less">
-@import url("../../common/style/Default.less");
+@import url("../../common/style/Variable.less");
 .order-index {
+  .wrapper {
+    padding: 0 20px 20px;
+  }
+
   .tabs {
     .text {
       text-align: left;

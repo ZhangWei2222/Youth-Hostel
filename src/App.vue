@@ -20,7 +20,7 @@ export default class App extends Vue {
 </script>
 
 <style lang="less">
-@import url("./common/style/Default.less");
+@import url("./common/style/Variable.less");
 *,
 body {
   margin: 0;

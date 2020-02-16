@@ -18,7 +18,7 @@ export default class InfoIndex extends Vue {
 </script>
 
 <style scoped lang="less">
-@import url("../../common/style/Default.less");
+@import url("../../common/style/Variable.less");
 .info-index {
 }
 </style>
