@@ -18,7 +18,7 @@ export default class CommentIndex extends Vue {
 </script>
 
 <style scoped lang="less">
-@import url("../../common/style/Variable.less");
-.comment-index {
-}
+// @import url("../../common/style/Variable.less");
+// .comment-index {
+// }
 </style>

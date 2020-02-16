@@ -44,6 +44,7 @@ import { Vue, Component } from "vue-property-decorator";
   name: "OwnerIndex"
 })
 export default class OwnerIndex extends Vue {
+  //    src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3745037406,2431076780&fm=15&gp=0.jpg" 未登录图片
   goViews(key): void {
     switch (key) {
       case -1:
@@ -84,7 +85,7 @@ export default class OwnerIndex extends Vue {
     padding: 15px;
 
     .name {
-      font-size: 16px;
+      font-size: @middle-size;
       font-weight: 600;
       margin-left: 15px;
     }
