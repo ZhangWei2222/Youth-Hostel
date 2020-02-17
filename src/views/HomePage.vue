@@ -18,7 +18,7 @@
         <div class="line-box">{{date.days}}晚</div>
         <div>{{date.end}}</div>
       </div>
-      <van-button type="primary" block>查找房间</van-button>
+      <van-button type="primary" block @click="goSearch()">查找房间</van-button>
     </div>
   </div>
 </template>
@@ -68,6 +68,15 @@ export default class HomePage extends Vue {
       days: this.getDiff(start, end),
       end: this.formatDate(end)
     };
+  }
+
+  // 查找房间
+  goSearch(): void {
+    let content = this.text.length === 0 ? "all" : this.text;
+    this.$router.push({
+      name: "Search",
+      query: { content: content }
+    });
   }
 }
 </script>

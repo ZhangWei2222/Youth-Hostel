@@ -18,14 +18,7 @@
 
         <van-field disabled label="出生年月" v-model="born" />
 
-        <van-field
-          v-model="phone"
-          required
-          clearable
-          type="number"
-          label="手机号"
-          placeholder="请输入手机号"
-        />
+        <van-field v-model="phone" required clearable type="tel" label="手机号" placeholder="请输入手机号" />
 
         <van-field disabled v-model="schoolname" label="学校" />
 

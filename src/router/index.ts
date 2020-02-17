@@ -24,31 +24,43 @@ export default new Router({
     },
     {
       path: '/home',
+      name: 'HomePage',
       component: modules['HomePage']
     },
     {
       path: '/order',
+      name: 'Order',
       component: modules['Order']
     },
     {
       path: '/owner',
+      name: 'Owner',
       component: modules['Owner']
     },
     {
       path: '/info',
+      name: 'Info',
       component: modules['Info']
     },
     {
       path: '/comment',
+      name: 'Comment',
       component: modules['Comment']
     },
     {
       path: '/singin',
+      name: 'SingIn',
       component: modules['SingIn']
     },
     {
       path: '/singup',
+      name: 'SingUp',
       component: modules['SingUp']
+    },
+    {
+      path: '/search',
+      name: 'Search',
+      component: modules['Search']
     }
 
   ]

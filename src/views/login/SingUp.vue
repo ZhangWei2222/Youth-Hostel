@@ -52,14 +52,7 @@
           />
         </van-popup>
 
-        <van-field
-          v-model="phone"
-          required
-          clearable
-          type="number"
-          label="手机号"
-          placeholder="请输入手机号"
-        />
+        <van-field v-model="phone" required clearable type="tel" label="手机号" placeholder="请输入手机号" />
 
         <van-field v-model="schoolname" required clearable label="学校" placeholder="请输入学校" />
 
