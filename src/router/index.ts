@@ -61,6 +61,11 @@ export default new Router({
       path: '/search',
       name: 'Search',
       component: modules['Search']
+    },
+    {
+      path: '/roomdetails',
+      name: 'RoomDetails',
+      component: modules['RoomDetails']
     }
 
   ]
