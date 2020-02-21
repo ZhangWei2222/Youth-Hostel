@@ -25,6 +25,7 @@
 
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
+import { formatter, formatDate, getDiff } from "../common/utill";
 
 @Component({
   name: "HomePage"
@@ -36,37 +37,17 @@ export default class HomePage extends Vue {
     days: 1,
     end: `${new Date().getMonth() + 1}月${new Date().getDate() + 1}日`
   };
-
+  formatter: any = formatter;
   show: boolean = false;
 
-  // 自定义日期文案
-  formatter(day: any): any {
-    if (day.type === "start") {
-      day.bottomInfo = "入住";
-    } else if (day.type === "end") {
-      day.bottomInfo = "离店";
-    }
-    return day;
-  }
-
-  // 格式化日期
-  formatDate(date: any): any {
-    return `${date.getMonth() + 1}月${date.getDate()}日`;
-  }
-  // 获取天数差
-  getDiff(start: any, end: any): number {
-    var days: number = end.getTime() - start.getTime();
-    var times = days / (1000 * 60 * 60 * 24);
-    return times;
-  }
   // 选择日期
   onConfirm(date: any): void {
     const [start, end] = date;
     this.show = false;
     this.date = {
-      start: this.formatDate(start),
-      days: this.getDiff(start, end),
-      end: this.formatDate(end)
+      start: formatDate(start),
+      days: getDiff(start, end),
+      end: formatDate(end)
     };
   }
 

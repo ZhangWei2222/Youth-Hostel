@@ -66,6 +66,11 @@ export default new Router({
       path: '/roomdetails',
       name: 'RoomDetails',
       component: modules['RoomDetails']
+    },
+    {
+      path: '/landlord',
+      name: 'Landlord',
+      component: modules['Landlord']
     }
 
   ]

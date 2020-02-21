@@ -125,7 +125,7 @@
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
 import { Toast } from "vant";
-import RoomList from "@/views/search/RoomList.vue";
+import RoomList from "@/components/RoomList.vue";
 
 @Component({
   name: "SearchIndex",

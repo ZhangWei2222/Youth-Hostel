@@ -62,7 +62,7 @@ export default class RoomList extends Vue {
     // 异步更新数据
     // setTimeout 仅做示例，真实场景中一般为 ajax 请求
     setTimeout(() => {
-      for (let i = 0; i < 1; i++) {
+      for (let i = 0; i < 3; i++) {
         this.roomList.push({
           id: 1,
           roomType: "4人间",
@@ -100,7 +100,7 @@ export default class RoomList extends Vue {
 }
 </style>
 <style scoped lang="less">
-@import url("../../common/style/Variable.less");
+@import url("../common/style/Variable.less");
 .room-list {
   margin-bottom: 60px;
   .room {
