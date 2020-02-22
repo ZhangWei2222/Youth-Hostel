@@ -24,10 +24,7 @@
           2月9日-20日·1晚
           <span @click="show = true">修改日期</span>
         </div>
-        <van-divider
-          class="divider"
-          :style="{ borderColor: '#c8c9cc', width: '100%', margin: '0' }"
-        />
+        <van-divider :style="{  width: '100%' }" />
         <div class="title">派快乐旅社</div>
         <div class="tags">
           <van-tag
@@ -79,12 +76,51 @@
       <div class="comment">
         <div class="title">
           房客评价
-          <span>
-            全部
+          <span @click="goView(1, 0)">
+            全部63条
             <van-icon name="arrow" />
           </span>
         </div>
-        <div class="box"></div>
+        <div class="box">
+          <div class="rateBox">
+            <div class="info">
+              <i class="iconfont iconxiaolian"></i>
+              <span class="num">4.8</span>
+              <span>分 超赞</span>
+            </div>
+            <div class="rate">
+              <div>
+                描述
+                <span>4.7</span>
+              </div>
+              <div>
+                沟通
+                <span>4.7</span>
+              </div>
+              <div>
+                卫生
+                <span>4.7</span>
+              </div>
+              <div>
+                管理
+                <span>4.7</span>
+              </div>
+            </div>
+          </div>
+          <van-divider />
+          <div class="commentBox">
+            <div class="person">
+              <div class="avator">
+                <img src="../../../static/un.jpg" alt />
+              </div>
+              <div class="person-box">
+                <div class="name">z***3</div>
+                <div class="date">2020年02月</div>
+              </div>
+            </div>
+            <div class="content">不错，不错。交通便利，每天打扫很干净。不错，不错。交通便利，每天打扫很干净。不错，不错。交通便利，每天打扫很干净。</div>
+          </div>
+        </div>
       </div>
 
       <div class="notice">
@@ -165,7 +201,12 @@ export default class RoomDetails extends Vue {
           query: { landlordId: id }
         });
         break;
-
+      case 1:
+        this.$router.push({
+          name: "RoomComment",
+          query: { roomId: id }
+        });
+        break;
       default:
         break;
     }
@@ -196,7 +237,7 @@ export default class RoomDetails extends Vue {
     height: 100%;
   }
   .van-icon {
-    height: 18px;
+    height: 14px;
     vertical-align: middle;
   }
   .van-submit-bar {
@@ -216,6 +257,7 @@ export default class RoomDetails extends Vue {
 </style>
 <style scoped lang="less">
 @import url("../../common/style/Variable.less");
+
 .room-details {
   .my-swipe {
     width: 100%;
@@ -320,6 +362,89 @@ export default class RoomDetails extends Vue {
         .title {
           font-size: @min-size;
           font-weight: bold;
+        }
+      }
+    }
+  }
+
+  .comment {
+    .box {
+      height: 200px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      .rateBox {
+        display: flex;
+        flex-direction: column;
+        height: 60px;
+        justify-content: space-between;
+        align-items: flex-start;
+        .info {
+          font-size: @min-size;
+          .iconxiaolian {
+            font-size: 28px;
+            color: @red;
+            margin-right: 5px;
+          }
+          .num {
+            font-size: @large-size;
+            font-weight: bold;
+          }
+        }
+        .rate {
+          display: flex;
+          justify-content: space-between;
+          font-size: @min-size;
+          color: @gray-6;
+          width: 100%;
+          div {
+            flex: 1;
+            text-align: left;
+            border-right: 1px solid @gray-3;
+            margin-right: 10px;
+            height: 13px;
+            line-height: 13px;
+            span {
+              font-size: @normal-size;
+              color: @black;
+            }
+          }
+        }
+      }
+      .commentBox {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        .person {
+          display: flex;
+          align-items: center;
+          margin-bottom: 10px;
+          .avator {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            overflow: hidden;
+            img {
+              width: 40px;
+              height: 40px;
+            }
+          }
+          .person-box {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            margin-left: 10px;
+          }
+          .date {
+            color: @gray-6;
+            font-size: @min-size;
+            flex: 1;
+            text-align: right;
+          }
+        }
+        .content {
+          font-size: @min-size;
+          text-align: left;
         }
       }
     }

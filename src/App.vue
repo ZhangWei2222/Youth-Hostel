@@ -21,6 +21,8 @@ export default class App extends Vue {
 
 <style lang="less">
 @import url("./common/style/Variable.less");
+@import url("//at.alicdn.com/t/font_1639063_lgjy6mghkq.css");
+
 *,
 body {
   margin: 0;

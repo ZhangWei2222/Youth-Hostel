@@ -84,9 +84,9 @@
                 <van-button
                   type="default"
                   size="small"
-                  v-for="item in 2"
-                  :key="item.id"
-                  style="visibility: hidden"
+                  v-for="(item, index) in 2"
+                  :key="index"
+                  style="visibility: hidden;height:0;border: 0;margin: 0;"
                 >1</van-button>
               </div>
             </div>
@@ -101,13 +101,6 @@
                   @click="selectFacility(item.id)"
                   :style="{'background':facilityChosen.indexOf(item.id) > -1 ? '#dcdee0':'#fff' }"
                 >{{item.value}}</van-button>
-                <!-- <van-button
-                  type="default"
-                  size="small"
-                  v-for="item in (4 - facilityList.length % 4) === 4 ? 0 : (4 - facilityList.length % 4)"
-                  :key="item.id"
-                  style="visibility: hidden"
-                >{{(4 - facilityList.length % 4)}}</van-button>-->
               </div>
             </div>
           </van-cell-group>

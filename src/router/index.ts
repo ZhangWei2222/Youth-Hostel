@@ -43,9 +43,9 @@ export default new Router({
       component: modules['Info']
     },
     {
-      path: '/comment',
-      name: 'Comment',
-      component: modules['Comment']
+      path: '/my-comment',
+      name: 'MyComment',
+      component: modules['MyComment']
     },
     {
       path: '/singin',
@@ -71,7 +71,12 @@ export default new Router({
       path: '/landlord',
       name: 'Landlord',
       component: modules['Landlord']
-    }
+    },
+    {
+      path: '/room-comment',
+      name: 'RoomComment',
+      component: modules['RoomComment']
+    },
 
   ]
 });

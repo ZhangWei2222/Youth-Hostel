@@ -34,7 +34,7 @@
 
       <van-tab class="tab">
         <div slot="title">评价</div>
-        <CommonList></CommonList>
+        <CommentList></CommentList>
       </van-tab>
     </van-tabs>
   </div>
@@ -43,13 +43,13 @@
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
 import RoomList from "@/components/RoomList.vue";
-import CommonList from "@/components/CommonList.vue";
+import CommentList from "@/components/CommentList.vue";
 
 @Component({
   name: "LandlordIndex",
   components: {
     RoomList,
-    CommonList
+    CommentList
   }
 })
 export default class LandlordIndex extends Vue {

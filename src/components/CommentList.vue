@@ -13,15 +13,13 @@
               :size="12"
               :gutter="1"
               readonly
-              color="#fcd45a"
-              void-color="#fcd45a"
               style="margin-right: 3px;"
             />
           </div>
           <div class="date">{{item.date}}</div>
         </div>
         <div class="content">{{item.content}}</div>
-        <van-divider />
+        <van-divider :style="{  margin: '16px 0' }" />
       </div>
     </van-list>
   </div>

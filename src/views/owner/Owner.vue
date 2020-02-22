@@ -60,7 +60,7 @@ export default class OwnerIndex extends Vue {
         this.$router.push("/order");
         break;
       case 2:
-        this.$router.push("/comment");
+        this.$router.push("/my-comment");
         break;
       default:
         break;

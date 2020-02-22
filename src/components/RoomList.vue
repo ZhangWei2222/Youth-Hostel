@@ -19,17 +19,12 @@
               :size="12"
               :gutter="1"
               readonly
-              color="#fcd45a"
-              void-color="#fcd45a"
               style="margin-right: 3px;"
             />
             {{item.commentNum}}条评价
           </div>
         </div>
-        <van-divider
-          class="divider"
-          :style="{ borderColor: '#c8c9cc', width: '100%', margin: '0' }"
-        />
+        <van-divider :style="{ width: '100%'}" />
         <div class="price">
           <span>￥{{item.price}}</span>每晚
         </div>
