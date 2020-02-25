@@ -41,13 +41,167 @@
       <div class="facility">
         <div class="title">
           服务设施
-          <span>
+          <span is-link @click="showPopup">
             查看详情
             <van-icon name="arrow" />
           </span>
         </div>
-        <div class="box"></div>
+        <div class="box">
+          <div class="sort">
+            <div class="facility-icon">
+              <i class="iconfont iconfuwuzhiliang" />
+              <br />服务
+            </div>
+            <div class="facility-icons">
+              <div
+                v-for="(item, index) in facilityList.serviceList"
+                :key="item.id"
+                v-show="index <4"
+                :style="{'color':item.isHave ? '#323233' : '#dcdee0'}"
+              >
+                <van-icon
+                  :name="item.isHave ? 'checked': 'clear'"
+                  :color="item.isHave ? '#07c160' : '#dcdee0'"
+                />
+                &nbsp;{{item.value}}
+              </div>
+            </div>
+          </div>
+          <div class="sort">
+            <div class="facility-icon">
+              <i class="iconfont iconfangwuxinxi" />
+              <br />基础
+            </div>
+            <div class="facility-icons">
+              <div
+                v-for="(item, index) in facilityList.basisList"
+                :key="item.id"
+                v-show="index <4"
+                :style="{'color':item.isHave ? '#323233' : '#dcdee0'}"
+              >
+                <van-icon
+                  :name="item.isHave ? 'checked': 'clear'"
+                  :color="item.isHave ? '#07c160' : '#dcdee0'"
+                />
+                &nbsp;{{item.value}}
+              </div>
+            </div>
+          </div>
+          <div class="sort">
+            <div class="facility-icon">
+              <i class="iconfont iconchongwuxiyu" />
+              <br />洗浴
+            </div>
+            <div class="facility-icons">
+              <div
+                v-for="(item, index) in facilityList.showerList"
+                :key="item.id"
+                v-show="index <4"
+                :style="{'color':item.isHave ? '#323233' : '#dcdee0'}"
+              >
+                <van-icon
+                  :name="item.isHave ? 'checked': 'clear'"
+                  :color="item.isHave ? '#07c160' : '#dcdee0'"
+                />
+                &nbsp;{{item.value}}
+              </div>
+            </div>
+          </div>
+          <div class="sort">
+            <div class="facility-icon">
+              <i class="iconfont iconchufangyongpin" />
+              <br />厨房
+            </div>
+            <div class="facility-icons">
+              <div
+                v-for="(item, index) in facilityList.kitchenList"
+                :key="item.id"
+                v-show="index <4"
+                :style="{'color':item.isHave ? '#323233' : '#dcdee0'}"
+              >
+                <van-icon
+                  :name="item.isHave ? 'checked': 'clear'"
+                  :color="item.isHave ? '#07c160' : '#dcdee0'"
+                />
+                &nbsp;{{item.value}}
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
+
+      <van-popup class="service-pop" v-model="showPop" position="bottom" closeable>
+        <div class="wrapper">
+          <div class="sort">
+            <div class="pop-title">服务</div>
+            <div class="pop-icons">
+              <div
+                v-for="item in facilityList.serviceList"
+                :key="item.id"
+                :style="{'color':item.isHave ? '#323233' : '#dcdee0'}"
+              >
+                <van-icon
+                  :name="item.isHave ? 'checked': 'clear'"
+                  :color="item.isHave ? '#07c160' : '#dcdee0'"
+                />
+                <br />
+                {{item.value}}
+              </div>
+            </div>
+          </div>
+          <div class="sort">
+            <div class="pop-title">基础</div>
+            <div class="pop-icons">
+              <div
+                v-for="item in facilityList.basisList"
+                :key="item.id"
+                :style="{'color':item.isHave ? '#323233' : '#dcdee0'}"
+              >
+                <van-icon
+                  :name="item.isHave ? 'checked': 'clear'"
+                  :color="item.isHave ? '#07c160' : '#dcdee0'"
+                />
+                <br />
+                {{item.value}}
+              </div>
+            </div>
+          </div>
+          <div class="sort">
+            <div class="pop-title">洗浴</div>
+            <div class="pop-icons">
+              <div
+                v-for="item in facilityList.showerList"
+                :key="item.id"
+                :style="{'color':item.isHave ? '#323233' : '#dcdee0'}"
+              >
+                <van-icon
+                  :name="item.isHave ? 'checked': 'clear'"
+                  :color="item.isHave ? '#07c160' : '#dcdee0'"
+                />
+                <br />
+                {{item.value}}
+              </div>
+            </div>
+          </div>
+          <div class="sort">
+            <div class="pop-title">厨房</div>
+            <div class="pop-icons">
+              <div
+                v-for="item in facilityList.kitchenList"
+                :key="item.id"
+                :style="{'color':item.isHave ? '#323233' : '#dcdee0'}"
+              >
+                <van-icon
+                  :name="item.isHave ? 'checked': 'clear'"
+                  :color="item.isHave ? '#07c160' : '#dcdee0'"
+                />
+                <br />
+                {{item.value}}
+              </div>
+            </div>
+          </div>
+        </div>
+      </van-popup>
 
       <div class="landlord">
         <div class="title">
@@ -145,7 +299,7 @@
       </div>
     </div>
 
-    <van-submit-bar :price="3050" button-type="warning" button-text="立即预定" @submit="onSubmit">
+    <van-submit-bar :price="3050" button-type="warning" button-text="立即预定" @submit="goView(2, 4)">
       <div class="icon">
         <a href="tel:13764567708">
           <van-icon name="phone-o" />联系店家
@@ -176,6 +330,50 @@ export default class RoomDetails extends Vue {
   };
   formatter: any = formatter;
   show: boolean = false;
+  showPop: boolean = false;
+
+  facilityList: any = {
+    serviceList: [
+      { id: 0, value: "自助入住", isHave: false },
+      { id: 1, value: "床品更换", isHave: true },
+      { id: 2, value: "行李寄存", isHave: true },
+      { id: 3, value: "门禁系统", isHave: true }
+    ],
+    basisList: [
+      { id: 0, value: "wifi", isHave: true },
+      { id: 1, value: "电梯", isHave: true },
+      { id: 2, value: "空调", isHave: true },
+      { id: 3, value: "热水壶", isHave: false },
+      { id: 4, value: "洗衣机", isHave: true },
+      { id: 5, value: "电吹风", isHave: true },
+      { id: 6, value: "电视", isHave: true },
+      { id: 7, value: "饮水机", isHave: true },
+      { id: 8, value: "电视机", isHave: false },
+      { id: 9, value: "打扫工具", isHave: true },
+      { id: 10, value: "工作区域", isHave: true },
+      { id: 11, value: "电熨斗", isHave: false }
+    ],
+    showerList: [
+      { id: 0, value: "热水淋浴", isHave: true },
+      { id: 1, value: "牙具", isHave: true },
+      { id: 2, value: "沐浴露", isHave: true },
+      { id: 3, value: "拖鞋", isHave: true },
+      { id: 4, value: "洗发水", isHave: false },
+      { id: 5, value: "毛巾", isHave: false },
+      { id: 6, value: "衣架", isHave: true },
+      { id: 7, value: "香皂", isHave: true }
+    ],
+    kitchenList: [
+      { id: 0, value: "电磁炉", isHave: false },
+      { id: 1, value: "烹饪锅具", isHave: true },
+      { id: 2, value: "调料", isHave: false },
+      { id: 3, value: "餐具", isHave: true },
+      { id: 4, value: "微波炉", isHave: true },
+      { id: 5, value: "冰箱", isHave: false },
+      { id: 6, value: "燃气灶", isHave: true },
+      { id: 7, value: "刀具菜板", isHave: true }
+    ]
+  };
 
   // 选择日期
   onConfirm(date: any): void {
@@ -207,9 +405,20 @@ export default class RoomDetails extends Vue {
           query: { roomId: id }
         });
         break;
+      case 2:
+        this.$router.push({
+          name: "SubmitOrder",
+          query: { roomId: id }
+        });
+        break;
       default:
         break;
     }
+  }
+
+  // 展开服务设施详情弹窗
+  showPopup(): void {
+    this.showPop = true;
   }
 
   // 房屋介绍
@@ -323,6 +532,61 @@ export default class RoomDetails extends Vue {
   .landlord {
     .title span {
       float: right;
+    }
+  }
+
+  .facility {
+    .box {
+      height: 220px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      .sort {
+        display: flex;
+        font-size: @min-size;
+        height: 40px;
+      }
+      .facility-icon {
+        width: 100px;
+        font-weight: bold;
+        text-align: center;
+        i {
+          font-size: @large-size;
+        }
+      }
+      .facility-icons {
+        display: flex;
+        flex-wrap: wrap;
+        div {
+          width: 100px;
+          text-align: left;
+        }
+      }
+    }
+  }
+
+  .service-pop {
+    height: 60%;
+    .wrapper {
+      padding: 40px 20px 20px;
+    }
+    .sort {
+      margin-bottom: 10px;
+    }
+    .pop-title {
+      font-weight: bold;
+      text-align: left;
+    }
+    .pop-icons {
+      display: flex;
+      font-size: @min-size;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      // flex-direction: column;
+      div {
+        width: 25%;
+        margin-bottom: 10px;
+      }
     }
   }
 

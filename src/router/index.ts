@@ -76,7 +76,12 @@ export default new Router({
       path: '/room-comment',
       name: 'RoomComment',
       component: modules['RoomComment']
-    },
+    }, ,
+    {
+      path: '/submit-order',
+      name: 'SubmitOrder',
+      component: modules['SubmitOrder']
+    }
 
   ]
 });
