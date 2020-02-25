@@ -47,158 +47,16 @@
           </span>
         </div>
         <div class="box">
-          <div class="sort">
-            <div class="facility-icon">
-              <i class="iconfont iconfuwuzhiliang" />
-              <br />服务
-            </div>
-            <div class="facility-icons">
-              <div
-                v-for="(item, index) in facilityList.serviceList"
-                :key="item.id"
-                v-show="index <4"
-                :style="{'color':item.isHave ? '#323233' : '#dcdee0'}"
-              >
-                <van-icon
-                  :name="item.isHave ? 'checked': 'clear'"
-                  :color="item.isHave ? '#07c160' : '#dcdee0'"
-                />
-                &nbsp;{{item.value}}
-              </div>
-            </div>
-          </div>
-          <div class="sort">
-            <div class="facility-icon">
-              <i class="iconfont iconfangwuxinxi" />
-              <br />基础
-            </div>
-            <div class="facility-icons">
-              <div
-                v-for="(item, index) in facilityList.basisList"
-                :key="item.id"
-                v-show="index <4"
-                :style="{'color':item.isHave ? '#323233' : '#dcdee0'}"
-              >
-                <van-icon
-                  :name="item.isHave ? 'checked': 'clear'"
-                  :color="item.isHave ? '#07c160' : '#dcdee0'"
-                />
-                &nbsp;{{item.value}}
-              </div>
-            </div>
-          </div>
-          <div class="sort">
-            <div class="facility-icon">
-              <i class="iconfont iconchongwuxiyu" />
-              <br />洗浴
-            </div>
-            <div class="facility-icons">
-              <div
-                v-for="(item, index) in facilityList.showerList"
-                :key="item.id"
-                v-show="index <4"
-                :style="{'color':item.isHave ? '#323233' : '#dcdee0'}"
-              >
-                <van-icon
-                  :name="item.isHave ? 'checked': 'clear'"
-                  :color="item.isHave ? '#07c160' : '#dcdee0'"
-                />
-                &nbsp;{{item.value}}
-              </div>
-            </div>
-          </div>
-          <div class="sort">
-            <div class="facility-icon">
-              <i class="iconfont iconchufangyongpin" />
-              <br />厨房
-            </div>
-            <div class="facility-icons">
-              <div
-                v-for="(item, index) in facilityList.kitchenList"
-                :key="item.id"
-                v-show="index <4"
-                :style="{'color':item.isHave ? '#323233' : '#dcdee0'}"
-              >
-                <van-icon
-                  :name="item.isHave ? 'checked': 'clear'"
-                  :color="item.isHave ? '#07c160' : '#dcdee0'"
-                />
-                &nbsp;{{item.value}}
-              </div>
-            </div>
+          <div class="sort" v-for="item in 4" :key="item">
+            <FacilityList :type="item" :isPop="false"></FacilityList>
           </div>
         </div>
       </div>
 
       <van-popup class="service-pop" v-model="showPop" position="bottom" closeable>
         <div class="wrapper">
-          <div class="sort">
-            <div class="pop-title">服务</div>
-            <div class="pop-icons">
-              <div
-                v-for="item in facilityList.serviceList"
-                :key="item.id"
-                :style="{'color':item.isHave ? '#323233' : '#dcdee0'}"
-              >
-                <van-icon
-                  :name="item.isHave ? 'checked': 'clear'"
-                  :color="item.isHave ? '#07c160' : '#dcdee0'"
-                />
-                <br />
-                {{item.value}}
-              </div>
-            </div>
-          </div>
-          <div class="sort">
-            <div class="pop-title">基础</div>
-            <div class="pop-icons">
-              <div
-                v-for="item in facilityList.basisList"
-                :key="item.id"
-                :style="{'color':item.isHave ? '#323233' : '#dcdee0'}"
-              >
-                <van-icon
-                  :name="item.isHave ? 'checked': 'clear'"
-                  :color="item.isHave ? '#07c160' : '#dcdee0'"
-                />
-                <br />
-                {{item.value}}
-              </div>
-            </div>
-          </div>
-          <div class="sort">
-            <div class="pop-title">洗浴</div>
-            <div class="pop-icons">
-              <div
-                v-for="item in facilityList.showerList"
-                :key="item.id"
-                :style="{'color':item.isHave ? '#323233' : '#dcdee0'}"
-              >
-                <van-icon
-                  :name="item.isHave ? 'checked': 'clear'"
-                  :color="item.isHave ? '#07c160' : '#dcdee0'"
-                />
-                <br />
-                {{item.value}}
-              </div>
-            </div>
-          </div>
-          <div class="sort">
-            <div class="pop-title">厨房</div>
-            <div class="pop-icons">
-              <div
-                v-for="item in facilityList.kitchenList"
-                :key="item.id"
-                :style="{'color':item.isHave ? '#323233' : '#dcdee0'}"
-              >
-                <van-icon
-                  :name="item.isHave ? 'checked': 'clear'"
-                  :color="item.isHave ? '#07c160' : '#dcdee0'"
-                />
-                <br />
-                {{item.value}}
-              </div>
-            </div>
+          <div class="sort" v-for="item in 4" :key="item">
+            <FacilityList :type="item" :isPop="true"></FacilityList>
           </div>
         </div>
       </van-popup>
@@ -313,10 +171,14 @@
 import { Vue, Component } from "vue-property-decorator";
 import { formatter, formatDate, getDiff } from "../../common/utill";
 import { Lazyload, Dialog } from "vant";
+import FacilityList from "@/components/FacilityList.vue";
 Vue.use(Lazyload, Dialog);
 
 @Component({
-  name: "RoomDetails"
+  name: "RoomDetails",
+  components: {
+    FacilityList
+  }
 })
 export default class RoomDetails extends Vue {
   images: any[] = [
@@ -498,6 +360,7 @@ export default class RoomDetails extends Vue {
     }
     .info {
       margin: 10px 0;
+      font-size: @min-size;
     }
   }
 
@@ -523,7 +386,9 @@ export default class RoomDetails extends Vue {
       box-sizing: border-box;
       border-radius: 5px;
       padding: 10px;
-      height: 130px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
   }
 
@@ -538,30 +403,6 @@ export default class RoomDetails extends Vue {
   .facility {
     .box {
       height: 220px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      .sort {
-        display: flex;
-        font-size: @min-size;
-        height: 40px;
-      }
-      .facility-icon {
-        width: 100px;
-        font-weight: bold;
-        text-align: center;
-        i {
-          font-size: @large-size;
-        }
-      }
-      .facility-icons {
-        display: flex;
-        flex-wrap: wrap;
-        div {
-          width: 100px;
-          text-align: left;
-        }
-      }
     }
   }
 
@@ -570,32 +411,11 @@ export default class RoomDetails extends Vue {
     .wrapper {
       padding: 40px 20px 20px;
     }
-    .sort {
-      margin-bottom: 10px;
-    }
-    .pop-title {
-      font-weight: bold;
-      text-align: left;
-    }
-    .pop-icons {
-      display: flex;
-      font-size: @min-size;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      // flex-direction: column;
-      div {
-        width: 25%;
-        margin-bottom: 10px;
-      }
-    }
   }
 
   .landlord {
     .box {
       height: 120px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
       .person {
         display: flex;
         align-items: center;
@@ -634,9 +454,6 @@ export default class RoomDetails extends Vue {
   .comment {
     .box {
       height: 200px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
       .rateBox {
         display: flex;
         flex-direction: column;
@@ -716,9 +533,7 @@ export default class RoomDetails extends Vue {
 
   .notice {
     .box {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
+      height: 130px;
     }
     .info {
       display: flex;
