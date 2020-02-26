@@ -8,7 +8,7 @@
 
           <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
             <div class="order-list">
-              <div class="order" v-for="item in orderList" :key="item">
+              <div class="order" v-for="item in orderList" :key="item" @click="goView(1, 1)">
                 <img src="https://img.yzcdn.cn/vant/cat.jpeg" alt />
                 <div class="details">
                   <div class="title">{{item.name}}</div>
@@ -21,7 +21,7 @@
 
           <!-- <div class="zero-order">
             <div class="text">你还没有预定过房间，点击 [开始探索] 开启一段旅程吧</div>
-            <van-button plain type="primary" block @click="goExplore()">开始探索</van-button>
+            <van-button plain type="primary" block @click="goExplore(0)">开始探索</van-button>
           </div>-->
         </van-tab>
         <van-tab class="tab">
@@ -57,8 +57,21 @@ export default class OrderIndex extends Vue {
   loading: boolean = false;
   finished: boolean = false;
 
-  goExplore(): void {
-    this.$router.push("/home");
+  goView(index: number, id: string): void {
+    switch (index) {
+      case 0:
+        this.$router.push("/home");
+        break;
+      case 1:
+        this.$router.push({
+          name: "OrderDetail",
+          query: { orderId: id }
+        });
+        break;
+
+      default:
+        break;
+    }
   }
 
   onLoad() {

@@ -146,7 +146,7 @@
 
     <van-submit-bar :price="3050" button-type="warning" button-text="立即预定" @submit="goView(2, 4)">
       <div class="icon">
-        <a href="tel:13764567708">
+        <a href="tel:10086">
           <van-icon name="phone-o" />联系店家
         </a>
       </div>
