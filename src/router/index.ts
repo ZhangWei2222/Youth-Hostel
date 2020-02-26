@@ -91,6 +91,10 @@ export default new Router({
       path: '/order-success',
       name: 'OrderSuccess',
       component: modules['OrderSuccess']
+    }, {
+      path: '/order-comment',
+      name: 'OrderComment',
+      component: modules['OrderComment']
     }
 
   ]

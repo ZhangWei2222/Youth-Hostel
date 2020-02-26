@@ -23,7 +23,7 @@
         <van-field value="￥100" type="number" label="房费" readonly />
       </div>
 
-      <van-submit-bar button-type="warning" button-text="立即评价" @submit="goView(2, 4)">
+      <van-submit-bar button-type="warning" button-text="立即评价" @submit="goComment(4)">
         <div class="delete">删除订单</div>
         <span slot="tip">
           如果您对订单有疑惑，可
@@ -45,6 +45,14 @@ import { Vue, Component } from "vue-property-decorator";
 export default class OrderDetail extends Vue {
   onClickLeft(): void {
     this.$router.go(-1);
+  }
+
+  // 评价订单
+  goComment(id: string): void {
+    this.$router.push({
+      name: "OrderComment",
+      query: { orderId: id }
+    });
   }
 }
 </script>
