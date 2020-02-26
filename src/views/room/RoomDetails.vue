@@ -140,20 +140,7 @@
           预订须知
           <span>以下规则由店家制定，请仔细阅读并遵守</span>
         </div>
-        <div class="box">
-          <div class="info">
-            <div class="name">退订政策</div>
-            <div class="tip">入住前3天可退全款，入住前一天可退房费的80%，入住当天不可退款</div>
-          </div>
-          <div class="info">
-            <div class="name">入离时间</div>
-            <div class="tip">14:00 之后可入住，12:30之前需退房</div>
-          </div>
-          <div class="info">
-            <div class="name">需要注意</div>
-            <div class="tip">店家有权根据个人信息和个人评价，对订单进行拒绝</div>
-          </div>
-        </div>
+        <Notice></Notice>
       </div>
     </div>
 
@@ -172,12 +159,14 @@ import { Vue, Component } from "vue-property-decorator";
 import { formatter, formatDate, getDiff } from "../../common/utill";
 import { Lazyload, Dialog } from "vant";
 import FacilityList from "@/components/FacilityList.vue";
+import Notice from "@/components/Notice.vue";
 Vue.use(Lazyload, Dialog);
 
 @Component({
   name: "RoomDetails",
   components: {
-    FacilityList
+    FacilityList,
+    Notice
   }
 })
 export default class RoomDetails extends Vue {
@@ -381,6 +370,7 @@ export default class RoomDetails extends Vue {
         color: @gray-5;
       }
     }
+    .notice-box,
     .box {
       box-shadow: 0 0 3px @shadow-color-1;
       box-sizing: border-box;
@@ -527,25 +517,6 @@ export default class RoomDetails extends Vue {
           font-size: @min-size;
           text-align: left;
         }
-      }
-    }
-  }
-
-  .notice {
-    .box {
-      height: 130px;
-    }
-    .info {
-      display: flex;
-      text-align: left;
-      line-height: 18px;
-      .name {
-        font-weight: bold;
-        width: 80px;
-      }
-      .tip {
-        font-size: @min-size;
-        width: 280px;
       }
     }
   }
