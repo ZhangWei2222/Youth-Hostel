@@ -32,7 +32,7 @@
       <van-divider style="padding: 20px 0;" />
       <Notice></Notice>
 
-      <van-submit-bar :price="3050" button-type="warning" button-text="立即支付" @submit="goView(2, 4)"></van-submit-bar>
+      <van-submit-bar :price="3050" button-type="warning" button-text="立即支付" @submit="onSumbit(1)"></van-submit-bar>
     </div>
   </div>
 </template>
@@ -49,8 +49,17 @@ import Notice from "@/components/Notice.vue";
 })
 export default class SubmitOrder extends Vue {
   message: String = "";
+
   onClickLeft(): void {
     this.$router.go(-1);
+  }
+
+  // 模拟支付成功
+  onSumbit(id: string): void {
+    this.$router.push({
+      name: "OrderSuccess",
+      query: { orderId: id }
+    });
   }
 }
 </script>
