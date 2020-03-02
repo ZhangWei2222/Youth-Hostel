@@ -1,0 +1,12 @@
+[2020-03-02T18:02:54.064] [TRACE] default - [findUser] sql语句: select id from users where name = 'r' ; value参数: 
+[2020-03-02T18:08:51.858] [TRACE] wei - [findUser] sql语句: select id from users where name = 'r' ; value参数: 
+[2020-03-02T18:10:33.230] [TRACE] wei - [findUser] sql语句: select id from users where name = 'e' ; value参数: 
+[2020-03-02T18:10:33.350] [TRACE] wei - [insetUser] sql语句: insert into users (name,password,sex,bornDate,phoneNum,schoolName,education,graduationTime,message) values(?,?,?,?,?,?,?,?,?); value参数: e,123,男,2010-12-01,13456789098,ss,博士,2010-12-01,asfa
+[2020-03-02T18:10:33.464] [TRACE] wei - [insetUser] 注册成功
+[2020-03-02T18:11:14.487] [TRACE] wei - [findUser] sql语句: select id from users where name = 'e' ; value参数: 
+[2020-03-02T18:11:22.131] [TRACE] wei - [findUser] sql语句: select id from users where name = 'ee' ; value参数: 
+[2020-03-02T18:11:22.218] [TRACE] wei - [insetUser] sql语句: insert into users (name,password,sex,bornDate,phoneNum,schoolName,education,graduationTime,message) values(?,?,?,?,?,?,?,?,?); value参数: ee,12345,男,2010-12-01,13456789098,ss,博士,2010-12-01,sss
+[2020-03-02T18:11:22.321] [TRACE] wei - [insetUser] 注册成功
+[2020-03-02T18:12:20.404] [TRACE] wei - [findUser] sql语句: select id from users where name = 'tt' ; value参数: 
+[2020-03-02T18:12:20.498] [TRACE] wei - [insetUser] sql语句: insert into users (name,password,sex,bornDate,phoneNum,schoolName,education,graduationTime,message) values(?,?,?,?,?,?,?,?,?); value参数: tt,123,男,2010-12-01,13456789098,dd,博士,2010-12-01,ddd
+[2020-03-02T18:12:20.588] [TRACE] wei - [insetUser] 注册成功

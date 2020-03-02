@@ -11,6 +11,7 @@
           fit="cover"
           src="https://img.yzcdn.cn/vant/cat.jpeg"
         />
+        <van-uploader :after-read="afterRead" />
         <div class="name">
           <span @click="goViews(-1)">注册</span> /
           <span @click="goViews(-2)">登录</span>
@@ -45,6 +46,33 @@ import { Vue, Component } from "vue-property-decorator";
 })
 export default class OwnerIndex extends Vue {
   //    src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3745037406,2431076780&fm=15&gp=0.jpg" 未登录图片
+
+  afterRead(file) {
+    // 此时可以自行将文件上传至服务器
+    // console.log(file.file);
+
+    let params = new FormData(); // 创建一个form对象,必须是form对象否则后端接受不到数据
+    params.append("avatar", file.file); // append 向form表单添加数据
+    console.log(params.get("avatar"));
+    // 添加请求头  通过form添加的图片和文件的格式必须是multipart/form-data
+    let config = {
+      headers: { "Content-Type": "multipart/form-data" }
+    };
+    this.axios
+      .post("http://localhost:4442/user/image", params, config)
+      .then(
+        function(res) {
+          console.log(res);
+          this.imageSave = res.data.image;
+          sessionStorage.setItem("headImg", this.imageSave); // 将图片保存，并能够在其他地方加载显示
+          this.router.go(0); // 刷新页面，头像改变
+        }.bind(this)
+      )
+      .catch(function(error) {
+        console.log(error);
+      });
+  }
+
   goViews(key): void {
     switch (key) {
       case -1:

@@ -36,7 +36,8 @@ Vue.use(Vuex);
 const store = new Vuex.Store({
   strict: true,
   state: {
-    count: 1
+    count: 1,
+    serverSite: "http://localhost:4442"
   },
   getters: {
     getStateCount(state) {

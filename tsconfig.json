@@ -6,6 +6,7 @@
     "node_modules"
   ],
   "compilerOptions": {
+    "esModuleInterop": true,
     "types": ["node"],
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,

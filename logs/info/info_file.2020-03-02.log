@@ -1,0 +1,250 @@
+[2020-03-02T13:21:28.618] [INFO] log_info - 看listen in localhost:4442
+[2020-03-02T13:21:51.571] [DEBUG] log_debug - { id: 2,
+  name: '1',
+  password: 2,
+  sex: '女',
+  bornDate: '2020-03-01-01',
+  phoneNum: 132142,
+  schoolName: 'jjjj',
+  education: '本科',
+  graduationTime: '2020-03-01-01',
+  message: '999' }
+[2020-03-02T13:21:51.572] [DEBUG] log_debug - 看看返回的是什么insert into users (id,name,password,sex,bornDate,phoneNum,schoolName,education,graduationTime,message) values(?,?,?,?,?,?,?,?,?,?);2,1,2,女,2020-03-01-01,132142,jjjj,本科,2020-03-01-01,999
+[2020-03-02T13:21:51.760] [ERROR] log_error - { Error: ER_TRUNCATED_WRONG_VALUE_FOR_FIELD: Incorrect string value: '\xE5\xA5\xB3' for column 'sex' at row 1
+    at Query.Sequence._packetToError (I:\Youth-Hostel\node_modules\mysql\lib\protocol\sequences\Sequence.js:47:14)
+    at Query.ErrorPacket (I:\Youth-Hostel\node_modules\mysql\lib\protocol\sequences\Query.js:79:18)
+    at Protocol._parsePacket (I:\Youth-Hostel\node_modules\mysql\lib\protocol\Protocol.js:291:23)
+    at Parser._parsePacket (I:\Youth-Hostel\node_modules\mysql\lib\protocol\Parser.js:433:10)
+    at Parser.write (I:\Youth-Hostel\node_modules\mysql\lib\protocol\Parser.js:43:10)
+    at Protocol.write (I:\Youth-Hostel\node_modules\mysql\lib\protocol\Protocol.js:38:16)
+    at Socket.<anonymous> (I:\Youth-Hostel\node_modules\mysql\lib\Connection.js:88:28)
+    at Socket.<anonymous> (I:\Youth-Hostel\node_modules\mysql\lib\Connection.js:526:10)
+    at Socket.emit (events.js:182:13)
+    at Socket.EventEmitter.emit (domain.js:442:20)
+    --------------------
+    at Protocol._enqueue (I:\Youth-Hostel\node_modules\mysql\lib\protocol\Protocol.js:144:48)
+    at PoolConnection.query (I:\Youth-Hostel\node_modules\mysql\lib\Connection.js:198:25)
+    at I:\Youth-Hostel\db\lib\mysql.ts:14:20
+    at Handshake.onConnect (I:\Youth-Hostel\node_modules\mysql\lib\Pool.js:64:7)
+    at Handshake.<anonymous> (I:\Youth-Hostel\node_modules\mysql\lib\Connection.js:526:10)
+    at Handshake._callback (I:\Youth-Hostel\node_modules\mysql\lib\Connection.js:488:16)
+    at Handshake.Sequence.end (I:\Youth-Hostel\node_modules\mysql\lib\protocol\sequences\Sequence.js:83:24)
+    at Handshake.Sequence.OkPacket (I:\Youth-Hostel\node_modules\mysql\lib\protocol\sequences\Sequence.js:92:8)
+    at Protocol._parsePacket (I:\Youth-Hostel\node_modules\mysql\lib\protocol\Protocol.js:291:23)
+    at Parser._parsePacket (I:\Youth-Hostel\node_modules\mysql\lib\protocol\Parser.js:433:10)
+  code: 'ER_TRUNCATED_WRONG_VALUE_FOR_FIELD',
+  errno: 1366,
+  sqlMessage: 'Incorrect string value: \'\\xE5\\xA5\\xB3\' for column \'sex\' at row 1',
+  sqlState: 'HY000',
+  index: 0,
+  sql: 'insert into users (id,name,password,sex,bornDate,phoneNum,schoolName,education,graduationTime,message) values(2,\'1\',2,\'女\',\'2020-03-01-01\',132142,\'jjjj\',\'本科\',\'2020-03-01-01\',\'999\');' }
+[2020-03-02T13:27:17.420] [INFO] log_info - 看listen in localhost:4442
+[2020-03-02T13:28:43.600] [INFO] log_info - 看listen in localhost:4442
+[2020-03-02T13:28:43.601] [INFO] console - 看listen in localhost:4442
+[2020-03-02T13:28:43.602] [ERROR] console - (node:18784) ExperimentalWarning: The fs.promises API is experimental
+[2020-03-02T13:28:43.635] [INFO] console - 
+[2020-03-02T13:29:01.169] [INFO] log_info - 看listen in localhost:4442
+[2020-03-02T13:33:22.519] [INFO] log_info - 看listen in localhost:4442
+[2020-03-02T13:34:34.158] [INFO] log_info - 看listen in localhost:4442
+[2020-03-02T13:35:48.104] [INFO] default - 看listen in localhost:4442
+[2020-03-02T13:37:55.635] [INFO] default - 看listen in localhost:4442
+[2020-03-02T13:40:32.331] [INFO] default - 看listen in localhost:4442
+[2020-03-02T13:40:49.338] [INFO] default - 看listen in localhost:4442
+[2020-03-02T13:41:50.098] [INFO] default - 看listen in localhost:4442
+[2020-03-02T13:42:19.425] [ERROR] default - 看listen in localhost:4442
+[2020-03-02T13:43:03.558] [ERROR] default - 看listen in localhost:4442
+[2020-03-02T13:46:27.016] [ERROR] default - 看listen in localhost:4442
+[2020-03-02T13:47:03.796] [ERROR] default - 看listen in localhost:4442
+[2020-03-02T13:47:22.703] [ERROR] default - 看listen in localhost:4442
+[2020-03-02T13:47:36.108] [ERROR] default - 看listen in localhost:4442
+[2020-03-02T13:50:26.237] [INFO] default - ---开始listen in localhost:4442
+[2020-03-02T13:50:50.536] [INFO] default - ---开始listen in localhost:4442
+[2020-03-02T13:51:02.220] [INFO] default - ---开始1listen in localhost:4442
+[2020-03-02T13:51:21.379] [INFO] default - ---开始listen in localhost:4442
+[2020-03-02T13:52:19.373] [INFO] default - ---开始listen in localhost:4442
+[2020-03-02T13:52:25.028] [DEBUG] default - [ RowDataPacket { id: 1 },
+  RowDataPacket { id: 1 },
+  RowDataPacket { id: 1 },
+  RowDataPacket { id: 2 } ]
+[2020-03-02T13:53:09.832] [INFO] default - ---开始listen in localhost:4442
+[2020-03-02T13:54:14.768] [INFO] default - ---开始listen in localhost:4442
+[2020-03-02T13:54:43.087] [INFO] default - ---开始listen in localhost:4442
+[2020-03-02T13:55:16.175] [INFO] default - ---开始listen in localhost:4442
+[2020-03-02T13:55:16.291] [DEBUG] default - 看看返回的是什么insert into users (id,name,password,sex,bornDate,phoneNum,schoolName,education,graduationTime,message) values(?,?,?,?,?,?,?,?,?,?);2,"1",2,女,2020-03-01-01,132142,jjjj,本科,2020-03-01-01,999
+[2020-03-02T13:55:16.489] [ERROR] default - { Error: ER_TRUNCATED_WRONG_VALUE_FOR_FIELD: Incorrect string value: '\xE5\xA5\xB3' for column 'sex' at row 1
+    at Query.Sequence._packetToError (I:\Youth-Hostel\node_modules\mysql\lib\protocol\sequences\Sequence.js:47:14)
+    at Query.ErrorPacket (I:\Youth-Hostel\node_modules\mysql\lib\protocol\sequences\Query.js:79:18)
+    at Protocol._parsePacket (I:\Youth-Hostel\node_modules\mysql\lib\protocol\Protocol.js:291:23)
+    at Parser._parsePacket (I:\Youth-Hostel\node_modules\mysql\lib\protocol\Parser.js:433:10)
+    at Parser.write (I:\Youth-Hostel\node_modules\mysql\lib\protocol\Parser.js:43:10)
+    at Protocol.write (I:\Youth-Hostel\node_modules\mysql\lib\protocol\Protocol.js:38:16)
+    at Socket.<anonymous> (I:\Youth-Hostel\node_modules\mysql\lib\Connection.js:88:28)
+    at Socket.<anonymous> (I:\Youth-Hostel\node_modules\mysql\lib\Connection.js:526:10)
+    at Socket.emit (events.js:182:13)
+    at Socket.EventEmitter.emit (domain.js:442:20)
+    --------------------
+    at Protocol._enqueue (I:\Youth-Hostel\node_modules\mysql\lib\protocol\Protocol.js:144:48)
+    at PoolConnection.query (I:\Youth-Hostel\node_modules\mysql\lib\Connection.js:198:25)
+    at I:\Youth-Hostel\db\lib\mysql.ts:14:20
+    at Handshake.onConnect (I:\Youth-Hostel\node_modules\mysql\lib\Pool.js:64:7)
+    at Handshake.<anonymous> (I:\Youth-Hostel\node_modules\mysql\lib\Connection.js:526:10)
+    at Handshake._callback (I:\Youth-Hostel\node_modules\mysql\lib\Connection.js:488:16)
+    at Handshake.Sequence.end (I:\Youth-Hostel\node_modules\mysql\lib\protocol\sequences\Sequence.js:83:24)
+    at Handshake.Sequence.OkPacket (I:\Youth-Hostel\node_modules\mysql\lib\protocol\sequences\Sequence.js:92:8)
+    at Protocol._parsePacket (I:\Youth-Hostel\node_modules\mysql\lib\protocol\Protocol.js:291:23)
+    at Parser._parsePacket (I:\Youth-Hostel\node_modules\mysql\lib\protocol\Parser.js:433:10)
+  code: 'ER_TRUNCATED_WRONG_VALUE_FOR_FIELD',
+  errno: 1366,
+  sqlMessage: 'Incorrect string value: \'\\xE5\\xA5\\xB3\' for column \'sex\' at row 1',
+  sqlState: 'HY000',
+  index: 0,
+  sql: 'insert into users (id,name,password,sex,bornDate,phoneNum,schoolName,education,graduationTime,message) values(2,\'\\"1\\"\',2,\'女\',\'2020-03-01-01\',132142,\'jjjj\',\'本科\',\'2020-03-01-01\',\'999\');' }
+[2020-03-02T13:55:54.192] [INFO] default - ---开始listen in localhost:4442
+[2020-03-02T13:58:14.255] [DEBUG] default - 看看返回的是什么insert into users (id,name,password,sex,bornDate,phoneNum,schoolName,education,graduationTime,message) values(?,?,?,?,?,?,?,?,?,?);2,1,2,女,2020-03-01-01,132142,jjjj,本科,2020-03-01-01,999
+[2020-03-02T13:58:14.487] [ERROR] default - { Error: ER_TRUNCATED_WRONG_VALUE_FOR_FIELD: Incorrect string value: '\xE5\xA5\xB3' for column 'sex' at row 1
+    at Query.Sequence._packetToError (I:\Youth-Hostel\node_modules\mysql\lib\protocol\sequences\Sequence.js:47:14)
+    at Query.ErrorPacket (I:\Youth-Hostel\node_modules\mysql\lib\protocol\sequences\Query.js:79:18)
+    at Protocol._parsePacket (I:\Youth-Hostel\node_modules\mysql\lib\protocol\Protocol.js:291:23)
+    at Parser._parsePacket (I:\Youth-Hostel\node_modules\mysql\lib\protocol\Parser.js:433:10)
+    at Parser.write (I:\Youth-Hostel\node_modules\mysql\lib\protocol\Parser.js:43:10)
+    at Protocol.write (I:\Youth-Hostel\node_modules\mysql\lib\protocol\Protocol.js:38:16)
+    at Socket.<anonymous> (I:\Youth-Hostel\node_modules\mysql\lib\Connection.js:88:28)
+    at Socket.<anonymous> (I:\Youth-Hostel\node_modules\mysql\lib\Connection.js:526:10)
+    at Socket.emit (events.js:182:13)
+    at Socket.EventEmitter.emit (domain.js:442:20)
+    --------------------
+    at Protocol._enqueue (I:\Youth-Hostel\node_modules\mysql\lib\protocol\Protocol.js:144:48)
+    at PoolConnection.query (I:\Youth-Hostel\node_modules\mysql\lib\Connection.js:198:25)
+    at I:\Youth-Hostel\db\lib\mysql.ts:14:20
+    at Handshake.onConnect (I:\Youth-Hostel\node_modules\mysql\lib\Pool.js:64:7)
+    at Handshake.<anonymous> (I:\Youth-Hostel\node_modules\mysql\lib\Connection.js:526:10)
+    at Handshake._callback (I:\Youth-Hostel\node_modules\mysql\lib\Connection.js:488:16)
+    at Handshake.Sequence.end (I:\Youth-Hostel\node_modules\mysql\lib\protocol\sequences\Sequence.js:83:24)
+    at Handshake.Sequence.OkPacket (I:\Youth-Hostel\node_modules\mysql\lib\protocol\sequences\Sequence.js:92:8)
+    at Protocol._parsePacket (I:\Youth-Hostel\node_modules\mysql\lib\protocol\Protocol.js:291:23)
+    at Parser._parsePacket (I:\Youth-Hostel\node_modules\mysql\lib\protocol\Parser.js:433:10)
+  code: 'ER_TRUNCATED_WRONG_VALUE_FOR_FIELD',
+  errno: 1366,
+  sqlMessage: 'Incorrect string value: \'\\xE5\\xA5\\xB3\' for column \'sex\' at row 1',
+  sqlState: 'HY000',
+  index: 0,
+  sql: 'insert into users (id,name,password,sex,bornDate,phoneNum,schoolName,education,graduationTime,message) values(2,\'1\',2,\'女\',\'2020-03-01-01\',132142,\'jjjj\',\'本科\',\'2020-03-01-01\',\'999\');' }
+[2020-03-02T14:00:03.705] [DEBUG] default - 看看返回的是什么insert into users (id,name,password,sex,bornDate,phoneNum,schoolName,education,graduationTime,message) values(?,?,?,?,?,?,?,?,?,?);2,1,2,女,2020-03-01-01,132142,jjjj,本科,2020-03-01-01,999
+[2020-03-02T16:25:22.949] [INFO] default - ---开始listen in localhost:4442
+[2020-03-02T16:28:52.458] [INFO] default - ---开始listen in localhost:4442
+[2020-03-02T16:28:59.320] [INFO] default - ---开始listen in localhost:4442
+[2020-03-02T16:29:03.877] [INFO] default - ---开始listen in localhost:4442
+[2020-03-02T16:31:11.715] [INFO] default - [insetUser] sql语句:insert into users (name,password,sex,bornDate,phoneNum,schoolName,education,graduationTime,message) values(?,?,?,?,?,?,?,?,?);[insetUser] value参数:444,2,女,2020-03-01,132142,jjjj,本科,2020-03-01,999
+[2020-03-02T16:31:26.590] [INFO] default - [insetUser] sql语句:insert into users (name,password,sex,bornDate,phoneNum,schoolName,education,graduationTime,message) values(?,?,?,?,?,?,?,?,?);[insetUser] value参数:444,2,女,2020-03-01,132142,jjjj,本科,2020-03-01,999
+[2020-03-02T16:32:21.805] [INFO] default - ---开始listen in localhost:4442
+[2020-03-02T16:32:25.399] [INFO] default - [insetUser] sql语句:insert into users (name,password,sex,bornDate,phoneNum,schoolName,education,graduationTime,message) values(?,?,?,?,?,?,?,?,?); value参数:,,,-01,,,,-01,
+[2020-03-02T16:32:25.588] [ERROR] default - { Error: ER_BAD_NULL_ERROR: Column 'password' cannot be null
+    at Query.Sequence._packetToError (I:\Youth-Hostel\node_modules\mysql\lib\protocol\sequences\Sequence.js:47:14)
+    at Query.ErrorPacket (I:\Youth-Hostel\node_modules\mysql\lib\protocol\sequences\Query.js:79:18)
+    at Protocol._parsePacket (I:\Youth-Hostel\node_modules\mysql\lib\protocol\Protocol.js:291:23)
+    at Parser._parsePacket (I:\Youth-Hostel\node_modules\mysql\lib\protocol\Parser.js:433:10)
+    at Parser.write (I:\Youth-Hostel\node_modules\mysql\lib\protocol\Parser.js:43:10)
+    at Protocol.write (I:\Youth-Hostel\node_modules\mysql\lib\protocol\Protocol.js:38:16)
+    at Socket.<anonymous> (I:\Youth-Hostel\node_modules\mysql\lib\Connection.js:88:28)
+    at Socket.<anonymous> (I:\Youth-Hostel\node_modules\mysql\lib\Connection.js:526:10)
+    at Socket.emit (events.js:182:13)
+    at Socket.EventEmitter.emit (domain.js:442:20)
+    --------------------
+    at Protocol._enqueue (I:\Youth-Hostel\node_modules\mysql\lib\protocol\Protocol.js:144:48)
+    at PoolConnection.query (I:\Youth-Hostel\node_modules\mysql\lib\Connection.js:198:25)
+    at I:\Youth-Hostel\db\lib\mysql.ts:14:20
+    at Handshake.onConnect (I:\Youth-Hostel\node_modules\mysql\lib\Pool.js:64:7)
+    at Handshake.<anonymous> (I:\Youth-Hostel\node_modules\mysql\lib\Connection.js:526:10)
+    at Handshake._callback (I:\Youth-Hostel\node_modules\mysql\lib\Connection.js:488:16)
+    at Handshake.Sequence.end (I:\Youth-Hostel\node_modules\mysql\lib\protocol\sequences\Sequence.js:83:24)
+    at Handshake.Sequence.OkPacket (I:\Youth-Hostel\node_modules\mysql\lib\protocol\sequences\Sequence.js:92:8)
+    at Protocol._parsePacket (I:\Youth-Hostel\node_modules\mysql\lib\protocol\Protocol.js:291:23)
+    at Parser._parsePacket (I:\Youth-Hostel\node_modules\mysql\lib\protocol\Parser.js:433:10)
+  code: 'ER_BAD_NULL_ERROR',
+  errno: 1048,
+  sqlMessage: 'Column \'password\' cannot be null',
+  sqlState: '23000',
+  index: 0,
+  sql: 'insert into users (name,password,sex,bornDate,phoneNum,schoolName,education,graduationTime,message) values(\'\',NULL,\'\',\'-01\',NULL,\'\',\'\',\'-01\',\'\');' }
+[2020-03-02T16:32:53.372] [INFO] default - [insetUser] sql语句:insert into users (name,password,sex,bornDate,phoneNum,schoolName,education,graduationTime,message) values(?,?,?,?,?,?,?,?,?); value参数:33,33,男,2020-03-01,333,33,博士,2020-03-01,3333
+[2020-03-02T16:34:10.256] [INFO] default - ---开始listen in localhost:4442
+[2020-03-02T16:35:24.330] [INFO] default - ---开始listen in localhost:4442
+[2020-03-02T16:37:01.110] [INFO] default - ---开始listen in localhost:4442
+[2020-03-02T16:37:07.851] [INFO] default - ---开始listen in localhost:4442
+[2020-03-02T16:37:10.912] [INFO] default - ---开始listen in localhost:4442
+[2020-03-02T16:37:19.831] [INFO] default - ---开始listen in localhost:4442
+[2020-03-02T16:38:38.418] [INFO] default - ---开始listen in localhost:4442
+[2020-03-02T16:38:50.321] [TRACE] default - [insetUser] sql语句:insert into users (name,password,sex,bornDate,phoneNum,schoolName,education,graduationTime,message) values(?,?,?,?,?,?,?,?,?); value参数:33,33,男,2020-03-01,333,33,博士,2020-03-01,
+[2020-03-02T16:38:50.538] [TRACE] default - [insetUser] 注册成功
+[2020-03-02T16:39:38.125] [TRACE] default - [insetUser] sql语句:insert into users (name,password,sex,bornDate,phoneNum,schoolName,education,graduationTime,message) values(?,?,?,?,?,?,?,?,?); value参数:33,,男,2020-03-01,333,33,博士,2020-03-01,
+[2020-03-02T16:39:38.224] [ERROR] default - [insetUser] 注册失败Error: ER_TRUNCATED_WRONG_VALUE_FOR_FIELD: Incorrect integer value: '' for column 'password' at row 1
+[2020-03-02T16:39:56.437] [INFO] default - ---开始listen in localhost:4442
+[2020-03-02T16:40:08.535] [INFO] default - ---开始listen in localhost:4442
+[2020-03-02T16:40:11.928] [INFO] default - ---开始listen in localhost:4442
+[2020-03-02T16:40:13.402] [TRACE] default - [insetUser] sql语句: insert into users (name,password,sex,bornDate,phoneNum,schoolName,education,graduationTime,message) values(?,?,?,?,?,?,?,?,?); value参数: 33,,男,2020-03-01,333,33,博士,2020-03-01,
+[2020-03-02T16:40:13.596] [ERROR] default - [insetUser] 注册失败: Error: ER_TRUNCATED_WRONG_VALUE_FOR_FIELD: Incorrect integer value: '' for column 'password' at row 1
+[2020-03-02T16:40:46.462] [TRACE] default - [insetUser] sql语句: insert into users (name,password,sex,bornDate,phoneNum,schoolName,education,graduationTime,message) values(?,?,?,?,?,?,?,?,?); value参数: 33,dd,男,2020-03-01,333,33,博士,2020-03-01,
+[2020-03-02T16:40:46.552] [ERROR] default - [insetUser] 注册失败: Error: ER_TRUNCATED_WRONG_VALUE_FOR_FIELD: Incorrect integer value: 'dd' for column 'password' at row 1
+[2020-03-02T16:42:08.122] [TRACE] default - [insetUser] sql语句: insert into users (name,password,sex,bornDate,phoneNum,schoolName,education,graduationTime,message) values(?,?,?,?,?,?,?,?,?); value参数: w,wv,女,2020-03-01,12345,dssd,博士,2020-03-01,
+[2020-03-02T16:42:08.216] [TRACE] default - [insetUser] 注册成功
+[2020-03-02T17:02:08.926] [INFO] default - ---开始listen in localhost:4442
+[2020-03-02T17:12:49.803] [TRACE] default - [insetUser] sql语句: insert into users (name,password,sex,bornDate,phoneNum,schoolName,education,graduationTime,message) values(?,?,?,?,?,?,?,?,?); value参数: hun,12,男,2020-03-01,17310580023,sada,博士,2020-03-01,sda
+[2020-03-02T17:12:50.014] [TRACE] default - [insetUser] 注册成功
+[2020-03-02T17:21:38.635] [INFO] default - ---开始listen in localhost:4442
+[2020-03-02T17:22:06.276] [INFO] default - ---开始listen in localhost:4442
+[2020-03-02T17:23:28.436] [INFO] default - ---开始listen in localhost:4442
+[2020-03-02T17:25:22.868] [INFO] default - ---开始listen in localhost:4442
+[2020-03-02T17:34:23.430] [INFO] default - ---开始listen in localhost:4442
+[2020-03-02T17:35:28.162] [TRACE] default - [findUser] sql语句: select id from test where name = w ; value参数: 
+[2020-03-02T17:36:17.582] [INFO] default - ---开始listen in localhost:4442
+[2020-03-02T17:36:17.613] [TRACE] default - [findUser] sql语句: select id from users where name = w ; value参数: 
+[2020-03-02T17:41:24.890] [INFO] default - ---开始listen in localhost:4442
+[2020-03-02T17:42:10.382] [INFO] default - ---开始listen in localhost:4442
+[2020-03-02T17:42:27.914] [DEBUG] default - 查看！！！ where name = w
+[2020-03-02T17:42:27.915] [TRACE] default - [findUser] sql语句: select id from users where name = w ; value参数: 
+[2020-03-02T17:44:02.363] [INFO] default - ---开始listen in localhost:4442
+[2020-03-02T17:44:02.404] [DEBUG] default - 查看！！！ where name = 'w'
+[2020-03-02T17:44:02.404] [TRACE] default - [findUser] sql语句: select id from users where name = 'w' ; value参数: 
+[2020-03-02T17:44:02.588] [ERROR] default - [insetUser] 注册失败: 用户已存在！
+[2020-03-02T17:44:31.613] [INFO] default - ---开始listen in localhost:4442
+[2020-03-02T17:44:40.004] [INFO] default - ---开始listen in localhost:4442
+[2020-03-02T17:49:37.766] [INFO] default - ---开始listen in localhost:4442
+[2020-03-02T17:50:30.963] [TRACE] default - [findUser] sql语句: select id from users where name = 'w' ; value参数: 
+[2020-03-02T17:50:31.147] [ERROR] default - [insetUser] 注册失败: 用户已存在！
+[2020-03-02T17:51:32.328] [TRACE] default - [findUser] sql语句: select id from users where name = 'w' ; value参数: 
+[2020-03-02T17:51:32.415] [ERROR] default - [insetUser] 注册失败: 用户已存在！
+[2020-03-02T17:52:35.345] [INFO] default - ---开始listen in localhost:4442
+[2020-03-02T17:52:37.609] [TRACE] default - [findUser] sql语句: select id from users where name = 'w' ; value参数: 
+[2020-03-02T17:52:37.793] [ERROR] default - [insetUser] 注册失败: 用户已存在！
+[2020-03-02T17:52:48.085] [INFO] default - ---开始listen in localhost:4442
+[2020-03-02T17:57:23.291] [INFO] default - ---开始listen in localhost:4442
+[2020-03-02T17:57:38.575] [TRACE] default - [findUser] sql语句: select id from users where name = 'w' ; value参数: 
+[2020-03-02T17:57:38.765] [ERROR] default - [insetUser] 注册失败: 用户已存在！
+[2020-03-02T17:59:10.313] [TRACE] default - [findUser] sql语句: select id from users where name = 'w' ; value参数: 
+[2020-03-02T17:59:10.409] [ERROR] default - [insetUser] 注册失败: 用户已存在！
+[2020-03-02T18:00:35.814] [TRACE] default - [findUser] sql语句: select id from users where name = 'w' ; value参数: 
+[2020-03-02T18:00:35.900] [ERROR] default - [insetUser] 注册失败: 用户已存在！
+[2020-03-02T18:00:40.759] [TRACE] default - [findUser] sql语句: select id from users where name = 'r' ; value参数: 
+[2020-03-02T18:00:40.844] [TRACE] default - [insetUser] sql语句: insert into users (name,password,sex,bornDate,phoneNum,schoolName,education,graduationTime,message) values(?,?,?,?,?,?,?,?,?); value参数: r,123,男,2010-12-01,13345689562,2,博士,2010-12-01,1222
+[2020-03-02T18:00:40.937] [TRACE] default - [insetUser] 注册成功
+[2020-03-02T18:02:22.368] [INFO] default - ---开始listen in localhost:4442
+[2020-03-02T18:02:54.064] [TRACE] default - [findUser] sql语句: select id from users where name = 'r' ; value参数: 
+[2020-03-02T18:02:54.327] [ERROR] default - [insetUser] 注册失败: 用户已存在！
+[2020-03-02T18:04:25.703] [INFO] default - ---开始listen in localhost:4442
+[2020-03-02T18:05:13.785] [INFO] wei - ---开始listen in localhost:4442
+[2020-03-02T18:05:25.980] [INFO] default - ---开始listen in localhost:4442
+[2020-03-02T18:05:30.634] [INFO] wei - ---开始listen in localhost:4442
+[2020-03-02T18:06:16.651] [INFO] wei - ---开始listen in localhost:4442
+[2020-03-02T18:08:51.858] [TRACE] wei - [findUser] sql语句: select id from users where name = 'r' ; value参数: 
+[2020-03-02T18:08:52.037] [ERROR] wei - [insetUser] 注册失败: 用户已存在！
+[2020-03-02T18:10:33.230] [TRACE] wei - [findUser] sql语句: select id from users where name = 'e' ; value参数: 
+[2020-03-02T18:10:33.350] [TRACE] wei - [insetUser] sql语句: insert into users (name,password,sex,bornDate,phoneNum,schoolName,education,graduationTime,message) values(?,?,?,?,?,?,?,?,?); value参数: e,123,男,2010-12-01,13456789098,ss,博士,2010-12-01,asfa
+[2020-03-02T18:10:33.464] [TRACE] wei - [insetUser] 注册成功
+[2020-03-02T18:11:14.487] [TRACE] wei - [findUser] sql语句: select id from users where name = 'e' ; value参数: 
+[2020-03-02T18:11:14.572] [ERROR] wei - [insetUser] 注册失败: 用户已存在！
+[2020-03-02T18:11:22.131] [TRACE] wei - [findUser] sql语句: select id from users where name = 'ee' ; value参数: 
+[2020-03-02T18:11:22.218] [TRACE] wei - [insetUser] sql语句: insert into users (name,password,sex,bornDate,phoneNum,schoolName,education,graduationTime,message) values(?,?,?,?,?,?,?,?,?); value参数: ee,12345,男,2010-12-01,13456789098,ss,博士,2010-12-01,sss
+[2020-03-02T18:11:22.321] [TRACE] wei - [insetUser] 注册成功
+[2020-03-02T18:12:20.404] [TRACE] wei - [findUser] sql语句: select id from users where name = 'tt' ; value参数: 
+[2020-03-02T18:12:20.498] [TRACE] wei - [insetUser] sql语句: insert into users (name,password,sex,bornDate,phoneNum,schoolName,education,graduationTime,message) values(?,?,?,?,?,?,?,?,?); value参数: tt,123,男,2010-12-01,13456789098,dd,博士,2010-12-01,ddd
+[2020-03-02T18:12:20.588] [TRACE] wei - [insetUser] 注册成功

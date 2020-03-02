@@ -1,0 +1,103 @@
+[2020-03-02T13:42:19.425] [ERROR] default - 看listen in localhost:4442
+[2020-03-02T13:43:03.558] [ERROR] default - 看listen in localhost:4442
+[2020-03-02T13:46:27.016] [ERROR] default - 看listen in localhost:4442
+[2020-03-02T13:47:03.796] [ERROR] default - 看listen in localhost:4442
+[2020-03-02T13:47:22.703] [ERROR] default - 看listen in localhost:4442
+[2020-03-02T13:47:36.108] [ERROR] default - 看listen in localhost:4442
+[2020-03-02T13:55:16.489] [ERROR] default - { Error: ER_TRUNCATED_WRONG_VALUE_FOR_FIELD: Incorrect string value: '\xE5\xA5\xB3' for column 'sex' at row 1
+    at Query.Sequence._packetToError (I:\Youth-Hostel\node_modules\mysql\lib\protocol\sequences\Sequence.js:47:14)
+    at Query.ErrorPacket (I:\Youth-Hostel\node_modules\mysql\lib\protocol\sequences\Query.js:79:18)
+    at Protocol._parsePacket (I:\Youth-Hostel\node_modules\mysql\lib\protocol\Protocol.js:291:23)
+    at Parser._parsePacket (I:\Youth-Hostel\node_modules\mysql\lib\protocol\Parser.js:433:10)
+    at Parser.write (I:\Youth-Hostel\node_modules\mysql\lib\protocol\Parser.js:43:10)
+    at Protocol.write (I:\Youth-Hostel\node_modules\mysql\lib\protocol\Protocol.js:38:16)
+    at Socket.<anonymous> (I:\Youth-Hostel\node_modules\mysql\lib\Connection.js:88:28)
+    at Socket.<anonymous> (I:\Youth-Hostel\node_modules\mysql\lib\Connection.js:526:10)
+    at Socket.emit (events.js:182:13)
+    at Socket.EventEmitter.emit (domain.js:442:20)
+    --------------------
+    at Protocol._enqueue (I:\Youth-Hostel\node_modules\mysql\lib\protocol\Protocol.js:144:48)
+    at PoolConnection.query (I:\Youth-Hostel\node_modules\mysql\lib\Connection.js:198:25)
+    at I:\Youth-Hostel\db\lib\mysql.ts:14:20
+    at Handshake.onConnect (I:\Youth-Hostel\node_modules\mysql\lib\Pool.js:64:7)
+    at Handshake.<anonymous> (I:\Youth-Hostel\node_modules\mysql\lib\Connection.js:526:10)
+    at Handshake._callback (I:\Youth-Hostel\node_modules\mysql\lib\Connection.js:488:16)
+    at Handshake.Sequence.end (I:\Youth-Hostel\node_modules\mysql\lib\protocol\sequences\Sequence.js:83:24)
+    at Handshake.Sequence.OkPacket (I:\Youth-Hostel\node_modules\mysql\lib\protocol\sequences\Sequence.js:92:8)
+    at Protocol._parsePacket (I:\Youth-Hostel\node_modules\mysql\lib\protocol\Protocol.js:291:23)
+    at Parser._parsePacket (I:\Youth-Hostel\node_modules\mysql\lib\protocol\Parser.js:433:10)
+  code: 'ER_TRUNCATED_WRONG_VALUE_FOR_FIELD',
+  errno: 1366,
+  sqlMessage: 'Incorrect string value: \'\\xE5\\xA5\\xB3\' for column \'sex\' at row 1',
+  sqlState: 'HY000',
+  index: 0,
+  sql: 'insert into users (id,name,password,sex,bornDate,phoneNum,schoolName,education,graduationTime,message) values(2,\'\\"1\\"\',2,\'女\',\'2020-03-01-01\',132142,\'jjjj\',\'本科\',\'2020-03-01-01\',\'999\');' }
+[2020-03-02T13:58:14.487] [ERROR] default - { Error: ER_TRUNCATED_WRONG_VALUE_FOR_FIELD: Incorrect string value: '\xE5\xA5\xB3' for column 'sex' at row 1
+    at Query.Sequence._packetToError (I:\Youth-Hostel\node_modules\mysql\lib\protocol\sequences\Sequence.js:47:14)
+    at Query.ErrorPacket (I:\Youth-Hostel\node_modules\mysql\lib\protocol\sequences\Query.js:79:18)
+    at Protocol._parsePacket (I:\Youth-Hostel\node_modules\mysql\lib\protocol\Protocol.js:291:23)
+    at Parser._parsePacket (I:\Youth-Hostel\node_modules\mysql\lib\protocol\Parser.js:433:10)
+    at Parser.write (I:\Youth-Hostel\node_modules\mysql\lib\protocol\Parser.js:43:10)
+    at Protocol.write (I:\Youth-Hostel\node_modules\mysql\lib\protocol\Protocol.js:38:16)
+    at Socket.<anonymous> (I:\Youth-Hostel\node_modules\mysql\lib\Connection.js:88:28)
+    at Socket.<anonymous> (I:\Youth-Hostel\node_modules\mysql\lib\Connection.js:526:10)
+    at Socket.emit (events.js:182:13)
+    at Socket.EventEmitter.emit (domain.js:442:20)
+    --------------------
+    at Protocol._enqueue (I:\Youth-Hostel\node_modules\mysql\lib\protocol\Protocol.js:144:48)
+    at PoolConnection.query (I:\Youth-Hostel\node_modules\mysql\lib\Connection.js:198:25)
+    at I:\Youth-Hostel\db\lib\mysql.ts:14:20
+    at Handshake.onConnect (I:\Youth-Hostel\node_modules\mysql\lib\Pool.js:64:7)
+    at Handshake.<anonymous> (I:\Youth-Hostel\node_modules\mysql\lib\Connection.js:526:10)
+    at Handshake._callback (I:\Youth-Hostel\node_modules\mysql\lib\Connection.js:488:16)
+    at Handshake.Sequence.end (I:\Youth-Hostel\node_modules\mysql\lib\protocol\sequences\Sequence.js:83:24)
+    at Handshake.Sequence.OkPacket (I:\Youth-Hostel\node_modules\mysql\lib\protocol\sequences\Sequence.js:92:8)
+    at Protocol._parsePacket (I:\Youth-Hostel\node_modules\mysql\lib\protocol\Protocol.js:291:23)
+    at Parser._parsePacket (I:\Youth-Hostel\node_modules\mysql\lib\protocol\Parser.js:433:10)
+  code: 'ER_TRUNCATED_WRONG_VALUE_FOR_FIELD',
+  errno: 1366,
+  sqlMessage: 'Incorrect string value: \'\\xE5\\xA5\\xB3\' for column \'sex\' at row 1',
+  sqlState: 'HY000',
+  index: 0,
+  sql: 'insert into users (id,name,password,sex,bornDate,phoneNum,schoolName,education,graduationTime,message) values(2,\'1\',2,\'女\',\'2020-03-01-01\',132142,\'jjjj\',\'本科\',\'2020-03-01-01\',\'999\');' }
+[2020-03-02T16:32:25.588] [ERROR] default - { Error: ER_BAD_NULL_ERROR: Column 'password' cannot be null
+    at Query.Sequence._packetToError (I:\Youth-Hostel\node_modules\mysql\lib\protocol\sequences\Sequence.js:47:14)
+    at Query.ErrorPacket (I:\Youth-Hostel\node_modules\mysql\lib\protocol\sequences\Query.js:79:18)
+    at Protocol._parsePacket (I:\Youth-Hostel\node_modules\mysql\lib\protocol\Protocol.js:291:23)
+    at Parser._parsePacket (I:\Youth-Hostel\node_modules\mysql\lib\protocol\Parser.js:433:10)
+    at Parser.write (I:\Youth-Hostel\node_modules\mysql\lib\protocol\Parser.js:43:10)
+    at Protocol.write (I:\Youth-Hostel\node_modules\mysql\lib\protocol\Protocol.js:38:16)
+    at Socket.<anonymous> (I:\Youth-Hostel\node_modules\mysql\lib\Connection.js:88:28)
+    at Socket.<anonymous> (I:\Youth-Hostel\node_modules\mysql\lib\Connection.js:526:10)
+    at Socket.emit (events.js:182:13)
+    at Socket.EventEmitter.emit (domain.js:442:20)
+    --------------------
+    at Protocol._enqueue (I:\Youth-Hostel\node_modules\mysql\lib\protocol\Protocol.js:144:48)
+    at PoolConnection.query (I:\Youth-Hostel\node_modules\mysql\lib\Connection.js:198:25)
+    at I:\Youth-Hostel\db\lib\mysql.ts:14:20
+    at Handshake.onConnect (I:\Youth-Hostel\node_modules\mysql\lib\Pool.js:64:7)
+    at Handshake.<anonymous> (I:\Youth-Hostel\node_modules\mysql\lib\Connection.js:526:10)
+    at Handshake._callback (I:\Youth-Hostel\node_modules\mysql\lib\Connection.js:488:16)
+    at Handshake.Sequence.end (I:\Youth-Hostel\node_modules\mysql\lib\protocol\sequences\Sequence.js:83:24)
+    at Handshake.Sequence.OkPacket (I:\Youth-Hostel\node_modules\mysql\lib\protocol\sequences\Sequence.js:92:8)
+    at Protocol._parsePacket (I:\Youth-Hostel\node_modules\mysql\lib\protocol\Protocol.js:291:23)
+    at Parser._parsePacket (I:\Youth-Hostel\node_modules\mysql\lib\protocol\Parser.js:433:10)
+  code: 'ER_BAD_NULL_ERROR',
+  errno: 1048,
+  sqlMessage: 'Column \'password\' cannot be null',
+  sqlState: '23000',
+  index: 0,
+  sql: 'insert into users (name,password,sex,bornDate,phoneNum,schoolName,education,graduationTime,message) values(\'\',NULL,\'\',\'-01\',NULL,\'\',\'\',\'-01\',\'\');' }
+[2020-03-02T16:39:38.224] [ERROR] default - [insetUser] 注册失败Error: ER_TRUNCATED_WRONG_VALUE_FOR_FIELD: Incorrect integer value: '' for column 'password' at row 1
+[2020-03-02T16:40:13.596] [ERROR] default - [insetUser] 注册失败: Error: ER_TRUNCATED_WRONG_VALUE_FOR_FIELD: Incorrect integer value: '' for column 'password' at row 1
+[2020-03-02T16:40:46.552] [ERROR] default - [insetUser] 注册失败: Error: ER_TRUNCATED_WRONG_VALUE_FOR_FIELD: Incorrect integer value: 'dd' for column 'password' at row 1
+[2020-03-02T17:44:02.588] [ERROR] default - [insetUser] 注册失败: 用户已存在！
+[2020-03-02T17:50:31.147] [ERROR] default - [insetUser] 注册失败: 用户已存在！
+[2020-03-02T17:51:32.415] [ERROR] default - [insetUser] 注册失败: 用户已存在！
+[2020-03-02T17:52:37.793] [ERROR] default - [insetUser] 注册失败: 用户已存在！
+[2020-03-02T17:57:38.765] [ERROR] default - [insetUser] 注册失败: 用户已存在！
+[2020-03-02T17:59:10.409] [ERROR] default - [insetUser] 注册失败: 用户已存在！
+[2020-03-02T18:00:35.900] [ERROR] default - [insetUser] 注册失败: 用户已存在！
+[2020-03-02T18:02:54.327] [ERROR] default - [insetUser] 注册失败: 用户已存在！
+[2020-03-02T18:08:52.037] [ERROR] wei - [insetUser] 注册失败: 用户已存在！
+[2020-03-02T18:11:14.572] [ERROR] wei - [insetUser] 注册失败: 用户已存在！

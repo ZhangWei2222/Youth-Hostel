@@ -3,7 +3,7 @@
     <van-nav-bar title="注册" left-arrow @click-left="onClickLeft" :border="false" />
     <div class="wrapper">
       <van-cell-group class="group">
-        <van-field v-model="username" required clearable label="用户名" placeholder="请输入用户名" />
+        <van-field v-model="name" required clearable label="用户名" placeholder="请输入用户名" />
 
         <van-field
           v-model="password"
@@ -19,7 +19,7 @@
           required
           clickable
           label="性别"
-          :value="sex"
+          v-model="sex"
           placeholder="请选择性别"
           @click="showSexPicker = true"
         />
@@ -37,7 +37,7 @@
           required
           clickable
           label="出生年月"
-          v-model="born"
+          v-model="bornDate"
           placeholder="请选择日期"
           @click="showBornPicker = true"
         />
@@ -46,22 +46,29 @@
             v-model="currentDate"
             type="year-month"
             :min-date="minDate"
-            :max-date="maxDate"
+            :max-date="maxBirDate"
             :formatter="formatter"
             @confirm="onBornConfirm"
           />
         </van-popup>
 
-        <van-field v-model="phone" required clearable type="tel" label="手机号" placeholder="请输入手机号" />
+        <van-field
+          v-model="phoneNum"
+          required
+          clearable
+          type="digit"
+          label="手机号"
+          placeholder="请输入手机号"
+        />
 
-        <van-field v-model="schoolname" required clearable label="学校" placeholder="请输入学校" />
+        <van-field v-model="schoolName" required clearable label="学校" placeholder="请输入学校" />
 
         <van-field
           readonly
           required
           clickable
           label="学历"
-          :value="education"
+          v-model="education"
           placeholder="请选择学历"
           @click="showEducationPicker = true"
         />
@@ -99,10 +106,10 @@
           v-model="message"
           rows="2"
           autosize
-          label="入住目的"
+          label="入住理由"
           type="textarea"
-          maxlength="120"
-          placeholder="请输入入住目的"
+          maxlength="80"
+          placeholder="请输入入住理由"
           show-word-limit
           clearable
         />
@@ -114,6 +121,7 @@
 
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
+import { State } from "vuex-class";
 import { Toast } from "vant";
 Vue.use(Toast);
 
@@ -122,15 +130,16 @@ Vue.use(Toast);
 })
 export default class InfoIndex extends Vue {
   // 注册信息
-  username: string = "";
-  password: string = "";
+  name: string = "";
+  password: string = null;
   sex: string = "";
-  born: any = "";
-  phone: number = null;
-  schoolname: string = "";
+  bornDate: any = "";
+  phoneNum: string = null;
+  schoolName: string = "";
   education: string = "";
   graduationTime: any = "";
   message: string = "";
+  @State serverSite;
 
   // 性别下拉框
   showSexPicker: boolean = false;
@@ -139,7 +148,8 @@ export default class InfoIndex extends Vue {
   showBornPicker: boolean = false;
   currentDate: any = new Date();
   minDate: any = new Date(1970, 0, 1);
-  maxDate: any = new Date(2025, 10, 1);
+  maxBirDate: any = new Date(2010, 11, 1);
+  maxDate: any = new Date(2025, 1, 1);
   // 学历下拉框
   showEducationPicker: boolean = false;
   educationColumns: string[] = ["博士", "硕士", "本科", "高中", "初中", "小学"];
@@ -163,7 +173,7 @@ export default class InfoIndex extends Vue {
       m = "0" + m;
     }
     var timer = date.getFullYear() + "-" + m;
-    this.born = timer;
+    this.bornDate = timer;
     this.showBornPicker = false;
   }
   // 格式化时间
@@ -192,9 +202,66 @@ export default class InfoIndex extends Vue {
     this.showGraduationTimePicker = false;
   }
 
+  // 校验表单是否有空，有空返回 false
+  checkEmpty(obj: any): boolean {
+    let empty = null;
+    for (const key in obj) {
+      if (obj[key] === null || obj[key] === "") {
+        empty = true;
+        break;
+      } else {
+        empty = false;
+      }
+    }
+    return empty;
+  }
+
+  // 校验手机号码是否格式正确
+  checkPhone(mobile: string): boolean {
+    var phone = /^(((13[0-9]{1})|(15[0-9]{1})|(17[0-9]{1})|(18[0-9]{1}))+\d{8})$/;
+    if (mobile && mobile.length === 11) {
+      if (phone.test(mobile)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
   // 注册
-  singUp() {
-    Toast.success("注册成功");
+  singUp(): void {
+    let params = {
+      name: this.name,
+      password: this.password,
+      sex: this.sex,
+      bornDate: this.bornDate,
+      phoneNum: this.phoneNum,
+      schoolName: this.schoolName,
+      education: this.education,
+      graduationTime: this.graduationTime,
+      message: this.message
+    };
+
+    let self = this;
+
+    if (self.checkPhone(params.phoneNum) && !self.checkEmpty(params)) {
+      self.axios
+        .post(self.serverSite + "/api/signUp", params)
+        .then(function(res) {
+          console.log("注册信息" + JSON.stringify(res.data));
+          if (res.data.code === -2) {
+            Toast.fail("用户名已存在");
+          } else if (res.data.code === 0) {
+            Toast.success("注册成功");
+            self.$router.push("/singin");
+          }
+        })
+        .catch(function(error) {
+          Toast.fail("注册失败");
+          console.log("注册失败" + error);
+        });
+    } else {
+      Toast.fail("请正确填写信息");
+    }
   }
 }
 </script>

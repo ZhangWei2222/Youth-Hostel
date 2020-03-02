@@ -1,0 +1,78 @@
+{
+  "appenders": {
+    "console": {
+      "type": "console",
+      "category": "console"
+    },
+    "info": {
+      "category": "log_info",
+      "type": "dateFile",
+      "filename": "./logs/info/info_file",
+      "pattern": "yyyy-MM-dd.log",
+      "alwaysIncludePattern": true,
+      "backups": 4,
+      "maxLogSize ": 10000000,
+      "encoding": "utf-8"
+    },
+    "error": {
+      "category": "log_error",
+      "type": "dateFile",
+      "filename": "./logs/error/error_file",
+      "pattern": "yyyy-MM-dd.log",
+      "alwaysIncludePattern": true,
+      "backups": 4,
+      "maxLogSize ": 10000000,
+      "encoding": "utf-8"
+    },
+    "minError": {
+      "type": "logLevelFilter",
+      "appender": "error",
+      "level": "error"
+    },
+    "debug": {
+      "category": "log_debug",
+      "type": "dateFile",
+      "filename": "./logs/debug/debug_file",
+      "pattern": "yyyy-MM-dd.log",
+      "alwaysIncludePattern": true,
+      "backups": 4,
+      "maxLogSize ": 10000000,
+      "encoding": "utf-8"
+    },
+    "maxDebug": {
+      "type": "logLevelFilter",
+      "appender": "debug",
+      "level": "debug",
+      "maxLevel": "debug"
+    },
+    "trace": {
+      "category": "log_trace",
+      "type": "dateFile",
+      "filename": "./logs/trace/trace_file",
+      "pattern": "yyyy-MM-dd.log",
+      "alwaysIncludePattern": true,
+      "backups": 4,
+      "maxLogSize ": 10000000,
+      "encoding": "utf-8"
+    },
+    "maxTrace": {
+      "type": "logLevelFilter",
+      "appender": "trace",
+      "level": "trace",
+      "maxLevel": "trace"
+    }
+  },
+  "categories": {
+    "default": {
+      "appenders": [
+        "console",
+        "info",
+        "minError",
+        "maxDebug",
+        "maxTrace"
+      ],
+      "level": "ALL"
+    }
+  },
+  "replaceConsole": true
+}

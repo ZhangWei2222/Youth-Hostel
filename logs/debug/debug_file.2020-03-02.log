@@ -1,0 +1,10 @@
+[2020-03-02T13:50:26.237] [INFO] default - ---开始listen in localhost:4442
+[2020-03-02T13:52:25.028] [DEBUG] default - [ RowDataPacket { id: 1 },
+  RowDataPacket { id: 1 },
+  RowDataPacket { id: 1 },
+  RowDataPacket { id: 2 } ]
+[2020-03-02T13:55:16.291] [DEBUG] default - 看看返回的是什么insert into users (id,name,password,sex,bornDate,phoneNum,schoolName,education,graduationTime,message) values(?,?,?,?,?,?,?,?,?,?);2,"1",2,女,2020-03-01-01,132142,jjjj,本科,2020-03-01-01,999
+[2020-03-02T13:58:14.255] [DEBUG] default - 看看返回的是什么insert into users (id,name,password,sex,bornDate,phoneNum,schoolName,education,graduationTime,message) values(?,?,?,?,?,?,?,?,?,?);2,1,2,女,2020-03-01-01,132142,jjjj,本科,2020-03-01-01,999
+[2020-03-02T14:00:03.705] [DEBUG] default - 看看返回的是什么insert into users (id,name,password,sex,bornDate,phoneNum,schoolName,education,graduationTime,message) values(?,?,?,?,?,?,?,?,?,?);2,1,2,女,2020-03-01-01,132142,jjjj,本科,2020-03-01-01,999
+[2020-03-02T17:42:27.914] [DEBUG] default - 查看！！！ where name = w
+[2020-03-02T17:44:02.404] [DEBUG] default - 查看！！！ where name = 'w'
