@@ -44,7 +44,7 @@ export default class CommentRate extends Vue {
 </script>
 
 <style scoped lang="less">
-@import url("../common/style/Variable.less");
+@import url("~@/common/style/Variable.less");
 .comment-rate {
   height: 75px;
   display: flex;

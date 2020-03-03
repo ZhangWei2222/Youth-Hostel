@@ -55,7 +55,7 @@ export default class OrderComment extends Vue {
 </script>
 
 <style lang="less" >
-@import url("../../common/style/Variable.less");
+@import url("~@/common/style/Variable.less");
 .order-comment {
   .van-cell {
     padding: 10px;
@@ -68,7 +68,7 @@ export default class OrderComment extends Vue {
 }
 </style>
 <style scoped lang="less">
-@import url("../../common/style/Variable.less");
+@import url("~@/common/style/Variable.less");
 .order-comment {
   .wrapper {
     padding: 20px;

@@ -12,11 +12,11 @@
           src="https://img.yzcdn.cn/vant/cat.jpeg"
         />
         <van-uploader :after-read="afterRead" />
-        <div class="name">
+        <div class="name" v-if="this.isSignIn">{{user.name}}</div>
+        <div class="name" v-else>
           <span @click="goViews(-1)">注册</span> /
           <span @click="goViews(-2)">登录</span>
         </div>
-        <!-- <div class="name">混世大魔王</!-->
       </div>
 
       <div class="icons">
@@ -33,19 +33,48 @@
           <div class="text">我的评价</div>
         </div>
       </div>
-      <van-button class="exit-button" type="info" block>退出登录</van-button>
+      <van-button class="exit-button" type="info" block @click="signOut" v-if="this.isSignIn">退出登录</van-button>
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
+import { Dialog, Toast } from "vant";
+import cookie from "js-cookie";
+const { userInofoAPI } = require("@/services/user.ts");
+// const jwt = require("jsonwebtoken");
 
 @Component({
   name: "OwnerIndex"
 })
 export default class OwnerIndex extends Vue {
   //    src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3745037406,2431076780&fm=15&gp=0.jpg" 未登录图片
+
+  isSignIn: boolean = false;
+  user = {};
+
+  // 初始化
+  mounted() {
+    this.init();
+    // console.log(cookie.get("assent_token"));
+    // console.log(jwt.verify(cookie.get("assent_token"), "wei"));
+  }
+
+  async init(): Promise<any> {
+    let self = this;
+    const res = await userInofoAPI();
+    try {
+      console.log(res);
+      if (res.data.code === 0) {
+        self.isSignIn = true;
+        self.user = res.data.data[0];
+      }
+    } catch (error) {
+      Toast.fail("获取用户信息失败");
+      console.log("获取用户信息失败" + error);
+    }
+  }
 
   afterRead(file) {
     // 此时可以自行将文件上传至服务器
@@ -76,10 +105,10 @@ export default class OwnerIndex extends Vue {
   goViews(key): void {
     switch (key) {
       case -1:
-        this.$router.push("/singup");
+        this.$router.push("/signUp");
         break;
       case -2:
-        this.$router.push("/singin");
+        this.$router.push("/signIn");
         break;
       case 0:
         this.$router.push("/info");
@@ -94,11 +123,27 @@ export default class OwnerIndex extends Vue {
         break;
     }
   }
+
+  signOut(): void {
+    let self = this;
+    Dialog.confirm({
+      title: "登出",
+      message: "确定要登出吗?"
+    })
+      .then(() => {
+        cookie.remove("assent_token");
+        self.isSignIn = false;
+        Toast("你已登出!");
+      })
+      .catch(() => {
+        Toast("你已取消操作!");
+      });
+  }
 }
 </script>
 
 <style scoped lang="less">
-@import url("../../common/style/Variable.less");
+@import url("~@/common/style/Variable.less");
 .own-index {
   .wrapper {
     padding: 0 20px 20px;

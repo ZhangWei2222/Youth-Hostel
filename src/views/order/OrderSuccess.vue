@@ -35,7 +35,7 @@ export default class OrderSuccess extends Vue {
 
 
 <style scoped lang="less">
-@import url("../../common/style/Variable.less");
+@import url("~@/common/style/Variable.less");
 .order-success {
   .wrapper {
     display: flex;

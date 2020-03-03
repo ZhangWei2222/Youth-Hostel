@@ -1,5 +1,5 @@
 <template>
-  <div class="sing-up">
+  <div class="sign-up">
     <van-nav-bar title="注册" left-arrow @click-left="onClickLeft" :border="false" />
     <div class="wrapper">
       <van-cell-group class="group">
@@ -43,7 +43,7 @@
         />
         <van-popup v-model="showBornPicker" position="bottom">
           <van-datetime-picker
-            v-model="currentDate"
+            :value="currentDate"
             type="year-month"
             :min-date="minDate"
             :max-date="maxBirDate"
@@ -92,7 +92,7 @@
         />
         <van-popup v-model="showGraduationTimePicker" position="bottom">
           <van-datetime-picker
-            v-model="currentDate"
+            :value="currentDate"
             type="year-month"
             :min-date="minDate"
             :max-date="maxDate"
@@ -113,7 +113,7 @@
           show-word-limit
           clearable
         />
-        <van-button class="button" type="primary" block @click="singUp">注册</van-button>
+        <van-button class="button" type="primary" block @click="signUp">注册</van-button>
       </van-cell-group>
     </div>
   </div>
@@ -121,14 +121,14 @@
 
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
-import { State } from "vuex-class";
 import { Toast } from "vant";
-Vue.use(Toast);
+import md5 from "js-md5";
+const { signUpAPI } = require("@/services/login.ts");
 
 @Component({
-  name: "SingUp"
+  name: "SignUp"
 })
-export default class InfoIndex extends Vue {
+export default class SignUp extends Vue {
   // 注册信息
   name: string = "";
   password: string = null;
@@ -139,7 +139,6 @@ export default class InfoIndex extends Vue {
   education: string = "";
   graduationTime: any = "";
   message: string = "";
-  @State serverSite;
 
   // 性别下拉框
   showSexPicker: boolean = false;
@@ -228,37 +227,36 @@ export default class InfoIndex extends Vue {
   }
 
   // 注册
-  singUp(): void {
-    let params = {
-      name: this.name,
-      password: this.password,
-      sex: this.sex,
-      bornDate: this.bornDate,
-      phoneNum: this.phoneNum,
-      schoolName: this.schoolName,
-      education: this.education,
-      graduationTime: this.graduationTime,
-      message: this.message
-    };
-
+  async signUp(): Promise<any> {
     let self = this;
 
+    let params = {
+      name: self.name,
+      password: self.password && md5(self.password),
+      sex: self.sex,
+      bornDate: self.bornDate,
+      phoneNum: self.phoneNum,
+      schoolName: self.schoolName,
+      education: self.education,
+      graduationTime: self.graduationTime,
+      message: self.message
+    };
+
     if (self.checkPhone(params.phoneNum) && !self.checkEmpty(params)) {
-      self.axios
-        .post(self.serverSite + "/api/signUp", params)
-        .then(function(res) {
-          console.log("注册信息" + JSON.stringify(res.data));
-          if (res.data.code === -2) {
-            Toast.fail("用户名已存在");
-          } else if (res.data.code === 0) {
-            Toast.success("注册成功");
-            self.$router.push("/singin");
-          }
-        })
-        .catch(function(error) {
-          Toast.fail("注册失败");
-          console.log("注册失败" + error);
-        });
+      const res = await signUpAPI(params);
+
+      try {
+        console.log("注册信息" + JSON.stringify(res.data));
+        if (res.data.code === 0) {
+          Toast.success(res.data.msg);
+          self.$router.replace("/signIn");
+        } else {
+          Toast.fail("注册失败" + res.data.msg);
+        }
+      } catch (error) {
+        Toast.fail("注册失败");
+        console.log("注册失败" + error);
+      }
     } else {
       Toast.fail("请正确填写信息");
     }
@@ -267,8 +265,8 @@ export default class InfoIndex extends Vue {
 </script>
 
 <style scoped lang="less">
-@import url("../../common/style/Variable.less");
-.sing-up {
+@import url("~@/common/style/Variable.less");
+.sign-up {
   background: @incarnadine;
   .wrapper {
     padding: 30px 20px;

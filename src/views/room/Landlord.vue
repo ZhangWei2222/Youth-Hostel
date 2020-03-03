@@ -69,7 +69,7 @@ export default class LandlordIndex extends Vue {
 }
 </style>
 <style scoped lang="less">
-@import url("../../common/style/Variable.less");
+@import url("~@/common/style/Variable.less");
 .landlord-index {
   .wrapper {
     padding: 20px 20px 0 20px;

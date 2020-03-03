@@ -26,7 +26,7 @@ export default class Notice extends Vue {}
 </script>
 
 <style scoped lang="less">
-@import url("../common/style/Variable.less");
+@import url("~@/common/style/Variable.less");
 .notice-box {
   height: 130px;
 }

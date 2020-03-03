@@ -286,7 +286,7 @@ export default class RoomDetails extends Vue {
 </script>
 
 <style lang="less">
-@import url("../../common/style/Variable.less");
+@import url("~@/common/style/Variable.less");
 .room-details {
   .van-swipe {
     width: 100%;
@@ -316,7 +316,7 @@ export default class RoomDetails extends Vue {
 }
 </style>
 <style scoped lang="less">
-@import url("../../common/style/Variable.less");
+@import url("~@/common/style/Variable.less");
 
 .room-details {
   .my-swipe {

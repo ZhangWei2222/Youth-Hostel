@@ -29,7 +29,7 @@ export default class MyComment extends Vue {
 </script>
 
 <style scoped lang="less">
-@import url("../../common/style/Variable.less");
+@import url("~@/common/style/Variable.less");
 .my-comment {
   .divider {
     width: 100%;

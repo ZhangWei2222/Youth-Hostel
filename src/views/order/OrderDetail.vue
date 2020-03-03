@@ -58,7 +58,7 @@ export default class OrderDetail extends Vue {
 </script>
 
 <style lang="less">
-@import url("../../common/style/Variable.less");
+@import url("~@/common/style/Variable.less");
 .order-detail {
   .van-cell {
     padding: 10px;
@@ -78,7 +78,7 @@ export default class OrderDetail extends Vue {
 }
 </style>
 <style scoped lang="less">
-@import url("../../common/style/Variable.less");
+@import url("~@/common/style/Variable.less");
 .order-detail {
   .wrapper {
     padding: 0 20px 80px;

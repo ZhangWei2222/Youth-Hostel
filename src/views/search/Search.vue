@@ -271,7 +271,7 @@ export default class CommentIndex extends Vue {
 }
 </style>
 <style scoped lang="less">
-@import url("../../common/style/Variable.less");
+@import url("~@/common/style/Variable.less");
 .search-index {
   .search-box {
     .date-box {

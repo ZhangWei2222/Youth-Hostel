@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Router from "vue-router";
-// import HelloWorld from "@/components/HelloWorld";
+import cookie from 'js-cookie'
 
 const views: any = require['context']('../views', true, /\.vue$/im);
 
@@ -16,7 +16,7 @@ views.keys().forEach(key => {
 
 Vue.use(Router);
 
-export default new Router({
+const router = new Router({
   routes: [
     {
       path: "/",
@@ -40,22 +40,28 @@ export default new Router({
     {
       path: '/info',
       name: 'Info',
-      component: modules['Info']
+      component: modules['Info'],
+      meta: {
+        requireAuth: true
+      }
     },
     {
       path: '/my-comment',
       name: 'MyComment',
-      component: modules['MyComment']
+      component: modules['MyComment'],
+      meta: {
+        requireAuth: true
+      }
     },
     {
-      path: '/singin',
-      name: 'SingIn',
-      component: modules['SingIn']
+      path: '/signIn',
+      name: 'SignIn',
+      component: modules['SignIn']
     },
     {
-      path: '/singup',
-      name: 'SingUp',
-      component: modules['SingUp']
+      path: '/signup',
+      name: 'SignUp',
+      component: modules['SignUp']
     },
     {
       path: '/search',
@@ -99,3 +105,23 @@ export default new Router({
 
   ]
 });
+
+
+router.beforeEach((to, from, next) => {
+  let token = cookie.get('assent_token');
+
+  if (to.meta.requireAuth) {
+    if (token) {
+      next();
+    } else {
+      next({
+        path: '/signIn',
+        query: { redirect: to.fullPath }  // 将跳转的路由path作为参数，登录成功后跳转到该路由
+      });
+    }
+  } else {
+    next();//如果无需token,那么随它去吧
+  }
+});
+
+export default router

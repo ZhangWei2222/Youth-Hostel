@@ -95,7 +95,7 @@ export default class RoomList extends Vue {
 }
 </style>
 <style scoped lang="less">
-@import url("../common/style/Variable.less");
+@import url("~@/common/style/Variable.less");
 .room-list {
   margin-bottom: 60px;
   .room {

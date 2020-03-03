@@ -78,7 +78,7 @@ export default class CommentList extends Vue {
 </script>
 
 <style scoped lang="less">
-@import url("../common/style/Variable.less");
+@import url("~@/common/style/Variable.less");
 .comment-list {
   padding: 10px 20px 80px;
   .comment {

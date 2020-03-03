@@ -108,7 +108,7 @@ export default class OrderIndex extends Vue {
 </style>
 
 <style scoped lang="less">
-@import url("../../common/style/Variable.less");
+@import url("~@/common/style/Variable.less");
 .order-index {
   .wrapper {
     padding: 0 20px 60px;
