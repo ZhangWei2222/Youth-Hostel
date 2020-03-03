@@ -33,8 +33,8 @@ app.use(bodyParser({
 
 app.use(require('./routers/user.ts').routes())
 
-app.use(require('./routers/singUp.ts').routes()) // 注册
-// app.use(require('./routers/signIn.ts').routes()) // 登录
+app.use(require('./routers/signUp.ts').routes()) // 注册
+app.use(require('./routers/signIn.ts').routes()) // 登录
 
 // app.use(require('./routers/createPosts.js').routes()) // 新建文章
 // app.use(require('./routers/postsList.js').routes()) // 搜索文章

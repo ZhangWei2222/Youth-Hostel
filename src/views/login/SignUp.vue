@@ -123,7 +123,7 @@
 import { Vue, Component } from "vue-property-decorator";
 import { Toast } from "vant";
 import md5 from "js-md5";
-const { signUpAPI } = require("@/services/login.ts");
+const { signUpAPI } = require("@/services/loginAPI.ts");
 
 @Component({
   name: "SignUp"

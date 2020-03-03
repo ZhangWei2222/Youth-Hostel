@@ -29,7 +29,7 @@ const findUser = (val) => { // 查找所有User
   stru["query"] = "select";
   stru["tables"] = "users";
   stru["data"] = {
-    "id": '*'
+    "*": '*'
   };
   stru["where"]["condition"] = [
     "name = '" + val + "'",
@@ -59,6 +59,21 @@ const insetUser = (val) => { // 注册
   globalAny.log.trace("[insetUser] sql语句: " + result.sql + " value参数: " + result.value);
 
   return query(result.sql, result.value)
+}
+
+const userInfo = (val) => { // 获取用户信息
+  let stru = getSQLObject();
+  stru["query"] = "select";
+  stru["tables"] = "users";
+  stru["data"] = {
+    "*": '*'
+  };
+  stru["where"]["condition"] = [
+    "id = '" + val + "'",
+  ];
+  let result = _structureAnalysis(stru);
+  globalAny.log.trace("[userInfo] sql语句: " + result.sql + " value参数: " + result.value);
+  return query(result.sql, result.val)
 }
 
 // const createTable = (sql) => {
@@ -132,7 +147,8 @@ const insetUser = (val) => { // 注册
 module.exports = {
   //暴露方法
   findUser,
-  insetUser
+  insetUser,
+  userInfo
 }
 
 export { };

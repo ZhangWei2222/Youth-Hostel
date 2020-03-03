@@ -1,27 +1,24 @@
 const globalAny: any = global;
-// signIn.js
 let router = require('koa-router')();
 let userModel = require('../lib/mysql.ts');
-const fs = require('fs')
-
 const multer = require('koa-multer');
-
-// const createToken = require('../token/createToken.js');
-
+const checkToken = require('../token/checkToken.ts');
 
 
-router.get('/api/getTenant', async (ctx, next) => {
-  await userModel.findUser().then((res) => {
+
+router.get('/api/userInfo', checkToken, async (ctx, next) => {
+  // globalAny.log.debug("[userInfo]" + JSON.stringify(ctx.userInfo));
+  await userModel.userInfo(ctx.userInfo.userId).then((res) => {
+    globalAny.log.trace("[userInfo] 用户信息获取成功!" + res);
     ctx.body = {
-      state: 1,
+      code: 0,
       msg: '用户登录成功!',
       data: res
-
     }
   }).catch((err) => {
-    globalAny.log.error(err);
+    globalAny.log.error("[userInfo] 用户信息获取失败!" + err);
     ctx.body = {
-      state: 0,
+      code: -1,
       msg: err,
       data: []
     }

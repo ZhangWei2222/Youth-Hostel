@@ -1,24 +1,6 @@
 const globalAny: any = global;
-let router = require('koa-router')();
+const router = require('koa-router')();
 const userModel = require('../lib/mysql.ts');
-const fs = require('fs'); // 文件操作
-
-router.get('/api/getTenant', async (ctx, next) => {
-  await userModel.findUser().then((res) => {
-    ctx.body = {
-      state: 1,
-      msg: '用户登录成功!',
-      data: res
-    }
-  }).catch((err) => {
-    globalAny.log.error(err);
-    ctx.body = {
-      state: 0,
-      msg: err,
-      data: []
-    }
-  })
-})
 
 // 注册
 router.post('/api/signUp', async (ctx, next) => {

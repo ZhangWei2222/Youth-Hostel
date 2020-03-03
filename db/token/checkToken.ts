@@ -5,7 +5,7 @@ module.exports = async (ctx, next) => {
   const authorization = ctx.get('Authorization'); // request 带过来的 token  存在浏览器的cookie中
   if (authorization == '') {
     ctx.body = {
-      state: 104,
+      code: 104,
       msg: '用户未登录'
     }
     return false
@@ -19,7 +19,7 @@ module.exports = async (ctx, next) => {
     ctx.userInfo = tokenContent
   } catch (err) {
     ctx.body = {
-      state: 0,
+      code: 0,
       msg: '用户登录验证失效'
     }
   }

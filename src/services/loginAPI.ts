@@ -5,5 +5,5 @@ export const signUpAPI = params => {
 }
 
 export const signInAPI = params => {
-  return http.post('/api/signUp', params);
+  return http.post('/api/signIn', params);
 }

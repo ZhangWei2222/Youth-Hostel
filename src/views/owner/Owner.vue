@@ -42,8 +42,7 @@
 import { Vue, Component } from "vue-property-decorator";
 import { Dialog, Toast } from "vant";
 import cookie from "js-cookie";
-const { userInofoAPI } = require("@/services/user.ts");
-// const jwt = require("jsonwebtoken");
+const { userInfoAPI } = require("@/services/userAPI.ts");
 
 @Component({
   name: "OwnerIndex"
@@ -57,13 +56,11 @@ export default class OwnerIndex extends Vue {
   // 初始化
   mounted() {
     this.init();
-    // console.log(cookie.get("assent_token"));
-    // console.log(jwt.verify(cookie.get("assent_token"), "wei"));
   }
 
   async init(): Promise<any> {
     let self = this;
-    const res = await userInofoAPI();
+    const res = await userInfoAPI();
     try {
       console.log(res);
       if (res.data.code === 0) {

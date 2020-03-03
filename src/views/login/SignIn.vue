@@ -15,7 +15,7 @@
           placeholder="请输入密码"
         />
         <van-button class="button" type="primary" block @click="signIn">登录</van-button>
-        <van-button class="button" type="primary" block to="signUp">去注册</van-button>
+        <van-button class="button" type="info" block to="signUp">去注册</van-button>
       </van-cell-group>
     </div>
   </div>
@@ -26,7 +26,7 @@ import { Vue, Component } from "vue-property-decorator";
 import { Toast } from "vant";
 import md5 from "js-md5";
 import cookie from "js-cookie";
-const { signUpAPI } = require("@/services/login.ts");
+const { signInAPI } = require("@/services/loginAPI.ts");
 
 @Component({
   name: "SignIn"
@@ -43,29 +43,32 @@ export default class SignIn extends Vue {
   // 登录
   async signIn(): Promise<any> {
     let self = this;
-    const res = await signUpAPI({
-      username: self.username,
-      password: md5(self.password)
-    });
-    try {
-      console.log("登录信息" + JSON.stringify(res.data));
-      if (res.data.code === 0) {
-        Toast.success(res.data.msg);
-        cookie.set("assent_token", res.data.token, { expires: 1, path: "" });
-        if (self.$route.query.redirect) {
-          self.$router.replace("" + self.$route.query.redirect);
-        } else {
+    if (self.username && self.password) {
+      const res = await signInAPI({
+        username: self.username,
+        password: md5(self.password)
+      });
+      try {
+        console.log("登录信息" + JSON.stringify(res.data));
+        if (res.data.code === 0) {
+          Toast.success(res.data.msg);
+          cookie.set("assent_token", res.data.token, { expires: 1, path: "" });
           self.$router.replace("/");
+          if (self.$route.query.redirect) {
+            self.$router.replace("" + self.$route.query.redirect);
+          } else {
+            self.$router.replace("/");
+          }
+        } else {
+          Toast.fail(res.data.msg);
         }
-      } else {
-        Toast.fail("登录失败" + res.data.msg);
+      } catch (error) {
+        Toast.fail("登录失败");
+        console.log("登录失败" + error);
       }
-    } catch (error) {
-      Toast.fail("登录失败");
-      console.log("登录失败" + error);
+    } else {
+      Toast.fail("请正确填写信息");
     }
-
-    Toast.success("登录成功");
   }
 }
 </script>

@@ -87,7 +87,7 @@ export default class SubmitOrder extends Vue {
 }
 </style>
 <style scoped lang="less">
-@import url("~@common/style/Variable.less");
+@import url("~@/common/style/Variable.less");
 .submit-order {
   .wrapper {
     padding: 0 20px 80px;
