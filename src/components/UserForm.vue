@@ -10,7 +10,7 @@
     />
 
     <van-field
-      v-model="userForm.password"
+      v-model="password"
       required
       clearable
       type="password"
@@ -42,7 +42,7 @@
       :required="!isEdit"
       clickable
       label="出生年月"
-      v-model="userForm.bornDate"
+      v-model="userForm.bornDate.split('T')[0]"
       placeholder="请选择日期"
       @click="showBornPicker = true"
       :disabled="isEdit"
@@ -100,7 +100,7 @@
       :required="!isEdit"
       clickable
       label="毕业时间"
-      v-model="userForm.graduationTime"
+      v-model="userForm.graduationTime.split('T')[0]"
       placeholder="请选择日期"
       @click="showGraduationTimePicker = true"
       :disabled="isEdit"
@@ -165,9 +165,19 @@ export default class UserForm extends Vue {
   };
   isEdit: boolean = false;
 
+  get password() {
+    if (this.isEdit) {
+      return "000000";
+    } else {
+      return this.userForm.password;
+    }
+  }
+  set password(val) {
+    this.userForm.password = val;
+  }
+
   @Watch("userInfo")
-  getUserInfot(cur, old) {
-    console.log(cur);
+  getUserInfo(cur, old) {
     this.userForm = this.userInfo;
     this.isEdit = true;
   }

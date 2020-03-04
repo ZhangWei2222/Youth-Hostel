@@ -12,6 +12,7 @@ const query = function (sql, val) {
         reject(err)
       } else {
         connection.query(sql, val, (err, res) => {
+          // globalAny.log.debug("[query] " + sql + val);
           if (err) {
             reject(err)
           } else {
@@ -36,7 +37,7 @@ const findUser = (val) => { // 查找所有User
   ];
   let result = _structureAnalysis(stru);
   globalAny.log.trace("[findUser] sql语句: " + result.sql + " value参数: " + result.value);
-  return query(result.sql, result.val)
+  return query(result.sql, result.value)
 }
 
 const insetUser = (val) => { // 注册
@@ -69,12 +70,30 @@ const userInfo = (val) => { // 获取用户信息
     "*": '*'
   };
   stru["where"]["condition"] = [
-    "id = '" + val + "'",
+    "id = " + val,
   ];
   let result = _structureAnalysis(stru);
   globalAny.log.trace("[userInfo] sql语句: " + result.sql + " value参数: " + result.value);
-  return query(result.sql, result.val)
+  return query(result.sql, result.value)
 }
+
+const editUserInfo = (val) => { // 修改用户信息
+  let stru = getSQLObject();
+  stru["query"] = "update";
+  stru["tables"] = "users";
+  stru["data"] = {
+    "password": val.password,
+    "phoneNum": val.phoneNum,
+    "message": val.message
+  };
+  stru["where"]["condition"] = [
+    "id = " + val.id,
+  ];
+  let result = _structureAnalysis(stru);
+  globalAny.log.trace("[editUserInfo] sql语句: " + result.sql + " value参数: " + result.value);
+  return query(result.sql, result.value)
+}
+
 
 // const createTable = (sql) => {
 //   query(sql, [])
@@ -148,7 +167,8 @@ module.exports = {
   //暴露方法
   findUser,
   insetUser,
-  userInfo
+  userInfo,
+  editUserInfo
 }
 
 export { };

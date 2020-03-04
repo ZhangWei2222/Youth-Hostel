@@ -4,8 +4,6 @@ let userModel = require('../lib/mysql.ts');
 const multer = require('koa-multer');
 const checkToken = require('../token/checkToken.ts');
 
-
-
 router.get('/api/userInfo', checkToken, async (ctx, next) => {
   // globalAny.log.debug("[userInfo]" + JSON.stringify(ctx.userInfo));
   await userModel.userInfo(ctx.userInfo.userId).then((res) => {
@@ -23,7 +21,33 @@ router.get('/api/userInfo', checkToken, async (ctx, next) => {
       data: []
     }
   })
+})
 
+router.post('/api/editUserInfo', checkToken, async (ctx, next) => {
+
+  let user = {
+    id: ctx.request.body.id,
+    password: ctx.request.body.password,
+    phoneNum: ctx.request.body.phoneNum,
+    message: ctx.request.body.message
+  }
+  globalAny.log.debug("[editUserInfo] 看参数" + JSON.stringify(user));
+
+  await userModel.editUserInfo(user).then((res) => {
+    globalAny.log.trace("[editUserInfo] 编辑用户信息成功!" + res);
+    ctx.body = {
+      code: 0,
+      msg: '编辑成功!',
+      data: res
+    }
+  }).catch((err) => {
+    globalAny.log.error("[editUserInfo] 编辑用户信息失败!" + err);
+    ctx.body = {
+      code: -1,
+      msg: err,
+      data: []
+    }
+  })
 })
 
 

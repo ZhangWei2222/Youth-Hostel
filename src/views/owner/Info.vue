@@ -14,7 +14,8 @@
 import { Vue, Component } from "vue-property-decorator";
 import { Toast } from "vant";
 import UserForm from "@/components/UserForm.vue";
-import { userInfoAPI } from "@/services/userAPI.ts";
+import { userInfoAPI, editUserInfoAPI } from "@/services/userAPI.ts";
+import md5 from "js-md5";
 
 @Component({
   name: "InfoIndex",
@@ -35,7 +36,7 @@ export default class InfoIndex extends Vue {
     let self = this;
     const res = await userInfoAPI();
     try {
-      console.log("获取用户信息成功" + res);
+      console.log("获取用户信息成功" + JSON.stringify(res.data));
       self.userInfo = res.data.data[0];
     } catch (error) {
       Toast.fail("获取用户信息失败");
@@ -48,10 +49,33 @@ export default class InfoIndex extends Vue {
     this.$router.go(-1);
   }
 
-  // 注册
-  editInfo(): void {
-    Toast.success("修改成功");
-    console.log(this.$refs["UserForm"].userForm);
+  // 编辑
+  async editInfo(): Promise<any> {
+    let self = this;
+    let userForm = self.$refs["UserForm"].userForm;
+
+    if (userForm.password && userForm.phoneNum && userForm.message) {
+      const res = await editUserInfoAPI({
+        id: userForm.id,
+        password: md5(userForm.password),
+        phoneNum: userForm.phoneNum,
+        message: userForm.message
+      });
+
+      try {
+        console.log("编辑信息" + JSON.stringify(res.data));
+        if (res.data.code === 0) {
+          Toast.success(res.data.msg);
+        } else {
+          Toast.fail("修改失败" + res.data.msg);
+        }
+      } catch (error) {
+        Toast.fail("修改失败");
+        console.log("修改失败" + error);
+      }
+    } else {
+      Toast.fail("请正确填写信息");
+    }
   }
 }
 </script>
