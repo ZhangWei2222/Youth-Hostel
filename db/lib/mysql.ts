@@ -94,6 +94,20 @@ const editUserInfo = (val) => { // 修改用户信息
   return query(result.sql, result.value)
 }
 
+const uploadUserAvator = (val) => { // 上传用户头像
+  let stru = getSQLObject();
+  stru["query"] = "update";
+  stru["tables"] = "users";
+  stru["data"] = {
+    "avator": val.filename
+  };
+  stru["where"]["condition"] = [
+    "id = " + val.id,
+  ];
+  let result = _structureAnalysis(stru);
+  globalAny.log.trace("[uploadUserAvator] sql语句: " + result.sql + " value参数: " + result.value);
+  return query(result.sql, result.value)
+}
 
 // const createTable = (sql) => {
 //   query(sql, [])
@@ -168,7 +182,8 @@ module.exports = {
   findUser,
   insetUser,
   userInfo,
-  editUserInfo
+  editUserInfo,
+  uploadUserAvator
 }
 
 export { };

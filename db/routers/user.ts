@@ -7,7 +7,7 @@ const checkToken = require('../token/checkToken.ts');
 router.get('/api/userInfo', checkToken, async (ctx, next) => {
   // globalAny.log.debug("[userInfo]" + JSON.stringify(ctx.userInfo));
   await userModel.userInfo(ctx.userInfo.userId).then((res) => {
-    globalAny.log.trace("[userInfo] 用户信息获取成功!" + res);
+    globalAny.log.trace("[userInfo] 用户信息获取成功!" + JSON.stringify(res));
     ctx.body = {
       code: 0,
       msg: '用户登录成功!',
@@ -31,7 +31,7 @@ router.post('/api/editUserInfo', checkToken, async (ctx, next) => {
     phoneNum: ctx.request.body.phoneNum,
     message: ctx.request.body.message
   }
-  globalAny.log.debug("[editUserInfo] 看参数" + JSON.stringify(user));
+  // globalAny.log.debug("[editUserInfo] 看参数" + JSON.stringify(user));
 
   await userModel.editUserInfo(user).then((res) => {
     globalAny.log.trace("[editUserInfo] 编辑用户信息成功!" + res);
@@ -60,7 +60,7 @@ router.post('/api/editUserInfo', checkToken, async (ctx, next) => {
 const path = require('path')
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, path.join(__dirname, '../../uploads'))
+    cb(null, path.join(__dirname, '../../public/userUploads'))
   },
   filename: function (req, file, cb) {
     let type = file.originalname.split('.')[1]
@@ -74,13 +74,28 @@ const storage = multer.diskStorage({
 //   files: 1//文件数量
 // }
 const upload = multer({ storage })
-router.post('/user/image', upload.single('avatar'), async (ctx, next) => {
-  // 获取上传文件对象
-  // console.log(ctx);
-  ctx.body = {
-    code: 0,
-    data: ctx.req.file.filename
+router.post('/api/userImage', upload.single('avatar'), async (ctx, next) => {
+  // globalAny.log.debug("[userImage] 查看参数!" + ctx.req.body.id + ctx.req.file.filename);
+  let user = {
+    id: ctx.req.body.id,
+    filename: ctx.req.file.filename
   }
+
+  await userModel.uploadUserAvator(user).then((res) => {
+    globalAny.log.trace("[userImage] 头像上传成功!" + ctx.req.file.filename);
+    ctx.body = {
+      code: 0,
+      msg: '上传成功!',
+      filename: ctx.req.file.filename
+    }
+  }).catch((err) => {
+    globalAny.log.error("[userImage] 头像上传成功!" + err);
+    ctx.body = {
+      code: -1,
+      msg: err,
+      data: []
+    }
+  })
 
 
 })

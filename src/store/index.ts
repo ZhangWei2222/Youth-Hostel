@@ -35,30 +35,32 @@ Vue.use(Vuex);
 
 interface State {
   userState: {
-    name: string,
-    password: string,
-    sex: string,
-    bornDate: any,
-    phoneNum: string,
-    schoolName: string,
-    education: string,
-    graduationTime: any,
-    message: string
+    // name: string,
+    // password: string,
+    // sex: string,
+    // bornDate: any,
+    // phoneNum: string,
+    // schoolName: string,
+    // education: string,
+    // graduationTime: any,
+    // message: string
+    avatorUrl: string
   }
 }
 
 const cacheState: State = {
   userState:
   {
-    name: "",
-    password: "",
-    sex: "",
-    bornDate: "",
-    phoneNum: "",
-    schoolName: "",
-    education: "",
-    graduationTime: "",
-    message: ""
+    // name: "",
+    // password: "",
+    // sex: "",
+    // bornDate: "",
+    // phoneNum: "",
+    // schoolName: "",
+    // education: "",
+    // graduationTime: "",
+    // message: ""
+    avatorUrl: "cat.png"
   }
 }
 
@@ -71,8 +73,9 @@ const store: Store<any> = new Vuex.Store({
   //   }
   // },
   mutations: {
-    SET_USER(state, payload) {
-      state.userState = payload;
+    SET_USER_AVATOR(state, payload) {
+      console.log(state, payload)
+      state.userState.avatorUrl = payload;
     }
     // add(state) {
     //   state.count = state.count + 1;

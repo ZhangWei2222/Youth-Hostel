@@ -1,6 +1,8 @@
 {
   "include": [
-    "src/**/*"
+    "src/**/*",
+    "*.jpg",
+    "*.png"
   ],
   "exclude": [
     "node_modules"

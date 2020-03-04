@@ -144,6 +144,7 @@ interface CacheUser {
   education: string;
   graduationTime: any;
   message: string;
+  avator: string;
 }
 @Component({
   name: "UserForm"
@@ -161,7 +162,8 @@ export default class UserForm extends Vue {
     schoolName: "",
     education: "",
     graduationTime: "",
-    message: ""
+    message: "",
+    avator: ""
   };
   isEdit: boolean = false;
 

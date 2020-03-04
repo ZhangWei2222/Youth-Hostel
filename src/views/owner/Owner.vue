@@ -4,14 +4,11 @@
 
     <div class="wrapper">
       <div class="person">
-        <van-image
-          round
-          width="4.5rem"
-          height="4.5rem"
-          fit="cover"
-          src="https://img.yzcdn.cn/vant/cat.jpeg"
-        />
-        <van-uploader :after-read="afterRead" />
+        <van-uploader :after-read="afterRead">
+          <div class="image">
+            <img :src="require('@public/userUploads/'+ user.avator)" alt />
+          </div>
+        </van-uploader>
         <div class="name" v-if="this.isSignIn">{{user.name}}</div>
         <div class="name" v-else>
           <span @click="goViews(-1)">注册</span> /
@@ -42,16 +39,42 @@
 import { Vue, Component } from "vue-property-decorator";
 import { Dialog, Toast } from "vant";
 import cookie from "js-cookie";
-import { userInfoAPI } from "@/services/userAPI.ts";
+import { userInfoAPI, userImageAPI } from "@/services/userAPI.ts";
+import { State, Mutation } from "vuex-class";
+
+interface CacheUser {
+  name: string;
+  password: string;
+  sex: string;
+  bornDate: any;
+  phoneNum: string;
+  schoolName: string;
+  education: string;
+  graduationTime: any;
+  message: string;
+  avator: string;
+}
 
 @Component({
   name: "OwnerIndex"
 })
 export default class OwnerIndex extends Vue {
-  //    src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=3745037406,2431076780&fm=15&gp=0.jpg" 未登录图片
+  @State userState;
+  @Mutation SET_USER_AVATOR;
 
   isSignIn: boolean = false;
-  user = {};
+  user: CacheUser = {
+    name: "",
+    password: "",
+    sex: "",
+    bornDate: "",
+    phoneNum: "",
+    schoolName: "",
+    education: "",
+    graduationTime: "",
+    message: "",
+    avator: "user.png"
+  };
 
   // 初始化
   mounted() {
@@ -73,30 +96,32 @@ export default class OwnerIndex extends Vue {
     }
   }
 
-  afterRead(file) {
-    // 此时可以自行将文件上传至服务器
-    // console.log(file.file);
-
+  async afterRead(file): Promise<any> {
+    let self = this;
     let params = new FormData(); // 创建一个form对象,必须是form对象否则后端接受不到数据
     params.append("avatar", file.file); // append 向form表单添加数据
-    console.log(params.get("avatar"));
     // 添加请求头  通过form添加的图片和文件的格式必须是multipart/form-data
+    params.append("id", self.user["id"]);
+
     let config = {
       headers: { "Content-Type": "multipart/form-data" }
     };
-    this.axios
-      .post("http://localhost:4442/user/image", params, config)
-      .then(
-        function(res) {
-          console.log(res);
-          this.imageSave = res.data.image;
-          sessionStorage.setItem("headImg", this.imageSave); // 将图片保存，并能够在其他地方加载显示
-          this.router.go(0); // 刷新页面，头像改变
-        }.bind(this)
-      )
-      .catch(function(error) {
-        console.log(error);
-      });
+
+    const res = await userImageAPI(params, config);
+
+    try {
+      console.log("上传头像信息" + JSON.stringify(res.data));
+      if (res.data.code === 0) {
+        Toast.success(res.data.msg);
+        self.SET_USER_AVATOR(res.data.filename);
+        self.$router.go(0);
+      } else {
+        Toast.fail(res.data.msg);
+      }
+    } catch (error) {
+      Toast.fail("上传失败");
+      console.log("上传失败" + error);
+    }
   }
 
   goViews(key): void {
@@ -153,7 +178,18 @@ export default class OwnerIndex extends Vue {
     display: flex;
     align-items: center;
     padding: 15px;
-
+    .image {
+      width: 4.5rem;
+      height: 4.5rem;
+      border-radius: 50%;
+      overflow: hidden;
+      border: 1px solid @gray-3;
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
     .name {
       font-size: @middle-size;
       font-weight: 600;
