@@ -8,7 +8,7 @@ export function formatter(day: any): any {
   return day;
 }
 
-// 格式化日期
+// 格式化日期 *月*日
 export function formatDate(date: any): any {
   return `${date.getMonth() + 1}月${date.getDate()}日`;
 }

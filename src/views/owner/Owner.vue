@@ -42,7 +42,7 @@
 import { Vue, Component } from "vue-property-decorator";
 import { Dialog, Toast } from "vant";
 import cookie from "js-cookie";
-const { userInfoAPI } = require("@/services/userAPI.ts");
+import { userInfoAPI } from "@/services/userAPI.ts";
 
 @Component({
   name: "OwnerIndex"

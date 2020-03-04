@@ -3,116 +3,7 @@
     <van-nav-bar title="注册" left-arrow @click-left="onClickLeft" :border="false" />
     <div class="wrapper">
       <van-cell-group class="group">
-        <van-field v-model="name" required clearable label="用户名" placeholder="请输入用户名" />
-
-        <van-field
-          v-model="password"
-          required
-          clearable
-          type="password"
-          label="密码"
-          placeholder="请输入密码"
-        />
-
-        <van-field
-          readonly
-          required
-          clickable
-          label="性别"
-          v-model="sex"
-          placeholder="请选择性别"
-          @click="showSexPicker = true"
-        />
-        <van-popup v-model="showSexPicker" position="bottom">
-          <van-picker
-            show-toolbar
-            :columns="sexColumns"
-            @cancel="showSexPicker = false"
-            @confirm="onSexConfirm"
-          />
-        </van-popup>
-
-        <van-field
-          readonly
-          required
-          clickable
-          label="出生年月"
-          v-model="bornDate"
-          placeholder="请选择日期"
-          @click="showBornPicker = true"
-        />
-        <van-popup v-model="showBornPicker" position="bottom">
-          <van-datetime-picker
-            :value="currentDate"
-            type="year-month"
-            :min-date="minDate"
-            :max-date="maxBirDate"
-            :formatter="formatter"
-            @confirm="onBornConfirm"
-          />
-        </van-popup>
-
-        <van-field
-          v-model="phoneNum"
-          required
-          clearable
-          type="digit"
-          label="手机号"
-          placeholder="请输入手机号"
-        />
-
-        <van-field v-model="schoolName" required clearable label="学校" placeholder="请输入学校" />
-
-        <van-field
-          readonly
-          required
-          clickable
-          label="学历"
-          v-model="education"
-          placeholder="请选择学历"
-          @click="showEducationPicker = true"
-        />
-        <van-popup v-model="showEducationPicker" position="bottom">
-          <van-picker
-            show-toolbar
-            :columns="educationColumns"
-            @cancel="showEducationPicker = false"
-            @confirm="onEducationConfirm"
-          />
-        </van-popup>
-
-        <van-field
-          readonly
-          required
-          clickable
-          label="毕业时间"
-          v-model="graduationTime"
-          placeholder="请选择日期"
-          @click="showGraduationTimePicker = true"
-        />
-        <van-popup v-model="showGraduationTimePicker" position="bottom">
-          <van-datetime-picker
-            :value="currentDate"
-            type="year-month"
-            :min-date="minDate"
-            :max-date="maxDate"
-            :formatter="formatter"
-            @confirm="onGraduationTimeConfirm"
-          />
-        </van-popup>
-
-        <van-field
-          required
-          v-model="message"
-          rows="2"
-          autosize
-          label="入住理由"
-          type="textarea"
-          maxlength="80"
-          placeholder="请输入入住理由"
-          show-word-limit
-          clearable
-        />
+        <UserForm ref="UserForm"></UserForm>
         <van-button class="button" type="primary" block @click="signUp">注册</van-button>
       </van-cell-group>
     </div>
@@ -123,82 +14,21 @@
 import { Vue, Component } from "vue-property-decorator";
 import { Toast } from "vant";
 import md5 from "js-md5";
-const { signUpAPI } = require("@/services/loginAPI.ts");
+import UserForm from "@/components/UserForm.vue";
+import { signUpAPI } from "@/services/loginAPI.ts";
 
 @Component({
-  name: "SignUp"
+  name: "SignUp",
+  components: {
+    UserForm
+  }
 })
 export default class SignUp extends Vue {
-  // 注册信息
-  name: string = "";
-  password: string = null;
-  sex: string = "";
-  bornDate: any = "";
-  phoneNum: string = null;
-  schoolName: string = "";
-  education: string = "";
-  graduationTime: any = "";
-  message: string = "";
-
-  // 性别下拉框
-  showSexPicker: boolean = false;
-  sexColumns: string[] = ["男", "女"];
-  // 出生年月选择器
-  showBornPicker: boolean = false;
-  currentDate: any = new Date();
-  minDate: any = new Date(1970, 0, 1);
-  maxBirDate: any = new Date(2010, 11, 1);
-  maxDate: any = new Date(2025, 1, 1);
-  // 学历下拉框
-  showEducationPicker: boolean = false;
-  educationColumns: string[] = ["博士", "硕士", "本科", "高中", "初中", "小学"];
-  // 毕业时间选择器
-  showGraduationTimePicker: boolean = false;
+  $refs: { quickEntry: HTMLFormElement };
 
   // 返回键
   onClickLeft(): void {
     this.$router.go(-1);
-  }
-  // 选择性别
-  onSexConfirm(value: string): void {
-    this.sex = value;
-    this.showSexPicker = false;
-  }
-  // 选择出生年月
-  onBornConfirm(value: any): void {
-    var date = value;
-    var m = date.getMonth() + 1;
-    if (m >= 1 && m <= 9) {
-      m = "0" + m;
-    }
-    var timer = date.getFullYear() + "-" + m;
-    this.bornDate = timer;
-    this.showBornPicker = false;
-  }
-  // 格式化时间
-  formatter(type: string, val: string): any {
-    if (type === "year") {
-      return `${val}年`;
-    } else if (type === "month") {
-      return `${val}月`;
-    }
-    return val;
-  }
-  // 选择学历
-  onEducationConfirm(value: string): void {
-    this.education = value;
-    this.showEducationPicker = false;
-  }
-  // 选择毕业时间
-  onGraduationTimeConfirm(value: any): void {
-    var date = value;
-    var m = date.getMonth() + 1;
-    if (m >= 1 && m <= 9) {
-      m = "0" + m;
-    }
-    var timer = date.getFullYear() + "-" + m;
-    this.graduationTime = timer;
-    this.showGraduationTimePicker = false;
   }
 
   // 校验表单是否有空，有空返回 false
@@ -229,17 +59,17 @@ export default class SignUp extends Vue {
   // 注册
   async signUp(): Promise<any> {
     let self = this;
-
+    let userForm = this.$refs["UserForm"].userForm;
     let params = {
-      name: self.name,
-      password: self.password && md5(self.password),
-      sex: self.sex,
-      bornDate: self.bornDate,
-      phoneNum: self.phoneNum,
-      schoolName: self.schoolName,
-      education: self.education,
-      graduationTime: self.graduationTime,
-      message: self.message
+      name: userForm.name,
+      password: userForm.password && md5(userForm.password),
+      sex: userForm.sex,
+      bornDate: userForm.bornDate,
+      phoneNum: userForm.phoneNum,
+      schoolName: userForm.schoolName,
+      education: userForm.education,
+      graduationTime: userForm.graduationTime,
+      message: userForm.message
     };
 
     if (self.checkPhone(params.phoneNum) && !self.checkEmpty(params)) {

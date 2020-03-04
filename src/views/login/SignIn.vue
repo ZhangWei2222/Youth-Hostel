@@ -26,7 +26,7 @@ import { Vue, Component } from "vue-property-decorator";
 import { Toast } from "vant";
 import md5 from "js-md5";
 import cookie from "js-cookie";
-const { signInAPI } = require("@/services/loginAPI.ts");
+import { signInAPI } from "@/services/loginAPI.ts";
 
 @Component({
   name: "SignIn"

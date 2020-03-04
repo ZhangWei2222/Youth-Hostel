@@ -1,7 +1,7 @@
 const globalAny: any = global;
 const mysql = require('mysql');
 const config = require('../config/default.ts');
-const { getSql, getSQLObject, _structureAnalysis } = require('../lib/dbtools.ts');
+const { getSQLObject, _structureAnalysis } = require('../lib/dbtools.ts');
 
 var pool = mysql.createPool(config.database);
 

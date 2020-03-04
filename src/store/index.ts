@@ -1,5 +1,5 @@
 import Vue from "vue";
-import Vuex from "vuex";
+import Vuex, { Store } from "vuex";
 
 Vue.use(Vuex);
 
@@ -33,33 +33,62 @@ Vue.use(Vuex);
 //   // actions: { ... }
 // };
 
-const store = new Vuex.Store({
-  strict: true,
-  state: {
-    count: 1,
-    serverSite: "http://localhost:4442"
-  },
-  getters: {
-    getStateCount(state) {
-      return state.count + 1;
-    }
-  },
-  mutations: {
-    add(state) {
-      state.count = state.count + 1;
-    },
-    reduction(state) {
-      state.count = state.count - 1;
-    }
-  },
-  actions: {
-    addFun(context) {
-      context.commit("add");
-    },
-    reductionFun(context) {
-      context.commit("reduction");
-    }
+interface State {
+  userState: {
+    name: string,
+    password: string,
+    sex: string,
+    bornDate: any,
+    phoneNum: string,
+    schoolName: string,
+    education: string,
+    graduationTime: any,
+    message: string
   }
+}
+
+const cacheState: State = {
+  userState:
+  {
+    name: "",
+    password: "",
+    sex: "",
+    bornDate: "",
+    phoneNum: "",
+    schoolName: "",
+    education: "",
+    graduationTime: "",
+    message: ""
+  }
+}
+
+const store: Store<any> = new Vuex.Store({
+  strict: true,
+  state: cacheState,
+  // getters: {
+  //   getStateCount(state) {
+  //     return state.count + 1;
+  //   }
+  // },
+  mutations: {
+    SET_USER(state, payload) {
+      state.userState = payload;
+    }
+    // add(state) {
+    //   state.count = state.count + 1;
+    // },
+    // reduction(state) {
+    //   state.count = state.count - 1;
+    // }
+  },
+  // actions: {
+  //   addFun(context) {
+  //     context.commit("add");
+  //   },
+  //   reductionFun(context) {
+  //     context.commit("reduction");
+  //   }
+  // }
   // modules: { a: moduleA, b: moduleB }
 });
 

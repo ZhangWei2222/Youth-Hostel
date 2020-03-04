@@ -1,6 +1,3 @@
-const globalAny: any = global;
-const connection = require("../config/default.ts"); // 导入mysq配置文件
-
 const getSql = {
   getSQLObject: function () {
     return {

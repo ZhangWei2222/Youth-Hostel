@@ -1,5 +1,5 @@
 import http from './lib/http'
 
-export const userInfoAPI = params => {
-  return http.get('/api/userInfo', params);
+export const userInfoAPI = () => {
+  return http.get('/api/userInfo');
 }
