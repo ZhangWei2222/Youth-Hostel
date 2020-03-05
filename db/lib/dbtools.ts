@@ -1,3 +1,10 @@
+/*
+ * @Description: 返回组装好的sql语句
+ * @Author: Vivian
+ * @Date: 2020-03-03 10:26:57
+ * @LastEditTime: 2020-03-05 10:50:13
+ */
+
 const getSql = {
   getSQLObject: function () {
     return {

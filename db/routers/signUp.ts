@@ -1,3 +1,10 @@
+/*
+ * @Description: 注册接口
+ * @Author: Vivian
+ * @Date: 2020-03-03 21:24:04
+ * @LastEditTime: 2020-03-05 10:57:20
+ */
+
 const globalAny: any = global;
 const router = require('koa-router')();
 const userModel = require('../lib/mysql.ts');

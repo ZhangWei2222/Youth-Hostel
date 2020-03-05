@@ -167,19 +167,19 @@ export default class UserForm extends Vue {
   };
   isEdit: boolean = false;
 
-  get password() {
+  get password(): string {
     if (this.isEdit) {
       return "000000";
     } else {
       return this.userForm.password;
     }
   }
-  set password(val) {
+  set password(val: string) {
     this.userForm.password = val;
   }
 
   @Watch("userInfo")
-  getUserInfo(cur, old) {
+  getUserInfo(cur: any, old: any): void {
     this.userForm = this.userInfo;
     this.isEdit = true;
   }

@@ -1,3 +1,9 @@
+/*
+ * @Description: 检查token
+ * @Author: Vivian
+ * @Date: 2020-03-03 10:26:57
+ * @LastEditTime: 2020-03-05 10:56:56
+ */
 const jwt = require('jsonwebtoken');
 
 // 接口访问必须要有Token (需要用户登录)

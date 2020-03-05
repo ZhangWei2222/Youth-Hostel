@@ -1,3 +1,10 @@
+/*
+ * @Description: 用户相关API--用户信息、编辑信息、上传头像
+ * @Author: Vivian
+ * @Date: 2020-03-03 21:24:17
+ * @LastEditTime: 2020-03-05 11:02:12
+ */
+
 import http from './lib/http'
 
 export const userInfoAPI = () => {

@@ -1,3 +1,10 @@
+/*
+ * @Description: 服务器配置
+ * @Author: Vivian
+ * @Date: 2020-03-03 10:26:57
+ * @LastEditTime: 2020-03-05 10:51:47
+ */
+
 module.exports = {  // mysql 配置
   database: {
     host: '101.133.132.172', // 地址

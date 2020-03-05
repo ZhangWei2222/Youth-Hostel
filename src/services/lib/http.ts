@@ -1,3 +1,10 @@
+/*
+ * @Description: 对axios设置request拦截器和response拦截器
+ * @Author: Vivian
+ * @Date: 2020-03-03 21:24:04
+ * @LastEditTime: 2020-03-05 11:01:15
+ */
+
 import axios from 'axios'
 import NProgress from 'nprogress'
 import cookie from 'js-cookie'

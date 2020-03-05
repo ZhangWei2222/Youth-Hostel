@@ -1,11 +1,17 @@
+/*
+ * @Description: 登录接口
+ * @Author: Vivian
+ * @Date: 2020-03-03 21:24:17
+ * @LastEditTime: 2020-03-05 12:18:15
+ */
 const globalAny: any = global;
-const md5 = require("js-md5");
 const router = require('koa-router')();
 const userModel = require('../lib/mysql.ts');
 
 const createToken = require('../token/createToken.ts');
 
 router.post('/api/signIn', async (ctx, next) => {
+  globalAny.log.debug('登陆？？？' + JSON.stringify(ctx));
   let user = {
     username: ctx.request.body.username,
     password: ctx.request.body.password

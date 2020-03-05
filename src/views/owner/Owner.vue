@@ -4,7 +4,7 @@
 
     <div class="wrapper">
       <div class="person">
-        <van-uploader :after-read="afterRead">
+        <van-uploader :before-read="beforeRead" :after-read="afterRead">
           <div class="image">
             <img :src="require('@public/userUploads/'+ user.avator)" alt />
           </div>
@@ -85,10 +85,13 @@ export default class OwnerIndex extends Vue {
     let self = this;
     const res = await userInfoAPI();
     try {
-      console.log(res);
+      console.log("获取用户信息" + JSON.stringify(res.data));
       if (res.data.code === 0) {
         self.isSignIn = true;
         self.user = res.data.data[0];
+        if (!self.user["avator"]) {
+          self.user["avator"] = "user.png";
+        }
       }
     } catch (error) {
       Toast.fail("获取用户信息失败");
@@ -96,8 +99,17 @@ export default class OwnerIndex extends Vue {
     }
   }
 
+  beforeRead(file: any): boolean {
+    if (!this.user["id"]) {
+      Toast.fail("用户未登录");
+      return false;
+    }
+    return true;
+  }
+
   async afterRead(file): Promise<any> {
     let self = this;
+
     let params = new FormData(); // 创建一个form对象,必须是form对象否则后端接受不到数据
     params.append("avatar", file.file); // append 向form表单添加数据
     // 添加请求头  通过form添加的图片和文件的格式必须是multipart/form-data
@@ -156,6 +168,7 @@ export default class OwnerIndex extends Vue {
         cookie.remove("assent_token");
         self.isSignIn = false;
         Toast("你已登出!");
+        self.$router.go(0);
       })
       .catch(() => {
         Toast("你已取消操作!");

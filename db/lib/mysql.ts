@@ -1,3 +1,10 @@
+/*
+ * @Description: 连接mysql、执行sql语句
+ * @Author: Vivian
+ * @Date: 2020-03-03 10:26:57
+ * @LastEditTime: 2020-03-05 11:02:47
+ */
+
 const globalAny: any = global;
 const mysql = require('mysql');
 const config = require('../config/default.ts');

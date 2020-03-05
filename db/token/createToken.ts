@@ -1,6 +1,12 @@
+/*
+ * @Description: 创建token
+ * @Author: Vivian
+ * @Date: 2020-03-03 10:26:57
+ * @LastEditTime: 2020-03-05 10:56:29
+ */
+
 const jwt = require('jsonwebtoken');
 
-// 创建token
 //登录时：核对用户名和密码成功后，应用将用户的id 作为JWT Payload的一个属性
 module.exports = function (user) {
 
@@ -10,7 +16,6 @@ module.exports = function (user) {
   // 第二个参数是密钥，也就是你生成Signature时所用到的加密密钥。要注意这里必须和创建jwt的时候传入的secret一致，因为服务端需要用创建时的secret来解密。
 
   // 第三个参数则是设置一个token的过期时间，这里我们设置的是1天。
-
 
   const token = jwt.sign({
     userId: user.id

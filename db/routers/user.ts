@@ -1,3 +1,10 @@
+/*
+ * @Description: 用户相关接口--获取用户信息、编辑用户信息、上传头像
+ * @Author: Vivian
+ * @Date: 2020-03-03 10:26:57
+ * @LastEditTime: 2020-03-05 11:00:17
+ */
+
 const globalAny: any = global;
 let router = require('koa-router')();
 let userModel = require('../lib/mysql.ts');
@@ -50,13 +57,6 @@ router.post('/api/editUserInfo', checkToken, async (ctx, next) => {
   })
 })
 
-
-
-
-// 指定文件上传的目录
-// const upload = multer({
-//   dest: 'uploads/',
-// });
 const path = require('path')
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
