@@ -2,7 +2,7 @@
  * @Description: node主文件--完成服务器连接和日志服务
  * @Author: Vivian
  * @Date: 2020-03-03 10:26:57
- * @LastEditTime: 2020-03-05 12:20:25
+ * @LastEditTime: 2020-03-06 12:07:23
  */
 
 const globalAny: any = global;
@@ -16,10 +16,10 @@ const config = require('./config/default.ts');
 const server = require('koa-static');
 require('./lib/mysql.ts');
 
-// 设置静态文件
-app.use(server(
-  path.join(__dirname, './public')
-))
+// // 设置静态文件
+// app.use(server(
+//   path.join(__dirname, '../dist')
+// ))
 
 // 设置跨域
 app.use(cors({
