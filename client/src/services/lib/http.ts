@@ -2,7 +2,7 @@
  * @Description: 对axios设置request拦截器和response拦截器
  * @Author: Vivian
  * @Date: 2020-03-03 21:24:04
- * @LastEditTime: 2020-03-06 11:47:09
+ * @LastEditTime: 2020-03-06 14:06:06
  */
 
 import axios from 'axios'
@@ -14,7 +14,11 @@ var instance = axios.create();
 NProgress.configure({ showSpinner: false });
 
 instance.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
-instance.defaults.baseURL = 'http://101.133.132.172:4442'
+const urlDev = 'http://localhost:4442'
+const urlQa = 'http://101.133.132.172:4442'
+process.env.NODE_ENV === 'development' ?
+  instance.defaults.baseURL = urlDev :
+  instance.defaults.baseURL = urlQa
 
 // http request 拦截器
 instance.interceptors.request.use(

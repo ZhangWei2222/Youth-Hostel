@@ -15,7 +15,6 @@ import { Vue, Component } from "vue-property-decorator";
 import { Toast } from "vant";
 import UserForm from "@/components/UserForm.vue";
 import { userInfoAPI, editUserInfoAPI } from "@/services/userAPI.ts";
-import md5 from "js-md5";
 
 @Component({
   name: "InfoIndex",
@@ -57,11 +56,10 @@ export default class InfoIndex extends Vue {
     if (userForm.password && userForm.phoneNum && userForm.message) {
       const res = await editUserInfoAPI({
         id: userForm.id,
-        password: md5(userForm.password),
+        password: userForm.password,
         phoneNum: userForm.phoneNum,
         message: userForm.message
       });
-
       try {
         console.log("编辑信息" + JSON.stringify(res.data));
         if (res.data.code === 0) {

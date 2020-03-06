@@ -10,7 +10,17 @@
     />
 
     <van-field
-      v-model="password"
+      v-if="!isEdit"
+      v-model="userForm.password"
+      required
+      clearable
+      type="password"
+      label="密码"
+      placeholder="请输入密码"
+    />
+    <van-field
+      v-else
+      v-model="cachePassword"
       required
       clearable
       type="password"
@@ -133,6 +143,7 @@
 
 <script lang="ts">
 import { Vue, Component, Prop, Watch } from "vue-property-decorator";
+import md5 from "js-md5";
 
 interface CacheUser {
   name: string;
@@ -166,22 +177,22 @@ export default class UserForm extends Vue {
     avator: ""
   };
   isEdit: boolean = false;
-
-  get password(): string {
-    if (this.isEdit) {
-      return "000000";
-    } else {
-      return this.userForm.password;
-    }
-  }
-  set password(val: string) {
-    this.userForm.password = val;
-  }
+  cachePassword: string = "000000";
 
   @Watch("userInfo")
   getUserInfo(cur: any, old: any): void {
     this.userForm = this.userInfo;
     this.isEdit = true;
+  }
+
+  @Watch("cachePassword")
+  getCachePassword(cur: any, old: any): void {
+    if (cur) {
+      this.userForm.password = md5(cur);
+    } else {
+      this.userForm.password = "";
+    }
+    console.log(this.userForm.password);
   }
 
   // 性别下拉框

@@ -6,7 +6,7 @@
       <div class="person">
         <van-uploader :before-read="beforeRead" :after-read="afterRead">
           <div class="image">
-            <img :src="require('@public/userUploads/'+ user.avator)" alt />
+            <img :src="'http://101.133.132.172/public/userUploads/'+ user.avator" alt />
           </div>
         </van-uploader>
         <div class="name" v-if="this.isSignIn">{{user.name}}</div>
