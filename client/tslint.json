@@ -1,0 +1,7 @@
+{
+  "extends": "tslint-config-standard",
+  "globals": {
+    "require": true
+  },
+  "defaultSeverity": "none"
+}
