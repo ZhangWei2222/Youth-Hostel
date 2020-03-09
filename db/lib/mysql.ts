@@ -2,7 +2,7 @@
  * @Description: 连接mysql、执行sql语句
  * @Author: Vivian
  * @Date: 2020-03-03 10:26:57
- * @LastEditTime: 2020-03-05 11:02:47
+ * @LastEditTime: 2020-03-09 17:13:58
  */
 
 const globalAny: any = global;
@@ -116,6 +116,40 @@ const uploadUserAvator = (val) => { // 上传用户头像
   return query(result.sql, result.value)
 }
 
+const userComments = (val) => { // 获取用户评论
+  let stru = getSQLObject();
+  stru["query"] = "select";
+  stru["tables"] = "user_comments_view";
+  stru["data"] = {
+    "*": '*'
+  };
+  stru["where"]["condition"] = [
+    "userId = " + val,
+  ];
+  let result = _structureAnalysis(stru);
+  globalAny.log.trace("[userComments] sql语句: " + result.sql + " value参数: " + result.value);
+  return query(result.sql, result.value)
+}
+
+const userCommentsAVG = (val) => { // 获取用户评论
+  let stru = getSQLObject();
+  stru["query"] = "select";
+  stru["tables"] = "user_comments_view";
+  stru["data"] = {
+    "round(AVG(`quality-score`),2) AS q_s": '*',
+    "round(AVG(`hygiene-score`),2) AS h_s": '*',
+    "round(AVG(`communicate-score`),2) AS c_s": '*',
+    "round(AVG(`describe-score`),2) AS d_s": '*',
+    "round((AVG(`quality-score`) + AVG(`hygiene-score`) + AVG(`communicate-score`) + AVG(`describe-score`))/4, 2) AS totalScore": '*'
+  };
+  stru["where"]["condition"] = [
+    "userId = " + val,
+  ];
+  let result = _structureAnalysis(stru);
+  globalAny.log.trace("[userCommentsAVG] sql语句: " + result.sql + " value参数: " + result.value);
+  return query(result.sql, result.value)
+}
+
 // const createTable = (sql) => {
 //   query(sql, [])
 // }
@@ -190,7 +224,9 @@ module.exports = {
   insetUser,
   userInfo,
   editUserInfo,
-  uploadUserAvator
+  uploadUserAvator,
+  userComments,
+  userCommentsAVG
 }
 
 export { };

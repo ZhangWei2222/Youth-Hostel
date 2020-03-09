@@ -51,7 +51,7 @@ const router = new Router({
       name: 'MyComment',
       component: modules['MyComment'],
       meta: {
-        requireAuth: true
+        requireAuth: false
       }
     },
     {

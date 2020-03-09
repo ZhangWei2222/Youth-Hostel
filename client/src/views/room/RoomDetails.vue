@@ -138,7 +138,7 @@
       <div class="notice">
         <div class="title">
           预订须知
-          <span>以下规则由店家制定，请仔细阅读并遵守</span>
+          <span>以下规则由平台制定，请仔细阅读并遵守</span>
         </div>
         <Notice></Notice>
       </div>
