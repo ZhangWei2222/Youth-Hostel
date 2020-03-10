@@ -2,7 +2,7 @@
  * @Description: 用户相关接口--获取用户信息、编辑用户信息、上传头像、获取用户评论
  * @Author: Vivian
  * @Date: 2020-03-03 10:26:57
- * @LastEditTime: 2020-03-09 18:43:19
+ * @LastEditTime: 2020-03-10 10:34:15
  */
 
 const globalAny: any = global;
@@ -101,18 +101,17 @@ router.post('/api/userImage', upload.single('avatar'), async (ctx, next) => {
 })
 
 
-router.get('/api/userComments', async (ctx, next) => {
+router.get('/api/userComments', checkToken, async (ctx, next) => {
   // globalAny.log.debug("[userComments]" + JSON.stringify(ctx.userInfo));
 
-  await userModel.userComments(11).then(async (res) => {
+  await userModel.userComments(ctx.userInfo.userId).then(async (res) => {
     globalAny.log.trace("[userComments] 用户评价获取成功!" + JSON.stringify(res));
     ctx.body = {
       code: 0,
-      msg: '用户登录成功!',
       data: res,
       average: ''
     }
-    await userModel.userCommentsAVG(11).then(async (res) => {
+    await userModel.userCommentsAVG(ctx.userInfo.userId).then(async (res) => {
       globalAny.log.trace("[userCommentsAVG] 用户评价平均数：" + JSON.stringify(res));
       ctx.body.average = res;
     })

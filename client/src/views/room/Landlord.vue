@@ -16,11 +16,11 @@
         </div>
         <div class="item">
           整体评分
-          <span>4.7</span>
+          <span>{{landlordInfo.average.totalScore}}</span>
         </div>
         <div class="item">
           评价数
-          <span>40</span>
+          <span>{{landlordInfo.data.length}}</span>
         </div>
       </div>
     </div>
@@ -34,7 +34,7 @@
 
       <van-tab class="tab">
         <div slot="title">评价</div>
-        <CommentList></CommentList>
+        <CommentList :userInfo="landlordInfo" :type="1"></CommentList>
       </van-tab>
     </van-tabs>
   </div>
@@ -44,7 +44,14 @@
 import { Vue, Component } from "vue-property-decorator";
 import RoomList from "@/components/RoomList.vue";
 import CommentList from "@/components/CommentList.vue";
+import { Toast } from "vant";
+import { landlordCommentsAPI } from "@/services/roomAPI.ts";
+import { formatDate2, returnFloat } from "@/common/utill.ts";
 
+interface landlordInfo {
+  data: any[];
+  average: any;
+}
 @Component({
   name: "LandlordIndex",
   components: {
@@ -53,8 +60,47 @@ import CommentList from "@/components/CommentList.vue";
   }
 })
 export default class LandlordIndex extends Vue {
+  landlordInfo: landlordInfo = {
+    data: [],
+    average: {}
+  };
   active: number = 0;
-  onClickLeft() {
+
+  mounted(): void {
+    this.init();
+  }
+
+  // 获取店家评论信息
+  async init(): Promise<any> {
+    let self = this;
+    const res = await landlordCommentsAPI({
+      landlordId: 1
+    });
+    try {
+      console.log("获取店家评论信息成功" + JSON.stringify(res.data));
+      self.landlordInfo.data = res.data.data;
+      for (let i = 0; i < self.landlordInfo.data.length; i++) {
+        self.landlordInfo.data[i].date = formatDate2(
+          self.landlordInfo.data[i].date
+        );
+      }
+      self.landlordInfo.average = res.data.average[0];
+      self.landlordInfo.average = {
+        h_s: returnFloat(self.landlordInfo.average.h_s),
+        d_s: returnFloat(self.landlordInfo.average.d_s),
+        q_s: returnFloat(self.landlordInfo.average.a_s),
+        c_s: returnFloat(self.landlordInfo.average.c_s),
+        totalScore: parseFloat(
+          returnFloat(self.landlordInfo.average.totalScore)
+        )
+      };
+    } catch (error) {
+      Toast.fail("获取用户评论信息失败");
+      console.log("获取用户评论信息失败" + error);
+    }
+  }
+
+  onClickLeft(): void {
     this.$router.go(-1);
   }
 }

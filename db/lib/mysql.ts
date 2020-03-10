@@ -1,8 +1,8 @@
 /*
- * @Description: 连接mysql、执行sql语句
+ * @Description: 连接mysql、执行sql语句-用户相关
  * @Author: Vivian
  * @Date: 2020-03-03 10:26:57
- * @LastEditTime: 2020-03-09 17:13:58
+ * @LastEditTime: 2020-03-10 11:29:54
  */
 
 const globalAny: any = global;
@@ -131,7 +131,7 @@ const userComments = (val) => { // 获取用户评论
   return query(result.sql, result.value)
 }
 
-const userCommentsAVG = (val) => { // 获取用户评论
+const userCommentsAVG = (val) => { // 获取用户评论平均数
   let stru = getSQLObject();
   stru["query"] = "select";
   stru["tables"] = "user_comments_view";

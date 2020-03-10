@@ -4,7 +4,12 @@
       <div class="comment" v-for="item in commentList" :key="item.id">
         <div class="person">
           <div class="avator">
-            <img :src="'http://101.133.132.172/public/landlordUploads/'+ item.avator" alt />
+            <img
+              v-if="type===1"
+              :src="'http://101.133.132.172/public/userUploads/'+ item.avator"
+              alt
+            />
+            <img v-else :src="'http://101.133.132.172/public/landlordUploads/'+ item.avator" alt />
           </div>
           <div class="box">
             <div class="name">{{item.name}}</div>
@@ -35,6 +40,9 @@ export default class CommentList extends Vue {
   @Prop()
   userInfo;
 
+  @Prop()
+  type: number;
+
   value: number = 3;
   loading: boolean = false;
   finished: boolean = false;
@@ -55,7 +63,7 @@ export default class CommentList extends Vue {
       if (this.commentList.length >= this.userInfo.data.length) {
         this.finished = true;
       }
-    }, 1000);
+    }, 300);
   }
 }
 </script>

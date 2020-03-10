@@ -1,8 +1,8 @@
 /*
- * @Description: 用户相关API--用户信息、编辑信息、上传头像
+ * @Description: 用户相关API--用户信息、编辑信息、上传头像、用户评论
  * @Author: Vivian
  * @Date: 2020-03-03 21:24:17
- * @LastEditTime: 2020-03-09 16:35:27
+ * @LastEditTime: 2020-03-10 10:37:11
  */
 
 import http from './lib/http'
