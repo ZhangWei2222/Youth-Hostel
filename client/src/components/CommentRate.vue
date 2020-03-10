@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Vivian
  * @Date: 2020-03-06 16:09:44
- * @LastEditTime: 2020-03-09 18:40:53
+ * @LastEditTime: 2020-03-10 18:11:49
  -->
 <template>
   <div class="comment-rate">
@@ -23,19 +23,23 @@
     <div class="info">
       <div>
         描述
-        <span>{{userInfo.average.d_s}}分</span>
+        <span>{{describeScore}}分</span>
       </div>
       <div>
         沟通
-        <span>{{userInfo.average.c_s}}分</span>
+        <span>{{communicateScore}}分</span>
       </div>
       <div>
         卫生
-        <span>{{userInfo.average.h_s}}分</span>
+        <span>{{hygieneScore}}分</span>
       </div>
-      <div>
+      <div v-if="type===1">
+        管理
+        <span>{{administrationScore}}分</span>
+      </div>
+      <div v-else>
         素质
-        <span>{{userInfo.average.q_s}}分</span>
+        <span>{{qualityScore}}分</span>
       </div>
     </div>
   </div>
@@ -43,6 +47,7 @@
 
 <script lang="ts">
 import { Vue, Component, Prop } from "vue-property-decorator";
+import { returnFloat } from "@/common/utill.ts";
 
 @Component({
   name: "CommentRate"
@@ -50,6 +55,9 @@ import { Vue, Component, Prop } from "vue-property-decorator";
 export default class CommentRate extends Vue {
   @Prop()
   userInfo;
+
+  @Prop()
+  type: number;
 
   get scoreMessage() {
     let score = this.userInfo.average.totalScore;
@@ -62,6 +70,26 @@ export default class CommentRate extends Vue {
     } else {
       return "差";
     }
+  }
+
+  get describeScore() {
+    return returnFloat(this.userInfo.average.d_s);
+  }
+
+  get communicateScore() {
+    return returnFloat(this.userInfo.average.c_s);
+  }
+
+  get hygieneScore() {
+    return returnFloat(this.userInfo.average.h_s);
+  }
+
+  get qualityScore() {
+    return returnFloat(this.userInfo.average.q_s);
+  }
+
+  get administrationScore() {
+    return returnFloat(this.userInfo.average.a_s);
   }
 
   onClickLeft(): void {

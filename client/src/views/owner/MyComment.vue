@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Vivian
  * @Date: 2020-03-06 16:09:44
- * @LastEditTime: 2020-03-09 18:38:47
+ * @LastEditTime: 2020-03-10 18:12:41
  -->
 <template>
   <div class="my-comment">
@@ -21,7 +21,6 @@ import CommentList from "@/components/CommentList.vue";
 import CommentRate from "@/components/CommentRate.vue";
 import { Toast } from "vant";
 import { userCommentsAPI } from "@/services/userAPI.ts";
-import { formatDate2, returnFloat } from "@/common/utill.ts";
 
 interface userInfo {
   data: any[];
@@ -49,19 +48,9 @@ export default class MyComment extends Vue {
     let self = this;
     const res = await userCommentsAPI();
     try {
-      console.log("获取用户评论信息成功" + JSON.stringify(res.data));
+      // console.log("获取用户评论信息成功" + JSON.stringify(res.data));
       self.userInfo.data = res.data.data;
-      for (let i = 0; i < self.userInfo.data.length; i++) {
-        self.userInfo.data[i].date = formatDate2(self.userInfo.data[i].date);
-      }
       self.userInfo.average = res.data.average[0];
-      self.userInfo.average = {
-        h_s: returnFloat(self.userInfo.average.h_s),
-        d_s: returnFloat(self.userInfo.average.d_s),
-        q_s: returnFloat(self.userInfo.average.q_s),
-        c_s: returnFloat(self.userInfo.average.c_s),
-        totalScore: parseFloat(returnFloat(self.userInfo.average.totalScore))
-      };
     } catch (error) {
       Toast.fail("获取用户评论信息失败");
       console.log("获取用户评论信息失败" + error);

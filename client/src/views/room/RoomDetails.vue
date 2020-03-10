@@ -25,17 +25,27 @@
           <span @click="show = true">修改日期</span>
         </div>
         <van-divider :style="{  width: '100%' }" />
-        <div class="title">派快乐旅社</div>
+        <div class="title">{{roomDetail.roomData.roomName}}</div>
         <div class="tags">
           <van-tag
             color="rgba(142, 218, 119, 0.47)"
             text-color="rgb(34, 149, 0)"
             size="medium"
-          >4.8分·20条评价</van-tag>
-          <van-tag color="#ffe1e1" text-color="#ad0000" size="medium">4人间</van-tag>
-          <van-tag color="#ebedf0" text-color="#323233" size="medium">独卫</van-tag>
+          >{{roomDetail.commentsData.average.totalScore}}分·{{roomDetail.commentsData.list.length}}条评价</van-tag>
+          <van-tag
+            color="#ffe1e1"
+            text-color="#ad0000"
+            size="medium"
+          >{{roomDetail.roomData.roommateNum}}人间</van-tag>
+          <van-tag
+            color="#ebedf0"
+            text-color="#323233"
+            size="medium"
+          >{{roomDetail.roomData.toiletNum===1?'独卫':'公卫'}}</van-tag>
         </div>
-        <div class="info">房源：3间卧室·12张床·2个卫生间·最多可住12人</div>
+        <div
+          class="info"
+        >房源：{{roomDetail.houseData.bedroomNum}}间卧室·{{roomDetail.houseData.bedNum}}张床·{{roomDetail.houseData.tolietNum}}个卫生间·最多可住{{roomDetail.houseData.maxPepole}}人</div>
       </div>
 
       <div class="facility">
@@ -64,7 +74,7 @@
       <div class="landlord">
         <div class="title">
           店家
-          <span @click="goView(0, 1)">
+          <span @click="goView(0, roomDetail.landlordData.id)">
             店家主页
             <van-icon name="arrow" />
           </span>
@@ -72,14 +82,17 @@
         <div class="box">
           <div class="person">
             <div class="img">
-              <img src="@/common/images/home.jpg" alt />
+              <img
+                :src="'http://101.133.132.172/public/landlordUploads/'+ roomDetail.landlordData.avator"
+                alt
+              />
             </div>
-            <div class="name">叮个房公寓</div>
+            <div class="name">{{roomDetail.landlordData.name}}</div>
           </div>
           <div style="padding: 5px;background: #f7f8fa;border-radius: 3px;">
-            <div class="intro" @click="roomIntro()">
+            <div class="intro" @click="roomIntro(roomDetail.roomData.intro)">
               <span class="title">房间介绍：</span>
-              全新豪华装修，欧式风格，房屋南北通透，凉爽无比，干净舒适，全屋家私家电，各种配套设施齐全。1111111
+              {{roomDetail.roomData.intro}}
             </div>
           </div>
         </div>
@@ -88,8 +101,8 @@
       <div class="comment">
         <div class="title">
           房客评价
-          <span @click="goView(1, 0)">
-            全部63条
+          <span @click="goView(1, $route.query.id)">
+            全部{{roomDetail.commentsData.list.length}}条
             <van-icon name="arrow" />
           </span>
         </div>
@@ -97,25 +110,25 @@
           <div class="rateBox">
             <div class="info">
               <i class="iconfont iconxiaolian"></i>
-              <span class="num">4.8</span>
-              <span>分 超赞</span>
+              <span class="num">{{roomDetail.commentsData.average.totalScore}}</span>
+              <span>分 {{scoreMessage}}</span>
             </div>
             <div class="rate">
               <div>
                 描述
-                <span>4.7</span>
+                <span>{{roomDetail.commentsData.average.d_s}}</span>
               </div>
               <div>
                 沟通
-                <span>4.7</span>
+                <span>{{roomDetail.commentsData.average.c_s}}</span>
               </div>
               <div>
                 卫生
-                <span>4.7</span>
+                <span>{{roomDetail.commentsData.average.h_s}}</span>
               </div>
               <div>
                 管理
-                <span>4.7</span>
+                <span>{{roomDetail.commentsData.average.a_s}}</span>
               </div>
             </div>
           </div>
@@ -123,14 +136,23 @@
           <div class="commentBox">
             <div class="person">
               <div class="avator">
-                <img src="../../../static/un.jpg" alt />
+                <img
+                  :src="'http://101.133.132.172/public/userUploads/'+ roomDetail.commentsData.list[roomDetail.commentsData.list.length-1].avator"
+                  alt
+                />
               </div>
               <div class="person-box">
-                <div class="name">z***3</div>
-                <div class="date">2020年02月</div>
+                <div
+                  class="name"
+                >{{roomDetail.commentsData.list[roomDetail.commentsData.list.length-1].name}}</div>
+                <div
+                  class="date"
+                >{{roomDetail.commentsData.list[roomDetail.commentsData.list.length-1].date}}</div>
               </div>
             </div>
-            <div class="content">不错，不错。交通便利，每天打扫很干净。不错，不错。交通便利，每天打扫很干净。不错，不错。交通便利，每天打扫很干净。</div>
+            <div
+              class="content"
+            >{{roomDetail.commentsData.list[roomDetail.commentsData.list.length-1].message}}</div>
           </div>
         </div>
       </div>
@@ -144,9 +166,14 @@
       </div>
     </div>
 
-    <van-submit-bar :price="3050" button-type="warning" button-text="立即预定" @submit="goView(2, 4)">
+    <van-submit-bar
+      :price="roomDetail.roomData.price*100"
+      button-type="warning"
+      button-text="立即预定"
+      @submit="goView(2, 4)"
+    >
       <div class="icon">
-        <a href="tel:10086">
+        <a :href="'tel:'+roomDetail.landlordData.phoneNum">
           <van-icon name="phone-o" />联系店家
         </a>
       </div>
@@ -157,9 +184,11 @@
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
 import { formatter, formatDate, getDiff } from "../../common/utill";
-import { Lazyload, Dialog } from "vant";
+import { Lazyload, Dialog, Toast } from "vant";
 import FacilityList from "@/components/FacilityList.vue";
 import Notice from "@/components/Notice.vue";
+import { roomDetailAPI } from "@/services/roomAPI.ts";
+import { formatDate2, returnFloat } from "@/common/utill.ts";
 Vue.use(Lazyload, Dialog);
 
 @Component({
@@ -226,6 +255,70 @@ export default class RoomDetails extends Vue {
     ]
   };
 
+  roomDetail: any = {
+    roomData: {},
+    houseData: {},
+    landlordData: {},
+    commentsData: {
+      list: [],
+      average: {}
+    }
+  };
+
+  get scoreMessage() {
+    let score = this.roomDetail.commentsData.average.totalScore;
+    if (score > 4.5) {
+      return "超赞";
+    } else if (score > 3.5) {
+      return "赞";
+    } else if (score > 2) {
+      return "一般";
+    } else {
+      return "差";
+    }
+  }
+
+  mounted(): void {
+    this.init();
+  }
+
+  async init(): Promise<any> {
+    let self = this;
+    const res = await roomDetailAPI({ roomId: self.$route.query.id });
+    try {
+      // console.log("获取房间信息" + JSON.stringify(res.data));
+      if (res.data.code === 0) {
+        self.roomDetail = {
+          roomData: res.data.data.roomData[0],
+          houseData: res.data.data.houseData[0],
+          landlordData: res.data.data.landlordData[0],
+          commentsData: {
+            list: res.data.data.commentsData.list,
+            average: res.data.data.commentsData.average[0]
+          }
+        };
+
+        for (let i = 0; i < self.roomDetail.commentsData.list.length; i++) {
+          self.roomDetail.commentsData.list[i].date = formatDate2(
+            self.roomDetail.commentsData.list[i].date
+          );
+        }
+        self.roomDetail.commentsData.average = {
+          h_s: returnFloat(self.roomDetail.commentsData.average.h_s),
+          d_s: returnFloat(self.roomDetail.commentsData.average.d_s),
+          a_s: returnFloat(self.roomDetail.commentsData.average.a_s),
+          c_s: returnFloat(self.roomDetail.commentsData.average.c_s),
+          totalScore: parseFloat(
+            returnFloat(self.roomDetail.commentsData.average.totalScore)
+          )
+        };
+      }
+    } catch (error) {
+      Toast.fail("获取房间信息失败");
+      console.log("获取房间信息失败" + error);
+    }
+  }
+
   // 选择日期
   onConfirm(date: any): void {
     const [start, end] = date;
@@ -237,7 +330,7 @@ export default class RoomDetails extends Vue {
     };
   }
 
-  onClickLeft() {
+  onClickLeft(): void {
     this.$router.go(-1);
   }
 
@@ -273,11 +366,10 @@ export default class RoomDetails extends Vue {
   }
 
   // 房屋介绍
-  roomIntro(): void {
+  roomIntro(intro): void {
     Dialog.alert({
       title: "房间介绍",
-      message:
-        "  全新豪华装修，欧式风格，房屋南北通透，凉爽无比，干净舒适，全屋家私家电，各种配套设施齐全。1111111"
+      message: intro
     }).then(() => {
       // on close
     });

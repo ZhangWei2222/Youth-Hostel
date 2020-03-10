@@ -32,6 +32,7 @@
 
 <script lang="ts">
 import { Vue, Component, Prop } from "vue-property-decorator";
+import { formatDate2 } from "@/common/utill.ts";
 
 @Component({
   name: "CommentList"
@@ -53,15 +54,17 @@ export default class CommentList extends Vue {
   }
 
   onLoad(): void {
+    let self = this;
     setTimeout(() => {
-      for (let i = 0; i < this.userInfo.data.length; i++) {
-        this.commentList.push(this.userInfo.data[i]);
+      for (let i = 0; i < self.userInfo.data.length; i++) {
+        self.userInfo.data[i].date = formatDate2(self.userInfo.data[i].date);
+        self.commentList.push(self.userInfo.data[i]);
       }
       // 加载状态结束
-      this.loading = false;
+      self.loading = false;
       // 数据全部加载完成
-      if (this.commentList.length >= this.userInfo.data.length) {
-        this.finished = true;
+      if (self.commentList.length >= self.userInfo.data.length) {
+        self.finished = true;
       }
     }, 300);
   }
