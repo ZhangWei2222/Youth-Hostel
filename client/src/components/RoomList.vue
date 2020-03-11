@@ -1,32 +1,38 @@
 <template>
   <div class="room-list">
     <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
-      <div class="room" v-for="item in roomList" :key="item.id" @click="goDetails(item.id)">
-        <van-swipe class="my-swipe" :loop="false" indicator-color="white">
-          <van-swipe-item>
-            <img src="@/common/images/home.jpg" alt />
-          </van-swipe-item>
-          <van-swipe-item>2</van-swipe-item>
-          <van-swipe-item>3</van-swipe-item>
-          <van-swipe-item>4</van-swipe-item>
-        </van-swipe>
-        <div class="details">
-          <div>{{item.roomType}}</div>
-          <div style="font-weight: bold;">{{item.roomName}}</div>
-          <div class="comment">
-            <van-rate
-              v-model="item.score"
-              :size="12"
-              :gutter="1"
-              readonly
-              style="margin-right: 3px;"
-            />
-            {{item.commentsNum}}条评价
+      <div class="overview" v-for="item in roomList" :key="item.id" @click="goDetails(item.id)">
+        <div class="room">
+          <van-swipe class="my-swipe" :loop="false" indicator-color="white">
+            <van-swipe-item>
+              <img src="@/common/images/home.jpg" alt />
+            </van-swipe-item>
+            <van-swipe-item>2</van-swipe-item>
+            <van-swipe-item>3</van-swipe-item>
+            <van-swipe-item>4</van-swipe-item>
+          </van-swipe>
+          <div class="details">
+            <div>{{item.roomType}}</div>
+            <div style="font-weight: bold;">{{item.roomName}}</div>
+            <div class="comment">
+              <van-rate
+                v-model="item.score"
+                :size="12"
+                :gutter="1"
+                readonly
+                style="margin-right: 3px;"
+              />
+              {{item.commentsNum}}条评价
+            </div>
           </div>
-        </div>
-        <van-divider :style="{ width: '100%'}" />
-        <div class="price">
-          <span>￥{{item.price}}</span>每晚
+          <van-divider :style="{ width: '100%'}" />
+          <div class="price">
+            <span class="price-num">￥{{item.price}}</span>每晚
+            <van-tag
+              plain
+              class="room-tag"
+            >{{item.guestsNum &lt; item.roommateNum ? `已入住${item.guestsNum}人` : '已满'}}</van-tag>
+          </div>
         </div>
       </div>
     </van-list>
@@ -49,12 +55,17 @@ export default class RoomList extends Vue {
 
   onLoad(): void {
     let self = this;
+    let num = self.roomInfo.length;
     setTimeout(() => {
       for (let i = 0; i < self.roomInfo.length; i++) {
-        self.roomList.push(self.roomInfo[i]);
+        if (self.roomInfo[i].roommateNum > self.roomInfo[i].guestsNum) {
+          self.roomList.push(self.roomInfo[i]);
+        } else {
+          num--;
+        }
       }
       self.loading = false;
-      if (self.roomList.length >= 2) {
+      if (self.roomList.length >= num) {
         self.finished = true;
       }
     }, 1000);
@@ -116,10 +127,13 @@ export default class RoomList extends Vue {
       align-items: center;
       justify-content: flex-start;
       margin-left: 20px;
-      span {
+      .price-num {
         font-size: 14px;
         font-weight: bold;
         margin-right: 2px;
+      }
+      .room-tag {
+        margin-left: 5px;
       }
     }
   }

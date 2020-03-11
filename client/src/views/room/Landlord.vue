@@ -14,7 +14,7 @@
 
       <div class="rateBox">
         <div class="item">
-          房间数
+          总房间数
           <span>{{landlordInfo.roomData.length}}</span>
         </div>
         <div class="item">
@@ -30,7 +30,7 @@
 
     <van-tabs class="tabs" v-model="active" color="#86cd71" sticky>
       <van-tab class="tab">
-        <div slot="title">房源</div>
+        <div slot="title">可入住房间</div>
         <!-- 商品列表 -->
         <RoomList :roomInfo="landlordInfo.roomData"></RoomList>
       </van-tab>

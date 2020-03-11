@@ -20,6 +20,7 @@
         <van-field value="2019/12/30 23:29:01" type="number" label="订单时间" readonly />
         <van-field value="张微" label="入住人" readonly />
         <van-field value="17310580023" type="tel" label="联系手机" readonly />
+        <van-field value="17310580023" label="留言" readonly />
         <van-field value="￥100" type="number" label="房费" readonly />
       </div>
 

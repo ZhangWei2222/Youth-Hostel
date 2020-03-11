@@ -2,7 +2,7 @@
  * @Description: 连接mysql、执行sql语句-房间相关
  * @Author: Vivian
  * @Date: 2020-03-10 10:31:15
- * @LastEditTime: 2020-03-11 11:00:12
+ * @LastEditTime: 2020-03-11 12:39:37
  */
 
 const globalAny: any = global;
@@ -40,6 +40,7 @@ const landlordInfo = (val) => { // 获取店家信息
     "rooms.roomName": '*',
     "rooms.price": '*',
     "rooms.roommateNum": '*',
+    "rooms.guestsNum": '*',
     "rooms.toiletNum": '*',
     "avg(room_comments_view.score) AS score": '*',
     "COUNT(room_comments_view.score) AS commentsNum": '*',

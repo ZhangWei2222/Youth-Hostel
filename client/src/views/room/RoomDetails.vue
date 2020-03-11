@@ -42,6 +42,10 @@
             text-color="#323233"
             size="medium"
           >{{roomDetail.roomData.toiletNum===1?'独卫':'公卫'}}</van-tag>
+          <van-tag
+            plain
+            size="medium"
+          >{{roomDetail.roomData.guestsNum &lt; roomDetail.roomData.roommateNum ? `已入住${roomDetail.roomData.guestsNum}人`:'已满'}}</van-tag>
         </div>
         <div
           class="info"
