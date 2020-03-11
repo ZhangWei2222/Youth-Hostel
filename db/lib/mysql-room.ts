@@ -2,7 +2,7 @@
  * @Description: 连接mysql、执行sql语句-房间相关
  * @Author: Vivian
  * @Date: 2020-03-10 10:31:15
- * @LastEditTime: 2020-03-11 12:39:37
+ * @LastEditTime: 2020-03-11 16:31:43
  */
 
 const globalAny: any = global;

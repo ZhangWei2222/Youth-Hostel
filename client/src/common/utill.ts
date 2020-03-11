@@ -2,7 +2,7 @@
  * @Description: 工具类-比如格式化函数等
  * @Author: Vivian
  * @Date: 2020-03-06 14:00:16
- * @LastEditTime: 2020-03-09 18:12:54
+ * @LastEditTime: 2020-03-11 19:07:42
  */
 
 // 自定义日期文案
@@ -58,4 +58,66 @@ export function returnFloat(value: number): string {
     }
     return res.toString()
   }
+}
+
+// 格式化订的房间日期
+export function formatOrderDate(time: any, days: number): any {
+  let timeObj: any = new Date(time);
+  let year = timeObj.getFullYear();
+  let month = timeObj.getMonth() + 1
+  let date = timeObj.getDate()
+  let endTimeObj = new Date((timeObj / 1000 + (86400 * days)) * 1000); // 增加n天后的日期
+  let endYear = endTimeObj.getFullYear();
+  let endMonth = endTimeObj.getMonth() + 1
+  let endDate = endTimeObj.getDate()
+  if (new Date().getFullYear() === year) {
+    if (year === endYear) {
+      if (month === endMonth) {
+        return `${month}月${date}日-${endDate}日`
+      } else {
+        return `${month}月${date}日-${endMonth}月${endDate}日`
+      }
+    } else {
+      return `${month}月${date}日-${endYear}年${endMonth}月${endDate}日`
+    }
+  } else {
+    return `${year}年${month}月${date}日-${endYear}年${endMonth}月${endDate}日`
+  }
+}
+
+// 格式化下订单的日期 yyyy-mm月-dd日 hh:ss:SS
+export function formatOrderTime(time: any): any {
+  let timeObj = new Date(time);
+  let year = timeObj.getFullYear();
+  let month = (timeObj.getMonth() + 1).toString().length < 2 ? "0" + (timeObj.getMonth() + 1).toString() : (timeObj.getMonth() + 1);
+  let date = timeObj.getDate().toString().length < 2 ? "0" + timeObj.getDate().toString() : timeObj.getDate();
+  let hour = timeObj.getHours().toString().length < 2 ? "0" + timeObj.getHours().toString() : timeObj.getHours();
+  let minute = timeObj.getMinutes().toString().length < 2 ? "0" + timeObj.getMinutes().toString() : timeObj.getMinutes();
+  let second = timeObj.getSeconds().toString().length < 2 ? "0" + timeObj.getSeconds().toString() : timeObj.getSeconds();
+  return year + '/' + month + '/' + date + " " + hour + ":" + second + ":" + minute
+}
+
+// 格式化订单状态文案
+export function formatOrderStatus(value: number): any {
+  let temp: string = '';
+  switch (value) {
+    case -3:
+      temp = '被取消'
+      break;
+    case -2:
+      temp = '已退房'
+      break;
+    case -1:
+      temp = '待入住'
+      break;
+    case 0:
+      temp = '待评价'
+      break;
+    case 1:
+      temp = '已评价'
+      break;
+    default:
+      break;
+  }
+  return temp;
 }

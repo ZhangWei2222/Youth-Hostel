@@ -2,7 +2,7 @@
  * @Description: node主文件--完成服务器连接和日志服务
  * @Author: Vivian
  * @Date: 2020-03-03 10:26:57
- * @LastEditTime: 2020-03-10 10:49:51
+ * @LastEditTime: 2020-03-11 16:46:25
  */
 
 const globalAny: any = global;
@@ -49,6 +49,7 @@ app.use(require('./routers/signUp.ts').routes()) // 注册
 app.use(require('./routers/signIn.ts').routes()) // 登录
 app.use(require('./routers/user.ts').routes()) // 用户相关
 app.use(require('./routers/room.ts').routes()) // 房间相关
+app.use(require('./routers/order.ts').routes()) // 订单相关
 
 // app.use(require('./routers/createPosts.js').routes()) // 新建文章
 // app.use(require('./routers/postsList.js').routes()) // 搜索文章

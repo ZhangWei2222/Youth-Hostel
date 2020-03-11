@@ -4,10 +4,15 @@
     <div class="wrapper">
       <div class="room-info">
         <div class="detailBox">
-          <div class="title">派快乐旅社</div>
-          <div class="type">4人间·独卫</div>
-          <div class="time">2月26日-27日·1晚</div>
-          <div class="status">已完成</div>
+          <div
+            class="title"
+          >{{orderInfo.houseName}}·{{orderInfo.roomName}}·{{orderInfo.sex===1?'男生':'女生'}}</div>
+          <div class="type">{{orderInfo.roommateNum}}人间·{{orderInfo.toiletNum===1?'独卫':'公卫'}}</div>
+          <div class="time">{{orderDate}}·{{orderInfo.days}}晚</div>
+          <div
+            class="status"
+            :style="{'color':orderInfo.status? '#bf3c20':'#323233'}"
+          >{{statusText}}</div>
         </div>
         <div class="avator">
           <img src="../../common/images/home.jpg" alt />
@@ -16,20 +21,28 @@
 
       <div class="order-info">
         <div class="title">订单信息</div>
-        <van-field value="17865324" type="digit" label="订单号码" readonly />
-        <van-field value="2019/12/30 23:29:01" type="number" label="订单时间" readonly />
-        <van-field value="张微" label="入住人" readonly />
-        <van-field value="17310580023" type="tel" label="联系手机" readonly />
-        <van-field value="17310580023" label="留言" readonly />
-        <van-field value="￥100" type="number" label="房费" readonly />
+        <van-field :value="orderInfo.id" type="digit" label="订单号码" readonly />
+        <van-field :value="orderInfo.orderTime" type="number" label="订单时间" readonly />
+        <van-field :value="orderInfo.userName" label="入住人" readonly />
+        <van-field :value="orderInfo.phoneNum" type="tel" label="联系手机" readonly />
+        <van-field :value="orderInfo.message" label="留言" readonly />
+        <van-field :value="'￥'+orderInfo.price" type="number" label="房费" readonly />
       </div>
 
-      <van-submit-bar button-type="warning" button-text="立即评价" @submit="goComment(4)">
+      <van-submit-bar
+        button-type="warning"
+        :button-text="buttonText"
+        :disabled="disabledButton"
+        @submit="goComment(4)"
+      >
         <div class="delete">删除订单</div>
         <span slot="tip">
           如果您对订单有疑惑，可
           <span>
-            <a href="tel:10086" style="color: #4f91ce;font-weight: bold;">致电店长</a>
+            <a
+              :href="'tel:'+ orderInfo.loandlordPhone"
+              style="color: #4f91ce;font-weight: bold;"
+            >致电店长</a>
           </span>
         </span>
       </van-submit-bar>
@@ -39,11 +52,81 @@
 
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
+import { Toast } from "vant";
+import { userInfoAPI } from "@/services/orderAPI.ts";
+import {
+  formatOrderDate,
+  formatOrderTime,
+  formatOrderStatus
+} from "@/common/utill.ts";
 
 @Component({
   name: "OrderDetail"
 })
 export default class OrderDetail extends Vue {
+  orderInfo: any = {};
+  statusText: string = "";
+  disabledButton: boolean = false;
+  orderDate: any = {};
+
+  mounted(): void {
+    this.init();
+  }
+
+  async init(): Promise<any> {
+    let self = this;
+    const res = await userInfoAPI();
+    try {
+      // console.log("获取订单信息" + JSON.stringify(res.data));
+      if (res.data.code === 0) {
+        self.orderInfo = res.data.data[0];
+        self.formatData();
+      }
+    } catch (error) {
+      Toast.fail("获取订单信息失败");
+      console.log("获取订单信息失败" + error);
+    }
+  }
+
+  get buttonText() {
+    let temp: string = "";
+    let self = this;
+    switch (self.orderInfo.status) {
+      case -3:
+        temp = "申请退房";
+        self.disabledButton = true;
+        break;
+      case -2:
+        temp = "已退房";
+        self.disabledButton = true;
+        break;
+      case -1:
+        temp = "申请退房";
+        break;
+      case 0:
+        temp = "立即评价";
+        break;
+      case 1:
+        temp = "已评价";
+        self.disabledButton = true;
+        break;
+      default:
+        break;
+    }
+    return temp;
+  }
+
+  // 对数据进行格式化
+  formatData(): void {
+    let self = this;
+    self.orderInfo.orderTime = formatOrderTime(self.orderInfo.orderTime);
+    self.statusText = formatOrderStatus(self.orderInfo.status);
+    self.orderDate = formatOrderDate(
+      self.orderInfo.startDate,
+      self.orderInfo.days
+    );
+  }
+
   onClickLeft(): void {
     this.$router.go(-1);
   }

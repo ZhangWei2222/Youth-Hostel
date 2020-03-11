@@ -25,7 +25,9 @@
           <span @click="show = true">修改日期</span>
         </div>
         <van-divider :style="{  width: '100%' }" />
-        <div class="title">{{roomDetail.roomData.roomName}}</div>
+        <div
+          class="title"
+        >{{roomDetail.houseData.houseName}}·{{roomDetail.roomData.roomName}}·{{roomDetail.roomData.sex===1?'男生':'女生'}}</div>
         <div class="tags">
           <van-tag
             color="rgba(142, 218, 119, 0.47)"
@@ -94,9 +96,9 @@
             <div class="name">{{roomDetail.landlordData.name}}</div>
           </div>
           <div style="padding: 5px;background: #f7f8fa;border-radius: 3px;">
-            <div class="intro" @click="roomIntro(roomDetail.roomData.intro)">
+            <div class="intro" @click="roomIntro(roomDetail.houseData.intro)">
               <span class="title">房间介绍：</span>
-              {{roomDetail.roomData.intro}}
+              {{roomDetail.houseData.intro}}
             </div>
           </div>
         </div>

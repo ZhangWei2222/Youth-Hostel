@@ -2,9 +2,8 @@
  * @Description: 房间相关接口--获取店家评论
  * @Author: Vivian
  * @Date: 2020-03-10 10:32:41
- * @LastEditTime: 2020-03-11 12:11:53
+ * @LastEditTime: 2020-03-11 19:11:36
  */
-
 
 const globalAny: any = global;
 let router = require('koa-router')();
@@ -14,7 +13,7 @@ const checkToken = require('../token/checkToken.ts');
 
 router.get('/api/roomDetail', async (ctx, next) => {
   await userModel.roomDetail(ctx.query.roomId).then(async (res) => {
-    globalAny.log.trace("[roomDetailAPI] 房间详情获取成功!" + JSON.stringify(res));
+    // globalAny.log.trace("[roomDetail] 房间详情获取成功!" + JSON.stringify(res));
     ctx.body = {
       code: 0,
       msg: '房间详情获取成功',
@@ -45,7 +44,7 @@ router.get('/api/roomDetail', async (ctx, next) => {
       ctx.body.data.facilityList = res;
     })
   }).catch((err) => {
-    globalAny.log.error("[roomDetailAPI] 房间详情获取失败!" + err);
+    globalAny.log.error("[roomDetail] 房间详情获取失败!" + err);
     ctx.body = {
       code: -1,
       msg: err,
