@@ -34,51 +34,12 @@ import { Vue, Component, Prop } from "vue-property-decorator";
 export default class FacilityList extends Vue {
   @Prop()
   type: number;
+
   @Prop()
   isPop: boolean;
 
-  facilityList: any = {
-    serviceList: [
-      { id: 0, value: "自助入住", isHave: false },
-      { id: 1, value: "床品更换", isHave: true },
-      { id: 2, value: "行李寄存", isHave: true },
-      { id: 3, value: "门禁系统", isHave: true }
-    ],
-    basisList: [
-      { id: 0, value: "wifi", isHave: true },
-      { id: 1, value: "电梯", isHave: true },
-      { id: 2, value: "空调", isHave: true },
-      { id: 3, value: "热水壶", isHave: false },
-      { id: 4, value: "洗衣机", isHave: true },
-      { id: 5, value: "电吹风", isHave: true },
-      { id: 6, value: "电视", isHave: true },
-      { id: 7, value: "饮水机", isHave: true },
-      { id: 8, value: "电视机", isHave: false },
-      { id: 9, value: "打扫工具", isHave: true },
-      { id: 10, value: "工作区域", isHave: true },
-      { id: 11, value: "电熨斗", isHave: false }
-    ],
-    showerList: [
-      { id: 0, value: "热水淋浴", isHave: true },
-      { id: 1, value: "牙具", isHave: true },
-      { id: 2, value: "沐浴露", isHave: true },
-      { id: 3, value: "拖鞋", isHave: true },
-      { id: 4, value: "洗发水", isHave: false },
-      { id: 5, value: "毛巾", isHave: false },
-      { id: 6, value: "衣架", isHave: true },
-      { id: 7, value: "香皂", isHave: true }
-    ],
-    kitchenList: [
-      { id: 0, value: "电磁炉", isHave: false },
-      { id: 1, value: "烹饪锅具", isHave: true },
-      { id: 2, value: "调料", isHave: false },
-      { id: 3, value: "餐具", isHave: true },
-      { id: 4, value: "微波炉", isHave: true },
-      { id: 5, value: "冰箱", isHave: false },
-      { id: 6, value: "燃气灶", isHave: true },
-      { id: 7, value: "刀具菜板", isHave: true }
-    ]
-  };
+  @Prop()
+  list;
 
   result: any = {
     name: String,
@@ -89,22 +50,22 @@ export default class FacilityList extends Vue {
     switch (this.type) {
       case 1:
         this.result.name = "服务";
-        this.result.list = this.facilityList.serviceList;
+        this.result.list = this.list.serviceList;
         this.result.iconType = "iconfuwuzhiliang";
         break;
       case 2:
         this.result.name = "基础";
-        this.result.list = this.facilityList.basisList;
+        this.result.list = this.list.basisList;
         this.result.iconType = "iconfangwuxinxi";
         break;
       case 3:
         this.result.name = "洗浴";
-        this.result.list = this.facilityList.showerList;
+        this.result.list = this.list.showerList;
         this.result.iconType = "iconchongwuxiyu";
         break;
       case 4:
         this.result.name = "厨房";
-        this.result.list = this.facilityList.kitchenList;
+        this.result.list = this.list.kitchenList;
         this.result.iconType = "iconchufangyongpin";
         break;
       default:

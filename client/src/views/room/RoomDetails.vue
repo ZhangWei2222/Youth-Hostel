@@ -58,7 +58,7 @@
         </div>
         <div class="box">
           <div class="sort" v-for="item in 4" :key="item">
-            <FacilityList :type="item" :isPop="false"></FacilityList>
+            <FacilityList :type="item" :isPop="false" :list="cacheFacilityList"></FacilityList>
           </div>
         </div>
       </div>
@@ -66,7 +66,7 @@
       <van-popup class="service-pop" v-model="showPop" position="bottom" closeable>
         <div class="wrapper">
           <div class="sort" v-for="item in 4" :key="item">
-            <FacilityList :type="item" :isPop="true"></FacilityList>
+            <FacilityList :type="item" :isPop="true" :list="cacheFacilityList"></FacilityList>
           </div>
         </div>
       </van-popup>
@@ -212,49 +212,6 @@ export default class RoomDetails extends Vue {
   show: boolean = false;
   showPop: boolean = false;
 
-  facilityList: any = {
-    serviceList: [
-      { id: 0, value: "自助入住", isHave: false },
-      { id: 1, value: "床品更换", isHave: true },
-      { id: 2, value: "行李寄存", isHave: true },
-      { id: 3, value: "门禁系统", isHave: true }
-    ],
-    basisList: [
-      { id: 0, value: "wifi", isHave: true },
-      { id: 1, value: "电梯", isHave: true },
-      { id: 2, value: "空调", isHave: true },
-      { id: 3, value: "热水壶", isHave: false },
-      { id: 4, value: "洗衣机", isHave: true },
-      { id: 5, value: "电吹风", isHave: true },
-      { id: 6, value: "电视", isHave: true },
-      { id: 7, value: "饮水机", isHave: true },
-      { id: 8, value: "电视机", isHave: false },
-      { id: 9, value: "打扫工具", isHave: true },
-      { id: 10, value: "工作区域", isHave: true },
-      { id: 11, value: "电熨斗", isHave: false }
-    ],
-    showerList: [
-      { id: 0, value: "热水淋浴", isHave: true },
-      { id: 1, value: "牙具", isHave: true },
-      { id: 2, value: "沐浴露", isHave: true },
-      { id: 3, value: "拖鞋", isHave: true },
-      { id: 4, value: "洗发水", isHave: false },
-      { id: 5, value: "毛巾", isHave: false },
-      { id: 6, value: "衣架", isHave: true },
-      { id: 7, value: "香皂", isHave: true }
-    ],
-    kitchenList: [
-      { id: 0, value: "电磁炉", isHave: false },
-      { id: 1, value: "烹饪锅具", isHave: true },
-      { id: 2, value: "调料", isHave: false },
-      { id: 3, value: "餐具", isHave: true },
-      { id: 4, value: "微波炉", isHave: true },
-      { id: 5, value: "冰箱", isHave: false },
-      { id: 6, value: "燃气灶", isHave: true },
-      { id: 7, value: "刀具菜板", isHave: true }
-    ]
-  };
-
   roomDetail: any = {
     roomData: {},
     houseData: {},
@@ -262,7 +219,15 @@ export default class RoomDetails extends Vue {
     commentsData: {
       list: [],
       average: {}
-    }
+    },
+    facilityList: []
+  };
+
+  cacheFacilityList: any = {
+    serviceList: [],
+    basisList: [],
+    showerList: [],
+    kitchenList: []
   };
 
   get scoreMessage() {
@@ -295,27 +260,59 @@ export default class RoomDetails extends Vue {
           commentsData: {
             list: res.data.data.commentsData.list,
             average: res.data.data.commentsData.average[0]
-          }
+          },
+          facilityList: res.data.data.facilityList
         };
-
-        for (let i = 0; i < self.roomDetail.commentsData.list.length; i++) {
-          self.roomDetail.commentsData.list[i].date = formatDate2(
-            self.roomDetail.commentsData.list[i].date
-          );
-        }
-        self.roomDetail.commentsData.average = {
-          h_s: returnFloat(self.roomDetail.commentsData.average.h_s),
-          d_s: returnFloat(self.roomDetail.commentsData.average.d_s),
-          a_s: returnFloat(self.roomDetail.commentsData.average.a_s),
-          c_s: returnFloat(self.roomDetail.commentsData.average.c_s),
-          totalScore: parseFloat(
-            returnFloat(self.roomDetail.commentsData.average.totalScore)
-          )
-        };
+        self.formatData();
       }
     } catch (error) {
       Toast.fail("获取房间信息失败");
       console.log("获取房间信息失败" + error);
+    }
+  }
+
+  // 格式化数据
+  formatData(): void {
+    let self = this;
+    for (let i = 0; i < self.roomDetail.commentsData.list.length; i++) {
+      self.roomDetail.commentsData.list[i].date = formatDate2(
+        self.roomDetail.commentsData.list[i].date
+      );
+    }
+    self.roomDetail.commentsData.average = {
+      h_s: returnFloat(self.roomDetail.commentsData.average.h_s),
+      d_s: returnFloat(self.roomDetail.commentsData.average.d_s),
+      a_s: returnFloat(self.roomDetail.commentsData.average.a_s),
+      c_s: returnFloat(self.roomDetail.commentsData.average.c_s),
+      totalScore: parseFloat(
+        returnFloat(self.roomDetail.commentsData.average.totalScore)
+      )
+    };
+    for (let i = 0; i < self.roomDetail.facilityList.length; i++) {
+      switch (self.roomDetail.facilityList[i].key.split("_")[0]) {
+        case "service":
+          self.cacheFacilityList.serviceList.push(
+            self.roomDetail.facilityList[i]
+          );
+          break;
+        case "basis":
+          self.cacheFacilityList.basisList.push(
+            self.roomDetail.facilityList[i]
+          );
+          break;
+        case "shower":
+          self.cacheFacilityList.showerList.push(
+            self.roomDetail.facilityList[i]
+          );
+          break;
+        case "kitchen":
+          self.cacheFacilityList.kitchenList.push(
+            self.roomDetail.facilityList[i]
+          );
+          break;
+        default:
+          break;
+      }
     }
   }
 

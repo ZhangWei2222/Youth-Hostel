@@ -2,7 +2,7 @@
  * @Description: 连接mysql、执行sql语句-房间相关
  * @Author: Vivian
  * @Date: 2020-03-10 10:31:15
- * @LastEditTime: 2020-03-10 18:15:43
+ * @LastEditTime: 2020-03-11 11:00:12
  */
 
 const globalAny: any = global;
@@ -169,6 +169,21 @@ const commentAVG = (val) => { // 获取房间评论平均数
   return query(result.sql, result.value)
 }
 
+const facilityList = (val) => { // 获取服务设施表
+  let stru = getSQLObject();
+  stru["query"] = "select";
+  stru["tables"] = "facilityList";
+  stru["data"] = {
+    "*": '*',
+  };
+  stru["where"]["condition"] = [
+    "houseId = " + val,
+  ];
+  let result = _structureAnalysis(stru);
+  globalAny.log.trace("[facilityList] sql语句: " + result.sql + " value参数: " + result.value);
+  return query(result.sql, result.value)
+}
+
 module.exports = {
   landlordInfo,
   landlordComments,
@@ -177,7 +192,8 @@ module.exports = {
   houseDetail,
   landlordDetail,
   commentDetail,
-  commentAVG
+  commentAVG,
+  facilityList
 }
 
 export { };
