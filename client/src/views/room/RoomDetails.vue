@@ -21,7 +21,7 @@
     <div class="wrapper">
       <div class="overview">
         <div class="date">
-          2月9日-20日·1晚
+          {{roomDate}}·{{roomDays}}晚
           <span @click="show = true">修改日期</span>
         </div>
         <van-divider :style="{  width: '100%' }" />
@@ -194,7 +194,7 @@ import { Lazyload, Dialog, Toast } from "vant";
 import FacilityList from "@/components/FacilityList.vue";
 import Notice from "@/components/Notice.vue";
 import { roomDetailAPI } from "@/services/roomAPI.ts";
-import { formatDate2, returnFloat } from "@/common/utill.ts";
+import { formatRoomDate, formatDate2, returnFloat } from "@/common/utill.ts";
 Vue.use(Lazyload, Dialog);
 
 @Component({
@@ -247,6 +247,14 @@ export default class RoomDetails extends Vue {
     } else {
       return "差";
     }
+  }
+
+  get roomDays() {
+    return this.date.days;
+  }
+
+  get roomDate() {
+    return formatRoomDate(this.date);
   }
 
   mounted(): void {
@@ -355,7 +363,8 @@ export default class RoomDetails extends Vue {
       case 2:
         this.$router.push({
           name: "SubmitOrder",
-          query: { roomId: id }
+          query: { roomId: this.$route.query.id },
+          params: { date: this.roomDate, days: this.roomDays.toString() }
         });
         break;
       default:

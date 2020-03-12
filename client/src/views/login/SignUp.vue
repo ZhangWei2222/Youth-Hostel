@@ -1,3 +1,9 @@
+<!--
+ * @Description:
+ * @Author: Vivian
+ * @Date: 2020-03-06 16:09:44
+ * @LastEditTime: 2020-03-12 11:40:12
+ -->
 <template>
   <div class="sign-up">
     <van-nav-bar title="注册" left-arrow @click-left="onClickLeft" :border="false" />
@@ -16,6 +22,7 @@ import { Toast } from "vant";
 import md5 from "js-md5";
 import UserForm from "@/components/UserForm.vue";
 import { signUpAPI } from "@/services/loginAPI.ts";
+import { checkPhone, checkEmpty } from "@/common/utill.ts";
 
 @Component({
   name: "SignUp",
@@ -29,31 +36,6 @@ export default class SignUp extends Vue {
   // 返回键
   onClickLeft(): void {
     this.$router.go(-1);
-  }
-
-  // 校验表单是否有空，有空返回 false
-  checkEmpty(obj: any): boolean {
-    let empty = null;
-    for (const key in obj) {
-      if (obj[key] === null || obj[key] === "") {
-        empty = true;
-        break;
-      } else {
-        empty = false;
-      }
-    }
-    return empty;
-  }
-
-  // 校验手机号码是否格式正确
-  checkPhone(mobile: string): boolean {
-    var phone = /^(((13[0-9]{1})|(15[0-9]{1})|(17[0-9]{1})|(18[0-9]{1}))+\d{8})$/;
-    if (mobile && mobile.length === 11) {
-      if (phone.test(mobile)) {
-        return true;
-      }
-    }
-    return false;
   }
 
   // 注册
@@ -72,7 +54,7 @@ export default class SignUp extends Vue {
       message: userForm.message
     };
 
-    if (self.checkPhone(params.phoneNum) && !self.checkEmpty(params)) {
+    if (checkPhone(params.phoneNum) && !checkEmpty(params)) {
       const res = await signUpAPI(params);
 
       try {

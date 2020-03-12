@@ -11,7 +11,7 @@
           <div class="time">{{orderDate}}·{{orderInfo.days}}晚</div>
           <div
             class="status"
-            :style="{'color':orderInfo.status? '#bf3c20':'#323233'}"
+            :style="{'color':orderInfo.status===-3? '#bf3c20':'#323233'}"
           >{{statusText}}</div>
         </div>
         <div class="avator">
@@ -21,7 +21,7 @@
 
       <div class="order-info">
         <div class="title">订单信息</div>
-        <van-field :value="orderInfo.id" type="digit" label="订单号码" readonly />
+        <van-field :value="orderInfo.value" label="订单号码" readonly />
         <van-field :value="orderInfo.orderTime" type="number" label="订单时间" readonly />
         <van-field :value="orderInfo.userName" label="入住人" readonly />
         <van-field :value="orderInfo.phoneNum" type="tel" label="联系手机" readonly />
@@ -53,7 +53,7 @@
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
 import { Toast } from "vant";
-import { userInfoAPI } from "@/services/orderAPI.ts";
+import { orderDetailAPI } from "@/services/orderAPI.ts";
 import {
   formatOrderDate,
   formatOrderTime,
@@ -75,7 +75,7 @@ export default class OrderDetail extends Vue {
 
   async init(): Promise<any> {
     let self = this;
-    const res = await userInfoAPI();
+    const res = await orderDetailAPI({ orderId: self.$route.query.orderId });
     try {
       // console.log("获取订单信息" + JSON.stringify(res.data));
       if (res.data.code === 0) {

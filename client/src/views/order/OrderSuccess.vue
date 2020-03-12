@@ -1,9 +1,15 @@
+<!--
+ * @Description:
+ * @Author: Vivian
+ * @Date: 2020-03-06 16:09:44
+ * @LastEditTime: 2020-03-12 13:14:00
+ -->
 <template>
   <div class="order-success">
     <van-nav-bar title="提交成功" :border="false" left-arrow @click-left="onClickLeft" />
     <div class="wrapper">
       <van-icon name="checked" color="rgb(7, 193, 96)" size="4rem" />
-      <van-button class="button" type="info" @click="goView(1)">查看订单</van-button>
+      <van-button class="button" type="info" @click="goView($route.query.orderId)">查看订单</van-button>
       <div class="text">
         <span style="font-weight: bold;">注意：</span>
         <br />1. 店长将在一天内处理订单，请耐心等待。我们将会在一天内以短信通知您的订单状态，您也可自行前往订单页面进行查看。
