@@ -148,7 +148,7 @@ export default class OwnerIndex extends Vue {
         this.$router.push("/info");
         break;
       case 1:
-        this.$router.push("/order");
+        this.$router.push("/orderlist");
         break;
       case 2:
         this.$router.push("/my-comment");

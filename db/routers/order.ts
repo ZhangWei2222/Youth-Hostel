@@ -2,7 +2,7 @@
  * @Description: 订单相关接口
  * @Author: Vivian
  * @Date: 2020-03-11 16:29:45
- * @LastEditTime: 2020-03-12 13:22:39
+ * @LastEditTime: 2020-03-12 18:34:09
  */
 
 const globalAny: any = global;
@@ -62,15 +62,56 @@ router.post('/api/submitOrder', async (ctx, next) => {
     message: ctx.request.body.message,
     key: uuidV1()
   }
-  await userModel.insetOrder(order).then((res) => {
-    globalAny.log.trace("[submitOrder] 下订单成功" + JSON.stringify(res));
+  await userModel.insetOrder(order).then(async (res) => {
+    // globalAny.log.trace("[submitOrder] 下订单成功" + JSON.stringify(res));
     ctx.body = {
       code: 0,
       msg: '下订单成功!',
       data: { orderId: res.insertId }
     }
+    await userModel.setGuestsNum({ roomId: order.roomId, type: 0 }).then(async (res) => {
+      // globalAny.log.trace("[setGuestsNum] 调整可住人数" + JSON.stringify(res));
+    })
   }).catch((err) => {
     globalAny.log.error("[submitOrder] 下订单失败: " + err);
+    ctx.body = {
+      code: -1,
+      msg: err
+    }
+  })
+})
+
+// 退房
+router.post('/api/checkOutOrder', async (ctx, next) => {
+  globalAny.log.debug(ctx.request.body);
+  await userModel.checkOutOrder({ orderId: ctx.request.body.orderId, status: -2 }).then(async (res) => {
+    globalAny.log.trace("[checkOutOrder] 退房成功" + JSON.stringify(res));
+    ctx.body = {
+      code: 0,
+      msg: '退房成功!'
+    }
+    await userModel.setGuestsNum({ roomId: ctx.request.body.roomId, type: 1 }).then(async (res) => {
+      globalAny.log.trace("[setGuestsNum] 调整可住人数" + JSON.stringify(res));
+    })
+  }).catch((err) => {
+    globalAny.log.error("[submitOrder] 下订单失败: " + err);
+    ctx.body = {
+      code: -1,
+      msg: err
+    }
+  })
+})
+
+// 删除订单
+router.post('/api/deleteOrder', async (ctx, next) => {
+  await userModel.deleteOrder({ orderId: ctx.request.body.orderId }).then(async (res) => {
+    globalAny.log.trace("[deleteOrder] 删除订单成功" + JSON.stringify(res));
+    ctx.body = {
+      code: 0,
+      msg: '退房成功!'
+    }
+  }).catch((err) => {
+    globalAny.log.error("[deleteOrder] 删除订单失败: " + err);
     ctx.body = {
       code: -1,
       msg: err

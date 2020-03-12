@@ -29,7 +29,7 @@ const router = new Router({
       component: modules['HomePage']
     },
     {
-      path: '/order',
+      path: '/orderlist',
       name: 'Order',
       component: modules['Order']
     },

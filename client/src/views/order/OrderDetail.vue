@@ -1,3 +1,9 @@
+<!--
+ * @Description:
+ * @Author: Vivian
+ * @Date: 2020-03-06 16:09:44
+ * @LastEditTime: 2020-03-12 18:33:14
+ -->
 <template>
   <div class="order-detail">
     <van-nav-bar title="订单详情" :border="false" left-arrow @click-left="onClickLeft" />
@@ -33,9 +39,12 @@
         button-type="warning"
         :button-text="buttonText"
         :disabled="disabledButton"
-        @submit="goComment(4)"
+        @submit="buttonText==='申请退房'?checkDate():goComment()"
       >
-        <div class="delete">删除订单</div>
+        <div
+          class="delete"
+          @click="orderInfo.status!==-1? deleteOrder() : ''"
+        >{{orderInfo.status!==-1? '删除订单' : ''}}</div>
         <span slot="tip">
           如果您对订单有疑惑，可
           <span>
@@ -52,8 +61,12 @@
 
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
-import { Toast } from "vant";
-import { orderDetailAPI } from "@/services/orderAPI.ts";
+import { Toast, Dialog } from "vant";
+import {
+  orderDetailAPI,
+  checkOutOrderAPI,
+  deleteOrderAPI
+} from "@/services/orderAPI.ts";
 import {
   formatOrderDate,
   formatOrderTime,
@@ -132,11 +145,79 @@ export default class OrderDetail extends Vue {
   }
 
   // 评价订单
-  goComment(id: string): void {
+  goComment(): void {
     this.$router.push({
       name: "OrderComment",
-      query: { orderId: id }
+      query: { orderId: this.$route.query.orderId }
     });
+  }
+
+  checkDate(): void {
+    let self = this;
+    let temp: any = new Date(self.orderInfo.startDate);
+    // 预定的最后一天的时间
+    let startDate: any = new Date(temp - 3600 * 14 * 1000);
+
+    // 预定的前三天的时间
+    let startThreeDate: any = new Date(temp - 5400 * 1000 - 86400 * 1000 * 3);
+
+    let tip = "";
+    let isDate = false;
+    if (new Date() > startDate) {
+      tip = "抱歉，根据退房政策，入住当天不可退房";
+    } else if (new Date() < startDate && new Date() > startThreeDate) {
+      tip = "根据退房政策，仅可退房费的80%，确认退房后退款将于一天内转至账户";
+      isDate = true;
+    } else {
+      tip = "当前日期在全额退房允许范围内，确认退房后退款将于一天内转至账户";
+      isDate = true;
+    }
+
+    Dialog.confirm({
+      title: "提示",
+      message: tip
+    })
+      .then(() => {
+        if (isDate) self.goCheckOut();
+      })
+      .catch(() => {
+        console.log("已取消");
+      });
+  }
+
+  async goCheckOut(): Promise<any> {
+    let self = this;
+    const res = await checkOutOrderAPI({
+      orderId: self.$route.query.orderId,
+      roomId: self.orderInfo.roomId
+    });
+    try {
+      // console.log("退房成功" + JSON.stringify(res.data));
+      if (res.data.code === 0) {
+        Toast.success("退房成功");
+        self.$router.go(0);
+      }
+    } catch (error) {
+      Toast.fail("退房失败");
+      console.log("退房失败" + error);
+    }
+  }
+
+  async deleteOrder(): Promise<any> {
+    let self = this;
+    const res = await deleteOrderAPI({
+      orderId: self.$route.query.orderId
+    });
+    try {
+      // console.log("删除订单成功" + JSON.stringify(res.data));
+      if (res.data.code === 0) {
+        Toast.success("删除订单成功");
+        self.$router.push("/orderlist");
+      }
+    } catch (error) {
+      Toast.fail("删除订单失败");
+      console.log("删除订单失败" + error);
+    }
   }
 }
 </script>

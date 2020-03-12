@@ -2,7 +2,7 @@
  * @Description: 连接mysql、执行sql语句-订单相关
  * @Author: Vivian
  * @Date: 2020-03-11 16:31:25
- * @LastEditTime: 2020-03-12 13:23:25
+ * @LastEditTime: 2020-03-12 18:20:31
  */
 
 const globalAny: any = global;
@@ -66,6 +66,7 @@ const orderDetail = (val) => { // 获取订单信息
     "orders.userName": '*',
     "orders.message": '*',
     "orders.`status`": '*',
+    "orders.roomId": '*',
     "rooms.roomName": '*',
     "houses.houseName": '*',
     "rooms.roommateNum": '*',
@@ -108,11 +109,40 @@ const insetOrder = (val) => { // 下订单
   return query(result.sql, result.value)
 }
 
+const setGuestsNum = (val) => { // 调整可住人数
+  let sql = `SELECT set_guestsNum(${val.roomId}, ${val.type})`
+  globalAny.log.trace("[insetOrder] sql语句: " + sql + " value参数: " + val);
+
+  return query(sql, val)
+}
+
+const checkOutOrder = (val) => { // 退房
+  let sql = `CALL set_orderStatus(${val.orderId}, ${val.status})`
+  globalAny.log.trace("[checkOutOrder] sql语句: " + sql + " value参数: " + val);
+
+  return query(sql, val)
+}
+
+const deleteOrder = (val) => { // 下订单
+  let stru = getSQLObject();
+  stru["query"] = "delete";
+  stru["tables"] = "orders";
+  stru["where"]["condition"] = [
+    'id = ' + val.orderId
+  ];
+  let result = _structureAnalysis(stru);
+  globalAny.log.trace("[deleteOrder] sql语句: " + result.sql + " value参数: " + result.value);
+
+  return query(result.sql, result.value)
+}
 
 module.exports = {
   sumbitRoomInfo,
   orderDetail,
-  insetOrder
+  insetOrder,
+  setGuestsNum,
+  checkOutOrder,
+  deleteOrder
 }
 
 export { };

@@ -2,7 +2,7 @@
   <div class="notice-box">
     <div class="info">
       <div class="name">退订政策:</div>
-      <div class="tip">入住前3天可退全款，入住前一天可退房费的80%，入住当天不可退款</div>
+      <div class="tip">入住前3天可退全款，入住前一天可退房费的80%，入住当天0点后不可退款</div>
     </div>
     <div class="info">
       <div class="name">入离时间:</div>
