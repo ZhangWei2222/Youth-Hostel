@@ -2,7 +2,7 @@
  * @Description: 连接mysql、执行sql语句-订单相关
  * @Author: Vivian
  * @Date: 2020-03-11 16:31:25
- * @LastEditTime: 2020-03-12 18:20:31
+ * @LastEditTime: 2020-03-13 12:07:24
  */
 
 const globalAny: any = global;
@@ -116,9 +116,9 @@ const setGuestsNum = (val) => { // 调整可住人数
   return query(sql, val)
 }
 
-const checkOutOrder = (val) => { // 退房
+const changeOrderStatus = (val) => { // 修改订单状态
   let sql = `CALL set_orderStatus(${val.orderId}, ${val.status})`
-  globalAny.log.trace("[checkOutOrder] sql语句: " + sql + " value参数: " + val);
+  globalAny.log.trace("[changeOrderStatus] sql语句: " + sql + " value参数: " + val);
 
   return query(sql, val)
 }
@@ -136,13 +136,51 @@ const deleteOrder = (val) => { // 下订单
   return query(result.sql, result.value)
 }
 
+const findRoom = (val) => { // 根据订单号查找房间号
+  let stru = getSQLObject();
+  stru["query"] = "select";
+  stru["tables"] = "orders";
+  stru["data"] = {
+    "roomId": '*'
+  };
+  stru["where"]["condition"] = [
+    "orders.id = " + val,
+  ];
+  let result = _structureAnalysis(stru);
+  globalAny.log.trace("[findRoom] sql语句: " + result.sql + " value参数: " + result.value);
+  return query(result.sql, result.value)
+}
+
+const orderComments = (val) => { // 添加订单评论
+  let stru = getSQLObject();
+  stru["query"] = "insert";
+  stru["tables"] = "roomComments";
+  stru["data"] = {
+    "roomId": val.roomId,
+    "userId": val.userId,
+    "orderId": val.orderId,
+    "message": val.message,
+    "`describe-score`": val.describeScore,
+    "`communicate-score`": val.communicateScore,
+    "`hygiene-score`": val.hygieneScore,
+    "`administration-score`": val.administrationScore,
+  };
+
+  let result = _structureAnalysis(stru);
+  globalAny.log.trace("[orderComments] sql语句: " + result.sql + " value参数: " + result.value);
+
+  return query(result.sql, result.value)
+}
+
 module.exports = {
   sumbitRoomInfo,
   orderDetail,
   insetOrder,
   setGuestsNum,
-  checkOutOrder,
-  deleteOrder
+  changeOrderStatus,
+  deleteOrder,
+  findRoom,
+  orderComments
 }
 
 export { };

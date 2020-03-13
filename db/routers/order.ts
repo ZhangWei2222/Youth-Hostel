@@ -2,7 +2,7 @@
  * @Description: 订单相关接口
  * @Author: Vivian
  * @Date: 2020-03-11 16:29:45
- * @LastEditTime: 2020-03-12 18:34:09
+ * @LastEditTime: 2020-03-13 12:10:07
  */
 
 const globalAny: any = global;
@@ -83,8 +83,7 @@ router.post('/api/submitOrder', async (ctx, next) => {
 
 // 退房
 router.post('/api/checkOutOrder', async (ctx, next) => {
-  globalAny.log.debug(ctx.request.body);
-  await userModel.checkOutOrder({ orderId: ctx.request.body.orderId, status: -2 }).then(async (res) => {
+  await userModel.changeOrderStatus({ orderId: ctx.request.body.orderId, status: -2 }).then(async (res) => {
     globalAny.log.trace("[checkOutOrder] 退房成功" + JSON.stringify(res));
     ctx.body = {
       code: 0,
@@ -115,6 +114,47 @@ router.post('/api/deleteOrder', async (ctx, next) => {
     ctx.body = {
       code: -1,
       msg: err
+    }
+  })
+})
+
+// 评论订单
+router.post('/api/orderComments', async (ctx, next) => {
+  // router.post('/api/orderComments', checkToken, async (ctx, next) => {
+  let temp = {
+    // userId:ctx.userInfo.userId,
+    userId: 11,
+    orderId: ctx.request.body.orderId,
+    roomId: 0,
+    describeScore: ctx.request.body.describeScore,
+    communicateScore: ctx.request.body.communicateScore,
+    hygieneScore: ctx.request.body.hygieneScore,
+    administrationScore: ctx.request.body.administrationScore,
+    message: ctx.request.body.message,
+  };
+  await userModel.findRoom(temp.orderId).then(async (res) => {
+    globalAny.log.trace("[findRoom] 根据订单号查找房间号：" + JSON.stringify(res));
+    temp.roomId = res[0].roomId;
+    await userModel.orderComments(temp).then(async (res) => {
+      globalAny.log.trace("[orderComments] 评价订单成功" + JSON.stringify(res));
+      ctx.body = {
+        code: 0,
+        data: res
+      }
+      await userModel.changeOrderStatus({ orderId: temp.orderId, status: 1 }).then(async (res) => {
+        globalAny.log.trace("[changeOrderStatus] 改变订单状态成功" + JSON.stringify(res));
+        ctx.body = {
+          code: 0,
+          data: res
+        }
+      })
+    })
+  }).catch((err) => {
+    globalAny.log.error("[orderComments] 评价订单失败:" + err);
+    ctx.body = {
+      code: -1,
+      msg: err,
+      data: []
     }
   })
 })

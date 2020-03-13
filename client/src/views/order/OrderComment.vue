@@ -5,25 +5,25 @@
       <div class="rate-box">
         <div class="rate">
           描述
-          <van-rate v-model="value" />
+          <van-rate v-model="comment.describeScore" />
         </div>
         <div class="rate">
           沟通
-          <van-rate v-model="value" />
+          <van-rate v-model="comment.communicateScore" />
         </div>
         <div class="rate">
           卫生
-          <van-rate v-model="value" />
+          <van-rate v-model="comment.hygieneScore" />
         </div>
         <div class="rate">
           管理
-          <van-rate v-model="value" />
+          <van-rate v-model="comment.administrationScore" />
         </div>
       </div>
 
       <van-field
         class="field"
-        v-model="message"
+        v-model="comment.message"
         rows="3"
         autosize
         label="评价"
@@ -33,23 +33,58 @@
         show-word-limit
       />
 
-      <van-button class="button" type="info" @click="goSearch()">提交</van-button>
+      <van-button class="button" type="info" @click="onCommit()">提交</van-button>
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
+import { Toast } from "vant";
+import { orderCommentsAPI } from "@/services/orderAPI.ts";
 
+interface comment {
+  describeScore: number;
+  communicateScore: number;
+  hygieneScore: number;
+  administrationScore: number;
+  message: string;
+  orderId: number;
+}
 @Component({
   name: "OrderComment"
 })
 export default class OrderComment extends Vue {
+  comment: comment = {
+    describeScore: 5,
+    communicateScore: 5,
+    hygieneScore: 5,
+    administrationScore: 5,
+    message: "",
+    orderId: 0
+  };
   value: number = 5;
   message: string = "";
 
   onClickLeft(): void {
     this.$router.go(-1);
+  }
+
+  async onCommit(): Promise<any> {
+    let self = this;
+    self.comment.orderId = Number(this.$route.query.orderId);
+    if (!self.comment.message) self.comment.message = "默认好评。";
+    const res = await orderCommentsAPI(self.comment);
+    try {
+      // console.log("评价成功" + JSON.stringify(res.data));
+      if (res.data.code === 0) {
+        Toast.success("评价成功");
+        self.$router.go(-1);
+      }
+    } catch (error) {
+      Toast.fail("评价失败");
+      console.log("评价失败" + error);
+    }
   }
 }
 </script>
