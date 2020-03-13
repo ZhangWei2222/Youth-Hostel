@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Vivian
  * @Date: 2020-03-06 16:09:44
- * @LastEditTime: 2020-03-12 18:33:14
+ * @LastEditTime: 2020-03-13 17:57:32
  -->
 <template>
   <div class="order-detail">
@@ -105,6 +105,14 @@ export default class OrderDetail extends Vue {
     let temp: string = "";
     let self = this;
     switch (self.orderInfo.status) {
+      case -5:
+        temp = "评论已关闭";
+        self.disabledButton = true;
+        break;
+      case -4:
+        temp = "未入住";
+        self.disabledButton = true;
+        break;
       case -3:
         temp = "申请退房";
         self.disabledButton = true;
