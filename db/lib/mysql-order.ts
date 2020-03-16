@@ -2,7 +2,7 @@
  * @Description: 连接mysql、执行sql语句-订单相关
  * @Author: Vivian
  * @Date: 2020-03-11 16:31:25
- * @LastEditTime: 2020-03-13 12:07:24
+ * @LastEditTime: 2020-03-16 12:04:09
  */
 
 const globalAny: any = global;
@@ -30,6 +30,32 @@ const query = function (sql, val) {
     })
   })
 }
+const orderList = (val) => { // 获取订单列表 0:全部，1:有效，-1:无效
+  let stru = getSQLObject();
+  stru["query"] = "select";
+  stru["tables"] = "orders_view";
+  stru["data"] = {
+    "id": '*',
+    "name": '*',
+    "startDate": '*',
+    "days": '*',
+    "`status`": '*',
+    "allPrice": '*',
+  };
+  stru["where"]["condition"] = [
+    "userId = " + val.userId
+  ];
+  if (val.type === 1) {
+    stru["where"]["condition"].push("status != -3")
+  } else if (val.type === -1) {
+    stru["where"]["condition"].push("status = -3")
+  }
+
+  let result = _structureAnalysis(stru);
+  globalAny.log.trace("[orderList] sql语句: " + result.sql + " value参数: " + result.value);
+  return query(result.sql, result.value)
+}
+
 const sumbitRoomInfo = (val) => { // 获取下订单时候的房间信息
   let stru = getSQLObject();
   stru["query"] = "select";
@@ -55,31 +81,26 @@ const sumbitRoomInfo = (val) => { // 获取下订单时候的房间信息
 const orderDetail = (val) => { // 获取订单信息
   let stru = getSQLObject();
   stru["query"] = "select";
-  stru["tables"] = "orders,rooms,houses,landlords";
+  stru["tables"] = "orders_view";
   stru["data"] = {
-    "orders.id": '*',
-    "orders.value": '*',
-    "orders.startDate": '*',
-    "orders.days": '*',
-    "orders.orderTime": '*',
-    "orders.phoneNum": '*',
-    "orders.userName": '*',
-    "orders.message": '*',
-    "orders.`status`": '*',
-    "orders.roomId": '*',
-    "rooms.roomName": '*',
-    "houses.houseName": '*',
-    "rooms.roommateNum": '*',
-    "rooms.toiletNum": '*',
-    "rooms.price": '*',
-    "rooms.sex": '*',
-    "landlords.phoneNum AS loandlordPhone": '*',
+    "id": '*',
+    "value": '*',
+    "startDate": '*',
+    "days": '*',
+    "orderTime": '*',
+    "phoneNum": '*',
+    "userName": '*',
+    "message": '*',
+    "`status`": '*',
+    "roomId": '*',
+    "name": "*",
+    "roommateNum": '*',
+    "toiletNum": '*',
+    "allPrice": '*',
+    "loandlordPhone": '*',
   };
   stru["where"]["condition"] = [
-    "orders.id = " + val,
-    "orders.roomId =" + "rooms.id",
-    "rooms.houseId= " + "houses.id",
-    "rooms.landlordId= " + "landlords.id",
+    "id = " + val
   ];
   let result = _structureAnalysis(stru);
   globalAny.log.trace("[orderDetail] sql语句: " + result.sql + " value参数: " + result.value);
@@ -173,6 +194,7 @@ const orderComments = (val) => { // 添加订单评论
 }
 
 module.exports = {
+  orderList,
   sumbitRoomInfo,
   orderDetail,
   insetOrder,

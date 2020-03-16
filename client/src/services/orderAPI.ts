@@ -2,7 +2,7 @@
  * @Description: 订单API
  * @Author: Vivian
  * @Date: 2020-03-11 16:51:49
- * @LastEditTime: 2020-03-13 10:57:15
+ * @LastEditTime: 2020-03-16 10:37:12
  */
 
 import http from './lib/http'
@@ -31,3 +31,6 @@ export const orderCommentsAPI = (params) => {
   return http.post('/api/orderComments', params);
 }
 
+export const orderListAPI = () => {
+  return http.get('/api/orderList');
+}

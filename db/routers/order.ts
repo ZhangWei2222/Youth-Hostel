@@ -2,15 +2,50 @@
  * @Description: 订单相关接口
  * @Author: Vivian
  * @Date: 2020-03-11 16:29:45
- * @LastEditTime: 2020-03-13 12:10:07
+ * @LastEditTime: 2020-03-16 12:13:47
  */
 
 const globalAny: any = global;
 let router = require('koa-router')();
 let userModel = require('../lib/mysql-order.ts');
 const uuidV1 = require('uuid/v1');
-const multer = require('koa-multer');
 const checkToken = require('../token/checkToken.ts');
+
+router.get('/api/orderList', checkToken, async (ctx, next) => {
+  let params = {
+    type: 0,
+    userId: ctx.userInfo.userId
+  }
+  await userModel.orderList(params).then(async (res) => {
+    globalAny.log.trace("[orderList] 全部订单列表获取成功!" + JSON.stringify(res));
+    ctx.body = {
+      code: 0,
+      msg: '订单列表获取成功',
+      data: {
+        allList: res,
+        effectiveList: [],
+        invalidList: []
+      }
+    }
+    params.type = 1;
+    await userModel.orderList(params).then(async (res) => {
+      // globalAny.log.trace("[orderList] 有效订单列表获取成功!" + JSON.stringify(res));
+      ctx.body.data.effectiveList = res;
+      params.type = -1;
+      await userModel.orderList(params).then(async (res) => {
+        // globalAny.log.trace("[orderList] 失效订单列表获取成功!" + JSON.stringify(res));
+        ctx.body.data.invalidList = res;
+      })
+    })
+  }).catch((err) => {
+    globalAny.log.error("[orderList] 订单列表获取失败!" + err);
+    ctx.body = {
+      code: -1,
+      msg: err,
+      data: []
+    }
+  })
+})
 
 router.get('/api/sumbitRoomInfo', async (ctx, next) => {
   await userModel.sumbitRoomInfo(ctx.query.roomId).then(async (res) => {

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Vivian
  * @Date: 2020-03-06 16:09:44
- * @LastEditTime: 2020-03-13 17:57:32
+ * @LastEditTime: 2020-03-16 12:11:42
  -->
 <template>
   <div class="order-detail">
@@ -10,9 +10,7 @@
     <div class="wrapper">
       <div class="room-info">
         <div class="detailBox">
-          <div
-            class="title"
-          >{{orderInfo.houseName}}·{{orderInfo.roomName}}·{{orderInfo.sex===1?'男生':'女生'}}</div>
+          <div class="title">{{orderInfo.name}}</div>
           <div class="type">{{orderInfo.roommateNum}}人间·{{orderInfo.toiletNum===1?'独卫':'公卫'}}</div>
           <div class="time">{{orderDate}}·{{orderInfo.days}}晚</div>
           <div
@@ -32,7 +30,7 @@
         <van-field :value="orderInfo.userName" label="入住人" readonly />
         <van-field :value="orderInfo.phoneNum" type="tel" label="联系手机" readonly />
         <van-field :value="orderInfo.message" label="留言" readonly />
-        <van-field :value="'￥'+orderInfo.price" type="number" label="房费" readonly />
+        <van-field :value="'￥'+orderInfo.allPrice" type="number" label="房费" readonly />
       </div>
 
       <van-submit-bar
@@ -70,7 +68,7 @@ import {
 import {
   formatOrderDate,
   formatOrderTime,
-  formatOrderStatus
+  formatOrderStatusText
 } from "@/common/utill.ts";
 
 @Component({
@@ -102,46 +100,17 @@ export default class OrderDetail extends Vue {
   }
 
   get buttonText() {
-    let temp: string = "";
-    let self = this;
-    switch (self.orderInfo.status) {
-      case -5:
-        temp = "评论已关闭";
-        self.disabledButton = true;
-        break;
-      case -4:
-        temp = "未入住";
-        self.disabledButton = true;
-        break;
-      case -3:
-        temp = "申请退房";
-        self.disabledButton = true;
-        break;
-      case -2:
-        temp = "已退房";
-        self.disabledButton = true;
-        break;
-      case -1:
-        temp = "申请退房";
-        break;
-      case 0:
-        temp = "立即评价";
-        break;
-      case 1:
-        temp = "已评价";
-        self.disabledButton = true;
-        break;
-      default:
-        break;
-    }
-    return temp;
+    this.disabledButton = formatOrderStatusText(
+      this.orderInfo.status
+    ).disabledButton;
+    return formatOrderStatusText(this.orderInfo.status).commentText;
   }
 
   // 对数据进行格式化
   formatData(): void {
     let self = this;
     self.orderInfo.orderTime = formatOrderTime(self.orderInfo.orderTime);
-    self.statusText = formatOrderStatus(self.orderInfo.status);
+    self.statusText = formatOrderStatusText(self.orderInfo.status).text;
     self.orderDate = formatOrderDate(
       self.orderInfo.startDate,
       self.orderInfo.days
