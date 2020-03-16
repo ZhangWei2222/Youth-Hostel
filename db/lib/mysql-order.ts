@@ -2,7 +2,7 @@
  * @Description: 连接mysql、执行sql语句-订单相关
  * @Author: Vivian
  * @Date: 2020-03-11 16:31:25
- * @LastEditTime: 2020-03-16 12:04:09
+ * @LastEditTime: 2020-03-16 12:51:01
  */
 
 const globalAny: any = global;
@@ -144,7 +144,7 @@ const changeOrderStatus = (val) => { // 修改订单状态
   return query(sql, val)
 }
 
-const deleteOrder = (val) => { // 下订单
+const deleteOrder = (val) => { // 删除订单
   let stru = getSQLObject();
   stru["query"] = "delete";
   stru["tables"] = "orders";
@@ -154,22 +154,7 @@ const deleteOrder = (val) => { // 下订单
   let result = _structureAnalysis(stru);
   globalAny.log.trace("[deleteOrder] sql语句: " + result.sql + " value参数: " + result.value);
 
-  return query(result.sql, result.value)
-}
-
-const findRoom = (val) => { // 根据订单号查找房间号
-  let stru = getSQLObject();
-  stru["query"] = "select";
-  stru["tables"] = "orders";
-  stru["data"] = {
-    "roomId": '*'
-  };
-  stru["where"]["condition"] = [
-    "orders.id = " + val,
-  ];
-  let result = _structureAnalysis(stru);
-  globalAny.log.trace("[findRoom] sql语句: " + result.sql + " value参数: " + result.value);
-  return query(result.sql, result.value)
+  return query("SET foreign_key_checks = 0;" + result.sql + "SET foreign_key_checks = 1;", result.value)
 }
 
 const orderComments = (val) => { // 添加订单评论
@@ -201,7 +186,6 @@ module.exports = {
   setGuestsNum,
   changeOrderStatus,
   deleteOrder,
-  findRoom,
   orderComments
 }
 

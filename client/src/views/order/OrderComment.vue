@@ -50,6 +50,7 @@ interface comment {
   administrationScore: number;
   message: string;
   orderId: number;
+  roomId: number;
 }
 @Component({
   name: "OrderComment"
@@ -61,7 +62,8 @@ export default class OrderComment extends Vue {
     hygieneScore: 5,
     administrationScore: 5,
     message: "",
-    orderId: 0
+    orderId: 0,
+    roomId: 0
   };
   value: number = 5;
   message: string = "";
@@ -73,6 +75,7 @@ export default class OrderComment extends Vue {
   async onCommit(): Promise<any> {
     let self = this;
     self.comment.orderId = Number(this.$route.query.orderId);
+    self.comment.roomId = Number(this.$route.params.roomId);
     if (!self.comment.message) self.comment.message = "默认好评。";
     const res = await orderCommentsAPI(self.comment);
     try {

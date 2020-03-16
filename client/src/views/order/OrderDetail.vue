@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Vivian
  * @Date: 2020-03-06 16:09:44
- * @LastEditTime: 2020-03-16 12:11:42
+ * @LastEditTime: 2020-03-16 12:43:46
  -->
 <template>
   <div class="order-detail">
@@ -125,7 +125,8 @@ export default class OrderDetail extends Vue {
   goComment(): void {
     this.$router.push({
       name: "OrderComment",
-      query: { orderId: this.$route.query.orderId }
+      query: { orderId: this.$route.query.orderId },
+      params: { roomId: this.orderInfo.roomId }
     });
   }
 

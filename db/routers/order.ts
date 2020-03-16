@@ -2,7 +2,7 @@
  * @Description: 订单相关接口
  * @Author: Vivian
  * @Date: 2020-03-11 16:29:45
- * @LastEditTime: 2020-03-16 12:13:47
+ * @LastEditTime: 2020-03-16 12:52:33
  */
 
 const globalAny: any = global;
@@ -154,35 +154,29 @@ router.post('/api/deleteOrder', async (ctx, next) => {
 })
 
 // 评论订单
-router.post('/api/orderComments', async (ctx, next) => {
-  // router.post('/api/orderComments', checkToken, async (ctx, next) => {
+router.post('/api/orderComments', checkToken, async (ctx, next) => {
   let temp = {
-    // userId:ctx.userInfo.userId,
-    userId: 11,
+    userId: ctx.userInfo.userId,
     orderId: ctx.request.body.orderId,
-    roomId: 0,
+    roomId: ctx.request.body.roomId,
     describeScore: ctx.request.body.describeScore,
     communicateScore: ctx.request.body.communicateScore,
     hygieneScore: ctx.request.body.hygieneScore,
     administrationScore: ctx.request.body.administrationScore,
     message: ctx.request.body.message,
   };
-  await userModel.findRoom(temp.orderId).then(async (res) => {
-    globalAny.log.trace("[findRoom] 根据订单号查找房间号：" + JSON.stringify(res));
-    temp.roomId = res[0].roomId;
-    await userModel.orderComments(temp).then(async (res) => {
-      globalAny.log.trace("[orderComments] 评价订单成功" + JSON.stringify(res));
+  await userModel.orderComments(temp).then(async (res) => {
+    globalAny.log.trace("[orderComments] 评价订单成功" + JSON.stringify(res));
+    ctx.body = {
+      code: 0,
+      data: res
+    }
+    await userModel.changeOrderStatus({ orderId: temp.orderId, status: 1 }).then(async (res) => {
+      globalAny.log.trace("[changeOrderStatus] 改变订单状态成功" + JSON.stringify(res));
       ctx.body = {
         code: 0,
         data: res
       }
-      await userModel.changeOrderStatus({ orderId: temp.orderId, status: 1 }).then(async (res) => {
-        globalAny.log.trace("[changeOrderStatus] 改变订单状态成功" + JSON.stringify(res));
-        ctx.body = {
-          code: 0,
-          data: res
-        }
-      })
     })
   }).catch((err) => {
     globalAny.log.error("[orderComments] 评价订单失败:" + err);
