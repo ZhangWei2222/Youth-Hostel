@@ -32,7 +32,7 @@
 
 <script lang="ts">
 import { Vue, Component, Prop } from "vue-property-decorator";
-import { formatDate2 } from "@/common/utill.ts";
+import { formatDate2 } from "@/common/ts/utill.ts";
 
 @Component({
   name: "CommentList"
@@ -56,7 +56,7 @@ export default class CommentList extends Vue {
   onLoad(): void {
     let self = this;
     setTimeout(() => {
-      for (let i = 0; i < self.userInfo.data.length; i++) {
+      for (let i = self.userInfo.data.length - 1; i >= 0; i--) {
         self.userInfo.data[i].date = formatDate2(self.userInfo.data[i].date);
         self.commentList.push(self.userInfo.data[i]);
       }
@@ -71,10 +71,18 @@ export default class CommentList extends Vue {
 }
 </script>
 
+<style lang="less">
+.comment-list {
+  .van-list__finished-text {
+    font-size: 12px;
+    line-height: 40px;
+  }
+}
+</style>
 <style scoped lang="less">
 @import url("~@/common/style/Variable.less");
 .comment-list {
-  padding: 10px 20px 80px;
+  padding: 10px 20px 60px;
   .comment {
     display: flex;
     flex-direction: column;
@@ -88,8 +96,9 @@ export default class CommentList extends Vue {
         border-radius: 50%;
         overflow: hidden;
         img {
-          width: 40px;
-          height: 40px;
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
         }
       }
       .box {

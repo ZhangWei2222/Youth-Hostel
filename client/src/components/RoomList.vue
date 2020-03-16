@@ -87,6 +87,10 @@ export default class RoomList extends Vue {
     width: 100%;
     height: 130%;
   }
+  .van-list__finished-text {
+    font-size: 12px;
+    line-height: 40px;
+  }
 }
 </style>
 <style scoped lang="less">

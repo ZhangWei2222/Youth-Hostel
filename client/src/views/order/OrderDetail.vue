@@ -72,7 +72,7 @@ import {
   formatOrderDate,
   formatOrderTime,
   formatOrderStatusText
-} from "@/common/utill.ts";
+} from "@/common/ts/utill.ts";
 import Notice from "@/components/Notice.vue";
 
 @Component({

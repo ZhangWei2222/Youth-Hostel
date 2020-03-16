@@ -2,7 +2,7 @@
  * @Description: 订单列表
  * @Author: Vivian
  * @Date: 2020-03-16 10:19:58
- * @LastEditTime: 2020-03-16 11:56:49
+ * @LastEditTime: 2020-03-16 18:40:57
  -->
 
 <template>
@@ -26,7 +26,7 @@
 
 <script lang="ts">
 import { Vue, Component, Prop } from "vue-property-decorator";
-import { formatOrderStatusText, formatOrderDate } from "@/common/utill.ts";
+import { formatOrderStatusText, formatOrderDate } from "@/common/ts/utill.ts";
 
 @Component({
   name: "OrderList"
@@ -57,7 +57,7 @@ export default class OrderList extends Vue {
   onLoad(): void {
     let self = this;
     setTimeout(() => {
-      for (let i = 0; i < self.orderList.length; i++) {
+      for (let i = self.orderList.length - 1; i >= 0; i--) {
         self.list.push(self.orderList[i]);
       }
       self.loading = false;
@@ -69,6 +69,14 @@ export default class OrderList extends Vue {
 }
 </script>
 
+<style lang="less">
+.order-list {
+  .van-list__finished-text {
+    font-size: 12px;
+    line-height: 40px;
+  }
+}
+</style>
 <style scoped lang="less">
 @import url("~@/common/style/Variable.less");
 .order-list {

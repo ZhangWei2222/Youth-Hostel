@@ -25,7 +25,7 @@
 
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
-import { formatter, formatDate, getDiff } from "../common/utill";
+import { formatter, formatDate, getDiff } from "@/common/ts/utill.ts";
 
 @Component({
   name: "HomePage"

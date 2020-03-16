@@ -2,7 +2,7 @@
  * @Description: 连接mysql、执行sql语句-房间相关
  * @Author: Vivian
  * @Date: 2020-03-10 10:31:15
- * @LastEditTime: 2020-03-11 16:31:43
+ * @LastEditTime: 2020-03-16 19:07:10
  */
 
 const globalAny: any = global;
@@ -31,7 +31,7 @@ const query = function (sql, val) {
   })
 }
 
-const landlordInfo = (val) => { // 获取店家信息
+const landlordRoomInfo = (val) => { // 店家主页中的房源信息
   let stru = getSQLObject();
   stru["query"] = "select";
   stru["tables"] = "room_comments_view,rooms";
@@ -51,7 +51,7 @@ const landlordInfo = (val) => { // 获取店家信息
   ];
   stru["options"]["group by"] = "rooms.id"
   let result = _structureAnalysis(stru);
-  globalAny.log.trace("[landlordInfo] sql语句: " + result.sql + " value参数: " + result.value);
+  globalAny.log.trace("[landlordRoomInfo] sql语句: " + result.sql + " value参数: " + result.value);
   return query(result.sql, result.value)
 }
 
@@ -121,7 +121,7 @@ const houseDetail = (val) => { // 获取房源详情
   return query(result.sql, result.value)
 }
 
-const landlordDetail = (val) => { // 获取房源详情
+const landlordDetail = (val) => { // 获取店家信息
   let stru = getSQLObject();
   stru["query"] = "select";
   stru["tables"] = "landlords";
@@ -160,7 +160,7 @@ const commentAVG = (val) => { // 获取房间评论平均数
     "round(AVG(`hygiene-score`),2) AS h_s": '*',
     "round(AVG(`communicate-score`),2) AS c_s": '*',
     "round(AVG(`describe-score`),2) AS d_s": '*',
-    "round((AVG(`administration-score`) + AVG(`hygiene-score`) + AVG(`communicate-score`) + AVG(`describe-score`))/4, 2) AS totalScore": '*'
+    "round(AVG(`score`), 2) AS totalScore": '*'
   };
   stru["where"]["condition"] = [
     "roomId = " + val,
@@ -186,7 +186,7 @@ const facilityList = (val) => { // 获取服务设施表
 }
 
 module.exports = {
-  landlordInfo,
+  landlordRoomInfo,
   landlordComments,
   landlordCommentsAVG,
   roomDetail,

@@ -49,7 +49,7 @@ import { Vue, Component } from "vue-property-decorator";
 import Notice from "@/components/Notice.vue";
 import { Toast } from "vant";
 import { sumbitRoomInfoAPI, submitOrderAPI } from "@/services/orderAPI.ts";
-import { checkPhone, checkId } from "@/common/utill.ts";
+import { checkPhone, checkId } from "@/common/ts/utill.ts";
 
 @Component({
   name: "SubmitOrder",

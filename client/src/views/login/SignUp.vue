@@ -22,7 +22,7 @@ import { Toast } from "vant";
 import md5 from "js-md5";
 import UserForm from "@/components/UserForm.vue";
 import { signUpAPI } from "@/services/loginAPI.ts";
-import { checkPhone, checkEmpty } from "@/common/utill.ts";
+import { checkPhone, checkEmpty } from "@/common/ts/utill.ts";
 
 @Component({
   name: "SignUp",

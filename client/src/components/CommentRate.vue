@@ -47,7 +47,7 @@
 
 <script lang="ts">
 import { Vue, Component, Prop } from "vue-property-decorator";
-import { returnFloat } from "@/common/utill.ts";
+import { returnFloat } from "@/common/ts/utill.ts";
 
 @Component({
   name: "CommentRate"

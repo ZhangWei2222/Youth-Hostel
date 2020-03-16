@@ -1,6 +1,6 @@
 <template>
   <div class="room-details">
-    <van-nav-bar title="商品详情" left-arrow @click-left="onClickLeft" :border="false" />
+    <van-nav-bar title="房间详情" left-arrow @click-left="onClickLeft" :border="false" />
 
     <van-swipe :autoplay="3000">
       <van-swipe-item v-for="(image, index) in images" :key="index">
@@ -97,8 +97,8 @@
           </div>
           <div style="padding: 5px;background: #f7f8fa;border-radius: 3px;">
             <div class="intro" @click="roomIntro(roomDetail.houseData.intro)">
-              <span class="title">房间介绍：</span>
-              {{roomDetail.houseData.intro}}
+              <span class="title">房源介绍：</span>
+              {{roomDetail.houseData.redecoratedDate}}装修；{{roomDetail.houseData.intro}}
             </div>
           </div>
         </div>
@@ -138,7 +138,7 @@
               </div>
             </div>
           </div>
-          <van-divider />
+          <van-divider style="padding:10px 0" />
           <div class="commentBox">
             <div class="person">
               <div class="avator">
@@ -173,7 +173,7 @@
     </div>
 
     <van-submit-bar
-      :price="roomDetail.roomData.price*100"
+      :price="roomDetail.roomData.price * roomDays * 100"
       button-type="warning"
       button-text="立即预定"
       @submit="goView(2, 4)"
@@ -189,12 +189,19 @@
 
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
-import { formatter, formatDate, getDiff } from "../../common/utill";
 import { Lazyload, Dialog, Toast } from "vant";
 import FacilityList from "@/components/FacilityList.vue";
 import Notice from "@/components/Notice.vue";
 import { roomDetailAPI } from "@/services/roomAPI.ts";
-import { formatRoomDate, formatDate2, returnFloat } from "@/common/utill.ts";
+import {
+  formatter,
+  formatDate,
+  getDiff,
+  formatRoomDate,
+  formatDate2,
+  returnFloat
+} from "@/common/ts/utill.ts";
+import { formatFacilityList } from "@/common/ts/facility.ts";
 Vue.use(Lazyload, Dialog);
 
 @Component({
@@ -275,7 +282,7 @@ export default class RoomDetails extends Vue {
             list: res.data.data.commentsData.list,
             average: res.data.data.commentsData.average[0]
           },
-          facilityList: res.data.data.facilityList
+          facilityList: res.data.data.facilityList[0]
         };
         self.formatData();
       }
@@ -298,36 +305,9 @@ export default class RoomDetails extends Vue {
       d_s: returnFloat(self.roomDetail.commentsData.average.d_s),
       a_s: returnFloat(self.roomDetail.commentsData.average.a_s),
       c_s: returnFloat(self.roomDetail.commentsData.average.c_s),
-      totalScore: parseFloat(
-        returnFloat(self.roomDetail.commentsData.average.totalScore)
-      )
+      totalScore: returnFloat(self.roomDetail.commentsData.average.totalScore)
     };
-    for (let i = 0; i < self.roomDetail.facilityList.length; i++) {
-      switch (self.roomDetail.facilityList[i].key.split("_")[0]) {
-        case "service":
-          self.cacheFacilityList.serviceList.push(
-            self.roomDetail.facilityList[i]
-          );
-          break;
-        case "basis":
-          self.cacheFacilityList.basisList.push(
-            self.roomDetail.facilityList[i]
-          );
-          break;
-        case "shower":
-          self.cacheFacilityList.showerList.push(
-            self.roomDetail.facilityList[i]
-          );
-          break;
-        case "kitchen":
-          self.cacheFacilityList.kitchenList.push(
-            self.roomDetail.facilityList[i]
-          );
-          break;
-        default:
-          break;
-      }
-    }
+    self.cacheFacilityList = formatFacilityList(self.roomDetail.facilityList);
   }
 
   // 选择日期
@@ -380,7 +360,7 @@ export default class RoomDetails extends Vue {
   // 房屋介绍
   roomIntro(intro): void {
     Dialog.alert({
-      title: "房间介绍",
+      title: "房源介绍",
       message: intro
     }).then(() => {
       // on close
@@ -429,7 +409,7 @@ export default class RoomDetails extends Vue {
   }
 
   .wrapper {
-    padding: 0 20px 80px;
+    padding: 0 20px 65px;
   }
 
   .overview {
@@ -452,7 +432,7 @@ export default class RoomDetails extends Vue {
       margin: 10px 0;
     }
     .info {
-      margin: 10px 0;
+      margin: 10px 0 0;
       font-size: @min-size;
     }
   }
@@ -461,7 +441,7 @@ export default class RoomDetails extends Vue {
   .landlord,
   .comment,
   .notice {
-    padding: 10px 0;
+    padding: 8px 0;
     .title {
       font-size: @middle-size;
       font-weight: bold;
@@ -503,24 +483,25 @@ export default class RoomDetails extends Vue {
   .service-pop {
     height: 60%;
     .wrapper {
-      padding: 40px 20px 20px;
+      padding: 20px 20px 10px;
     }
   }
 
   .landlord {
     .box {
-      height: 120px;
       .person {
         display: flex;
         align-items: center;
+        margin-bottom: 10px;
         .img {
           border-radius: 50%;
           overflow: hidden;
-          width: 50px;
-          height: 50px;
+          width: 40px;
+          height: 40px;
           img {
-            width: 50px;
-            height: 50px;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
           }
         }
         .name {
@@ -533,9 +514,9 @@ export default class RoomDetails extends Vue {
         font-size: @min-size;
         text-align: left;
         overflow: hidden;
-        display: -webkit-box; //将元素设为盒子伸缩模型显示
-        -webkit-box-orient: vertical; //伸缩方向设为垂直方向
-        -webkit-line-clamp: 2; //超出3行隐藏，并显示省略号
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
 
         .title {
           font-size: @min-size;
@@ -547,7 +528,6 @@ export default class RoomDetails extends Vue {
 
   .comment {
     .box {
-      height: 200px;
       .rateBox {
         display: flex;
         flex-direction: column;
@@ -600,8 +580,9 @@ export default class RoomDetails extends Vue {
             border-radius: 50%;
             overflow: hidden;
             img {
-              width: 40px;
-              height: 40px;
+              width: 100%;
+              height: 100%;
+              object-fit: cover;
             }
           }
           .person-box {
@@ -620,6 +601,10 @@ export default class RoomDetails extends Vue {
         .content {
           font-size: @min-size;
           text-align: left;
+          display: -webkit-box;
+          -webkit-box-orient: vertical;
+          -webkit-line-clamp: 2;
+          overflow: hidden;
         }
       }
     }

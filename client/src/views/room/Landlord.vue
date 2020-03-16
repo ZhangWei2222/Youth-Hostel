@@ -18,11 +18,11 @@
           <span>{{landlordInfo.roomData.length}}</span>
         </div>
         <div class="item">
-          整体评分
+          总评分
           <span>{{landlordInfo.commentData.totalScore}}</span>
         </div>
         <div class="item">
-          评价数
+          总评价数
           <span>{{landlordInfo.commentData.data.length}}</span>
         </div>
       </div>

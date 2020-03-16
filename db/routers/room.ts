@@ -2,7 +2,7 @@
  * @Description: 房间相关接口--获取店家评论
  * @Author: Vivian
  * @Date: 2020-03-10 10:32:41
- * @LastEditTime: 2020-03-11 19:11:36
+ * @LastEditTime: 2020-03-16 19:56:02
  */
 
 const globalAny: any = global;
@@ -91,7 +91,7 @@ router.get('/api/landlordInfo', async (ctx, next) => {
         }
       }
     }
-    await userModel.landlordInfo(ctx.query.landlordId).then(async (res) => {
+    await userModel.landlordRoomInfo(ctx.query.landlordId).then(async (res) => {
       ctx.body.data.roomData = res;
     })
     await userModel.landlordComments(ctx.query.landlordId).then(async (res) => {

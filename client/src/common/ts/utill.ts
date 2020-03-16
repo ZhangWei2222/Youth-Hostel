@@ -2,7 +2,7 @@
  * @Description: 工具类-比如格式化函数等
  * @Author: Vivian
  * @Date: 2020-03-06 14:00:16
- * @LastEditTime: 2020-03-16 12:13:29
+ * @LastEditTime: 2020-03-16 18:36:27
  */
 
 // 自定义日期文案
@@ -32,16 +32,10 @@ export function getDiff(start: any, end: any): number {
 
 // 格式化日期 *年*月*日
 export function formatDate2(date: any): any {
-  let year = date.split('T')[0].split('-')[0];
-  let month = date.split('T')[0].split('-')[1];
-  let day = date.split('T')[0].split('-')[2];
-  if (month[0] === '0') {
-    month = month[1]
-  }
-  if (day[0] === '0') {
-    day = day[1]
-  }
-  if (year === new Date().getFullYear().toString()) {
+  let year = new Date(date).getFullYear();
+  let month = new Date(date).getMonth() + 1;
+  let day = new Date(date).getDate();
+  if (year === new Date().getFullYear()) {
     return `${month}月${day}日`;
   } else {
     return `${year}年${month}月${day}日`;
