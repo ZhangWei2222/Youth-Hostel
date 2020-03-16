@@ -31,8 +31,8 @@
           show-word-limit
         />
       </div>
-      <van-divider style="padding: 20px 0;" />
-      <Notice></Notice>
+      <van-divider style="padding: 10px 0;" />
+      <Notice :type="1"></Notice>
 
       <van-submit-bar
         :price="roomInfo.price*100"
@@ -183,12 +183,6 @@ export default class SubmitOrder extends Vue {
   }
   .van-submit-bar {
     background: @incarnadine;
-  }
-  .notice-box {
-    .name {
-      font-size: @min-size;
-      width: 65px !important;
-    }
   }
 }
 </style>

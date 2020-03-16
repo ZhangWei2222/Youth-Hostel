@@ -168,7 +168,7 @@
           预订须知
           <span>以下规则由平台制定，请仔细阅读并遵守</span>
         </div>
-        <Notice></Notice>
+        <Notice :type="0"></Notice>
       </div>
     </div>
 

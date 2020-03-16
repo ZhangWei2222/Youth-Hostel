@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Vivian
  * @Date: 2020-03-06 16:09:44
- * @LastEditTime: 2020-03-16 12:43:46
+ * @LastEditTime: 2020-03-16 17:13:06
  -->
 <template>
   <div class="order-detail">
@@ -32,6 +32,9 @@
         <van-field :value="orderInfo.message" label="留言" readonly />
         <van-field :value="'￥'+orderInfo.allPrice" type="number" label="房费" readonly />
       </div>
+
+      <van-divider style="padding: 10px 0;" />
+      <Notice :type="2" :status="orderInfo.status"></Notice>
 
       <van-submit-bar
         button-type="warning"
@@ -70,9 +73,13 @@ import {
   formatOrderTime,
   formatOrderStatusText
 } from "@/common/utill.ts";
+import Notice from "@/components/Notice.vue";
 
 @Component({
-  name: "OrderDetail"
+  name: "OrderDetail",
+  components: {
+    Notice
+  }
 })
 export default class OrderDetail extends Vue {
   orderInfo: any = {};
