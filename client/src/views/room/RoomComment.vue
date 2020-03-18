@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Vivian
  * @Date: 2020-03-06 16:09:44
- * @LastEditTime: 2020-03-10 18:28:48
+ * @LastEditTime: 2020-03-18 16:23:25
  -->
 <template>
   <div class="room-comment">
@@ -55,6 +55,15 @@ export default class RoomComment extends Vue {
         data: res.data.data,
         average: res.data.average[0]
       };
+      if (self.roomComments.data.length === 0) {
+        self.roomComments.average = {
+          a_s: 5,
+          h_s: 5,
+          c_s: 5,
+          d_s: 5,
+          totalScore: 5
+        };
+      }
     } catch (error) {
       Toast.fail("获取房间评论信息失败");
       console.log("获取房间评论信息失败" + error);

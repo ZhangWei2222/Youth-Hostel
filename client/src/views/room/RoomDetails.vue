@@ -296,19 +296,29 @@ export default class RoomDetails extends Vue {
   // 格式化数据
   formatData(): void {
     let self = this;
-    for (let i = 0; i < self.roomDetail.commentsData.list.length; i++) {
-      self.roomDetail.commentsData.list[i].date = formatDate2(
-        self.roomDetail.commentsData.list[i].date
-      );
+    if (self.roomDetail.commentsData.list.length === 0) {
+      self.roomDetail.commentsData.average = {
+        a_s: 5,
+        h_s: 5,
+        c_s: 5,
+        d_s: 5,
+        totalScore: 5
+      };
+    } else {
+      for (let i = 0; i < self.roomDetail.commentsData.list.length; i++) {
+        self.roomDetail.commentsData.list[i].date = formatDate2(
+          self.roomDetail.commentsData.list[i].date
+        );
+      }
+      self.roomDetail.commentsData.average = {
+        h_s: returnFloat(self.roomDetail.commentsData.average.h_s),
+        d_s: returnFloat(self.roomDetail.commentsData.average.d_s),
+        a_s: returnFloat(self.roomDetail.commentsData.average.a_s),
+        c_s: returnFloat(self.roomDetail.commentsData.average.c_s),
+        totalScore: returnFloat(self.roomDetail.commentsData.average.totalScore)
+      };
+      self.cacheFacilityList = formatFacilityList(self.roomDetail.facilityList);
     }
-    self.roomDetail.commentsData.average = {
-      h_s: returnFloat(self.roomDetail.commentsData.average.h_s),
-      d_s: returnFloat(self.roomDetail.commentsData.average.d_s),
-      a_s: returnFloat(self.roomDetail.commentsData.average.a_s),
-      c_s: returnFloat(self.roomDetail.commentsData.average.c_s),
-      totalScore: returnFloat(self.roomDetail.commentsData.average.totalScore)
-    };
-    self.cacheFacilityList = formatFacilityList(self.roomDetail.facilityList);
   }
 
   // 选择日期

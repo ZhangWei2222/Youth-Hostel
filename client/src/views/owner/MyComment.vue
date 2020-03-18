@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Vivian
  * @Date: 2020-03-06 16:09:44
- * @LastEditTime: 2020-03-18 12:59:54
+ * @LastEditTime: 2020-03-18 16:22:22
  -->
 <template>
   <div class="my-comment">
@@ -51,6 +51,15 @@ export default class MyComment extends Vue {
       // console.log("获取用户评论信息成功" + JSON.stringify(res.data));
       self.userInfo.data = res.data.data;
       self.userInfo.average = res.data.average[0];
+      if (self.userInfo.data.length === 0) {
+        self.userInfo.average = {
+          q_s: 5,
+          h_s: 5,
+          c_s: 5,
+          d_s: 5,
+          totalScore: 5
+        };
+      }
     } catch (error) {
       Toast.fail("获取用户评论信息失败");
       console.log("获取用户评论信息失败" + error);
