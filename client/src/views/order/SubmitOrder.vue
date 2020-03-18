@@ -156,10 +156,13 @@ export default class SubmitOrder extends Vue {
         // console.log("下订单成功" + JSON.stringify(res.data));
         if (res.data.code === 0) {
           Toast.success("下订单成功");
-          this.$router.push({
+          self.$router.push({
             name: "OrderSuccess",
             query: { orderId: res.data.data.orderId }
           });
+        } else if (res.data.code === 104) {
+          Toast.fail(res.data.msg);
+          self.$router.push("SignIn");
         }
       } catch (error) {
         Toast.fail("获取房间信息失败");

@@ -83,6 +83,9 @@ export default class OrderComment extends Vue {
       if (res.data.code === 0) {
         Toast.success("评价成功");
         self.$router.go(-1);
+      } else if (res.data.code === 104) {
+        Toast.fail(res.data.msg);
+        self.$router.push("SignIn");
       }
     } catch (error) {
       Toast.fail("评价失败");

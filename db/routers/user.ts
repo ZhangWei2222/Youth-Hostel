@@ -2,7 +2,7 @@
  * @Description: 用户相关接口--获取用户信息、编辑用户信息、上传头像、获取用户评论
  * @Author: Vivian
  * @Date: 2020-03-03 10:26:57
- * @LastEditTime: 2020-03-10 10:34:15
+ * @LastEditTime: 2020-03-18 12:51:36
  */
 
 const globalAny: any = global;
@@ -74,7 +74,7 @@ const storage = multer.diskStorage({
 //   files: 1//文件数量
 // }
 const upload = multer({ storage })
-router.post('/api/userImage', upload.single('avatar'), async (ctx, next) => {
+router.post('/api/userImage', checkToken, upload.single('avatar'), async (ctx, next) => {
   // globalAny.log.debug("[userImage] 查看参数!" + ctx.req.body.id + ctx.req.file.filename);
   let user = {
     id: ctx.req.body.id,
@@ -99,7 +99,6 @@ router.post('/api/userImage', upload.single('avatar'), async (ctx, next) => {
 
 
 })
-
 
 router.get('/api/userComments', checkToken, async (ctx, next) => {
   // globalAny.log.debug("[userComments]" + JSON.stringify(ctx.userInfo));

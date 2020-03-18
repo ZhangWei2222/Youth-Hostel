@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Vivian
  * @Date: 2020-03-06 16:09:44
- * @LastEditTime: 2020-03-16 12:08:09
+ * @LastEditTime: 2020-03-18 13:01:02
  -->
 <template>
   <div class="order-index">
@@ -65,6 +65,8 @@ export default class OrderIndex extends Vue {
         self.allList = res.data.data.allList;
         self.effectiveList = res.data.data.effectiveList;
         self.invalidList = res.data.data.invalidList;
+      } else if (res.data.code === 104) {
+        Toast.fail(res.data.msg);
       }
     } catch (error) {
       Toast.fail("获取列表失败");

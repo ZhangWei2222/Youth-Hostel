@@ -2,14 +2,12 @@
  * @Description: 房间相关接口--获取店家评论
  * @Author: Vivian
  * @Date: 2020-03-10 10:32:41
- * @LastEditTime: 2020-03-16 19:56:02
+ * @LastEditTime: 2020-03-18 12:51:18
  */
 
 const globalAny: any = global;
 let router = require('koa-router')();
 let userModel = require('../lib/mysql-room.ts');
-const multer = require('koa-multer');
-const checkToken = require('../token/checkToken.ts');
 
 router.get('/api/roomDetail', async (ctx, next) => {
   await userModel.roomDetail(ctx.query.roomId).then(async (res) => {

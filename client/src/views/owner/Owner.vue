@@ -127,7 +127,7 @@ export default class OwnerIndex extends Vue {
         Toast.success(res.data.msg);
         self.SET_USER_AVATOR(res.data.filename);
         self.$router.go(0);
-      } else {
+      } else if (res.data.code === 104) {
         Toast.fail(res.data.msg);
       }
     } catch (error) {

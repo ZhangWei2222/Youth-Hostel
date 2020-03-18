@@ -2,7 +2,7 @@
  * @Description: 订单相关接口
  * @Author: Vivian
  * @Date: 2020-03-11 16:29:45
- * @LastEditTime: 2020-03-18 12:30:27
+ * @LastEditTime: 2020-03-18 12:42:09
  */
 
 const globalAny: any = global;
@@ -84,13 +84,13 @@ router.get('/api/orderDetail', async (ctx, next) => {
 })
 
 // 下订单
-router.post('/api/submitOrder', async (ctx, next) => {
+router.post('/api/submitOrder', checkToken, async (ctx, next) => {
   let order = {
     roomId: ctx.request.body.roomId,
     startDate: ctx.request.body.startDate,
     days: ctx.request.body.days,
     orderTime: ctx.request.body.orderTime,
-    userId: ctx.request.body.userId,
+    userId: ctx.userInfo.userId,
     idCard: ctx.request.body.idCard,
     phoneNum: ctx.request.body.phoneNum,
     userName: ctx.request.body.userName,
@@ -117,7 +117,7 @@ router.post('/api/submitOrder', async (ctx, next) => {
 })
 
 // 退房
-router.post('/api/checkOutOrder', async (ctx, next) => {
+router.post('/api/checkOutOrder', checkToken, async (ctx, next) => {
   await userModel.changeOrderStatus({ orderId: ctx.request.body.orderId, status: -2 }).then(async (res) => {
     globalAny.log.trace("[checkOutOrder] 退房成功" + JSON.stringify(res));
     ctx.body = {
@@ -137,7 +137,7 @@ router.post('/api/checkOutOrder', async (ctx, next) => {
 })
 
 // 删除订单
-router.post('/api/deleteOrder', async (ctx, next) => {
+router.post('/api/deleteOrder', checkToken, async (ctx, next) => {
   await userModel.deleteOrder({ orderId: ctx.request.body.orderId }).then(async (res) => {
     globalAny.log.trace("[deleteOrder] 删除订单成功" + JSON.stringify(res));
     ctx.body = {

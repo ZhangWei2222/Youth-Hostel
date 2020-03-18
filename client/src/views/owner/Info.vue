@@ -64,8 +64,9 @@ export default class InfoIndex extends Vue {
         console.log("编辑信息" + JSON.stringify(res.data));
         if (res.data.code === 0) {
           Toast.success(res.data.msg);
-        } else {
-          Toast.fail("修改失败" + res.data.msg);
+        } else if (res.data.code === 104) {
+          Toast.fail(res.data.msg);
+          self.$router.push("SignIn");
         }
       } catch (error) {
         Toast.fail("修改失败");

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Vivian
  * @Date: 2020-03-06 16:09:44
- * @LastEditTime: 2020-03-16 17:13:06
+ * @LastEditTime: 2020-03-18 12:56:25
  -->
 <template>
   <div class="order-detail">
@@ -181,6 +181,9 @@ export default class OrderDetail extends Vue {
       if (res.data.code === 0) {
         Toast.success("退房成功");
         self.$router.go(0);
+      } else if (res.data.code === 104) {
+        Toast.fail(res.data.msg);
+        self.$router.push("SignIn");
       }
     } catch (error) {
       Toast.fail("退房失败");
@@ -198,6 +201,9 @@ export default class OrderDetail extends Vue {
       if (res.data.code === 0) {
         Toast.success("删除订单成功");
         self.$router.push("/orderlist");
+      } else if (res.data.code === 104) {
+        Toast.fail(res.data.msg);
+        self.$router.push("SignIn");
       }
     } catch (error) {
       Toast.fail("删除订单失败");
