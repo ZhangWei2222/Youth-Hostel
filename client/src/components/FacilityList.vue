@@ -26,7 +26,7 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component, Prop } from "vue-property-decorator";
+import { Vue, Component, Prop, Watch } from "vue-property-decorator";
 
 @Component({
   name: "FacilityList"
@@ -46,7 +46,18 @@ export default class FacilityList extends Vue {
     list: []
   };
 
-  mounted() {
+  @Watch("list")
+  watchList(cur, old) {
+    if (cur) {
+      this.init();
+    }
+  }
+
+  mounted(): void {
+    this.init();
+  }
+
+  init(): void {
     switch (this.type) {
       case 1:
         this.result.name = "服务";

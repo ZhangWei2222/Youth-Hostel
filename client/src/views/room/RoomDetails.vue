@@ -140,7 +140,7 @@
           </div>
           <van-divider style="padding:10px 0" />
           <div class="commentBox">
-            <div class="person">
+            <div class="person" v-if="roomDetail.commentsData.list.length > 0">
               <div class="avator">
                 <img
                   :src="'http://101.133.132.172/public/userUploads/'+ roomDetail.commentsData.list[roomDetail.commentsData.list.length-1].avator"
@@ -158,6 +158,7 @@
             </div>
             <div
               class="content"
+              v-if="roomDetail.commentsData.list.length > 0"
             >{{roomDetail.commentsData.list[roomDetail.commentsData.list.length-1].message}}</div>
           </div>
         </div>

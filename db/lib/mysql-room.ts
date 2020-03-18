@@ -2,7 +2,7 @@
  * @Description: 连接mysql、执行sql语句-房间相关
  * @Author: Vivian
  * @Date: 2020-03-10 10:31:15
- * @LastEditTime: 2020-03-16 19:07:10
+ * @LastEditTime: 2020-03-18 12:05:41
  */
 
 const globalAny: any = global;
@@ -32,27 +32,12 @@ const query = function (sql, val) {
 }
 
 const landlordRoomInfo = (val) => { // 店家主页中的房源信息
-  let stru = getSQLObject();
-  stru["query"] = "select";
-  stru["tables"] = "room_comments_view,rooms";
-  stru["data"] = {
-    "rooms.id": '*',
-    "rooms.roomName": '*',
-    "rooms.price": '*',
-    "rooms.roommateNum": '*',
-    "rooms.guestsNum": '*',
-    "rooms.toiletNum": '*',
-    "avg(room_comments_view.score) AS score": '*',
-    "COUNT(room_comments_view.score) AS commentsNum": '*',
-  };
-  stru["where"]["condition"] = [
-    "rooms.landlordId = " + val,
-    "room_comments_view.roomId= " + "rooms.id"
-  ];
-  stru["options"]["group by"] = "rooms.id"
-  let result = _structureAnalysis(stru);
-  globalAny.log.trace("[landlordRoomInfo] sql语句: " + result.sql + " value参数: " + result.value);
-  return query(result.sql, result.value)
+  let sql = `SELECT a.id,a.roomName,c.houseName,a.sex,a.price,a.roommateNum,a.guestsNum,a.toiletNum,AVG(b.score) AS score,COUNT(b.score) AS commentsNum
+  FROM rooms a
+  left join room_comments_view b ON a.landlordId = b.landlordId AND a.landlordId = 1 AND a.id = b.roomId
+  LEFT JOIN houses c ON a.houseId = c.id group BY a.id`
+  globalAny.log.trace("[landlordRoomInfo] sql语句: " + sql + " value参数: " + val);
+  return query(sql, val)
 }
 
 const landlordComments = (val) => { // 获取店家评论

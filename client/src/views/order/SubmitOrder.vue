@@ -35,7 +35,7 @@
       <Notice :type="1"></Notice>
 
       <van-submit-bar
-        :price="roomInfo.price*100"
+        :price="roomInfo.price*100*orderInfo.days"
         button-type="warning"
         button-text="立即支付"
         @submit="onSumbit()"

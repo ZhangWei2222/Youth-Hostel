@@ -2,7 +2,7 @@
  * @Description: 订单相关接口
  * @Author: Vivian
  * @Date: 2020-03-11 16:29:45
- * @LastEditTime: 2020-03-16 12:52:33
+ * @LastEditTime: 2020-03-18 12:30:27
  */
 
 const globalAny: any = global;
@@ -104,7 +104,7 @@ router.post('/api/submitOrder', async (ctx, next) => {
       msg: '下订单成功!',
       data: { orderId: res.insertId }
     }
-    await userModel.setGuestsNum({ roomId: order.roomId, type: 0 }).then(async (res) => {
+    await userModel.setGuestsNum({ roomId: order.roomId, type: 1 }).then(async (res) => {
       // globalAny.log.trace("[setGuestsNum] 调整可住人数" + JSON.stringify(res));
     })
   }).catch((err) => {
@@ -124,7 +124,7 @@ router.post('/api/checkOutOrder', async (ctx, next) => {
       code: 0,
       msg: '退房成功!'
     }
-    await userModel.setGuestsNum({ roomId: ctx.request.body.roomId, type: 1 }).then(async (res) => {
+    await userModel.setGuestsNum({ roomId: ctx.request.body.roomId, type: 0 }).then(async (res) => {
       globalAny.log.trace("[setGuestsNum] 调整可住人数" + JSON.stringify(res));
     })
   }).catch((err) => {

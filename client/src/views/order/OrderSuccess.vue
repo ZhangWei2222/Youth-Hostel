@@ -2,11 +2,11 @@
  * @Description:
  * @Author: Vivian
  * @Date: 2020-03-06 16:09:44
- * @LastEditTime: 2020-03-12 13:14:00
+ * @LastEditTime: 2020-03-18 11:08:22
  -->
 <template>
   <div class="order-success">
-    <van-nav-bar title="提交成功" :border="false" left-arrow @click-left="onClickLeft" />
+    <van-nav-bar title="提交成功" :border="false" />
     <div class="wrapper">
       <van-icon name="checked" color="rgb(7, 193, 96)" size="4rem" />
       <van-button class="button" type="info" @click="goView($route.query.orderId)">查看订单</van-button>
@@ -26,10 +26,6 @@ import { Vue, Component } from "vue-property-decorator";
   name: "OrderSuccess"
 })
 export default class OrderSuccess extends Vue {
-  onClickLeft(): void {
-    this.$router.go(-1);
-  }
-
   goView(id: string): void {
     this.$router.push({
       name: "OrderDetail",
