@@ -128,8 +128,9 @@ export default class LandlordIndex extends Vue {
       border-radius: 50%;
       overflow: hidden;
       img {
-        width: 50px;
-        height: 50px;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
       }
     }
     .name {

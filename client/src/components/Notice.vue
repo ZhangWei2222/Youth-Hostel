@@ -2,7 +2,7 @@
  * @Description: type:0 roomDetail页面，type:1 submitOrder页面，type:2 orderDetail页面
  * @Author: Vivian
  * @Date: 2020-03-06 16:09:44
- * @LastEditTime: 2020-03-16 17:16:58
+ * @LastEditTime: 2020-03-23 19:52:20
  -->
 <template>
   <div class="notice-box" v-if="type !== 2">
@@ -79,9 +79,6 @@ export default class Notice extends Vue {
 
 <style scoped lang="less">
 @import url("~@/common/style/Variable.less");
-.notice-box {
-  height: 130px;
-}
 .info {
   display: flex;
   text-align: left;

@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Vivian
  * @Date: 2020-03-06 16:09:44
- * @LastEditTime: 2020-03-18 12:56:25
+ * @LastEditTime: 2020-03-23 20:00:36
  -->
 <template>
   <div class="order-detail">
@@ -180,7 +180,7 @@ export default class OrderDetail extends Vue {
       // console.log("退房成功" + JSON.stringify(res.data));
       if (res.data.code === 0) {
         Toast.success("退房成功");
-        self.$router.go(0);
+        window.location.reload();
       } else if (res.data.code === 104) {
         Toast.fail(res.data.msg);
         self.$router.push("SignIn");
@@ -193,22 +193,30 @@ export default class OrderDetail extends Vue {
 
   async deleteOrder(): Promise<any> {
     let self = this;
-    const res = await deleteOrderAPI({
-      orderId: self.$route.query.orderId
-    });
-    try {
-      // console.log("删除订单成功" + JSON.stringify(res.data));
-      if (res.data.code === 0) {
-        Toast.success("删除订单成功");
-        self.$router.push("/orderlist");
-      } else if (res.data.code === 104) {
-        Toast.fail(res.data.msg);
-        self.$router.push("SignIn");
-      }
-    } catch (error) {
-      Toast.fail("删除订单失败");
-      console.log("删除订单失败" + error);
-    }
+    Dialog.confirm({
+      message: "是否删除订单"
+    })
+      .then(async () => {
+        const res = await deleteOrderAPI({
+          orderId: self.$route.query.orderId
+        });
+        try {
+          // console.log("删除订单成功" + JSON.stringify(res.data));
+          if (res.data.code === 0) {
+            Toast.success("删除订单成功");
+            self.$router.push("/orderlist");
+          } else if (res.data.code === 104) {
+            Toast.fail(res.data.msg);
+            self.$router.push("SignIn");
+          }
+        } catch (error) {
+          Toast.fail("删除订单失败");
+          console.log("删除订单失败" + error);
+        }
+      })
+      .catch(() => {
+        // on cancel
+      });
   }
 }
 </script>

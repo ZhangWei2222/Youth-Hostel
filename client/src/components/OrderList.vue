@@ -2,13 +2,13 @@
  * @Description: 订单列表
  * @Author: Vivian
  * @Date: 2020-03-16 10:19:58
- * @LastEditTime: 2020-03-16 18:40:57
+ * @LastEditTime: 2020-03-23 20:27:07
  -->
 
 <template>
   <div class="order-list">
     <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
-      <div class="order" v-for="item in list" :key="item" @click="goView(item.id)">
+      <div class="order" v-for="item in list" :key="item.id" @click="goView(item.id)">
         <img src="https://img.yzcdn.cn/vant/cat.jpeg" alt />
         <div class="details">
           <div class="title">{{item.name}}</div>

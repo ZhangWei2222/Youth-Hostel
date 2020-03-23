@@ -317,8 +317,8 @@ export default class RoomDetails extends Vue {
         c_s: returnFloat(self.roomDetail.commentsData.average.c_s),
         totalScore: returnFloat(self.roomDetail.commentsData.average.totalScore)
       };
-      self.cacheFacilityList = formatFacilityList(self.roomDetail.facilityList);
     }
+    self.cacheFacilityList = formatFacilityList(self.roomDetail.facilityList);
   }
 
   // 选择日期

@@ -72,22 +72,34 @@ const router = new Router({
     {
       path: '/roomdetails',
       name: 'RoomDetails',
-      component: modules['RoomDetails']
+      component: modules['RoomDetails'],
+      meta: {
+        child: true
+      }
     },
     {
       path: '/landlord',
       name: 'Landlord',
-      component: modules['Landlord']
+      component: modules['Landlord'],
+      meta: {
+        child: true
+      }
     },
     {
       path: '/room-comment',
       name: 'RoomComment',
-      component: modules['RoomComment']
+      component: modules['RoomComment'],
+      meta: {
+        child: true
+      }
     },
     {
       path: '/submit-order',
       name: 'SubmitOrder',
-      component: modules['SubmitOrder']
+      component: modules['SubmitOrder'],
+      meta: {
+        child: true
+      }
     },
     {
       path: '/order-detail',

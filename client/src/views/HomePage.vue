@@ -73,7 +73,7 @@ export default class HomePage extends Vue {
 }
 </style>
 <style scoped lang="less">
-@import url("../common/style/Variable.less");
+@import url("~@/common/style/Variable.less");
 .home-page {
   height: 100vh;
   background: @incarnadine;
@@ -81,7 +81,7 @@ export default class HomePage extends Vue {
   .img {
     width: 100%;
     height: 41vh;
-    background: url("../common/images/home.jpg") no-repeat;
+    background: url("http://101.133.132.172/public/home.jpg") no-repeat;
     background-size: 100%;
     background-position: center;
   }

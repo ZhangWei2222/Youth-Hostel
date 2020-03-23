@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Vivian
  * @Date: 2020-03-06 16:09:44
- * @LastEditTime: 2020-03-18 13:01:02
+ * @LastEditTime: 2020-03-18 17:15:58
  -->
 <template>
   <div class="order-index">
@@ -13,7 +13,7 @@
           <div slot="title">全部订单</div>
           <div class="zero-order" v-if="allList.length === 0">
             <div class="text">你还没有预定过房间，点击 [开始探索] 开启一段旅程吧</div>
-            <van-button plain type="primary" block @click="goExplore(0)">开始探索</van-button>
+            <van-button plain type="primary" block @click="$router.push('/home')">开始探索</van-button>
           </div>
           <OrderList v-else :orderList="allList"></OrderList>
         </van-tab>
