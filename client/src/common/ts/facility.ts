@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Vivian
  * @Date: 2020-03-16 19:59:46
- * @LastEditTime: 2020-03-16 20:27:33
+ * @LastEditTime: 2020-03-24 11:16:19
  */
 
 export function formatFacilityList(list: any): any {
@@ -71,7 +71,7 @@ export function formatFacilityList(list: any): any {
             temp.value = '电视机';
             break;
           case '9':
-            temp.value = '打扫工具';
+            temp.value = '暖气';
             break;
           case '10':
             temp.value = '工作区域';

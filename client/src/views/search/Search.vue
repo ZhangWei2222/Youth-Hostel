@@ -32,7 +32,7 @@
 
       <!-- 筛选栏 -->
       <van-dropdown-menu active-color="#86cd71">
-        <van-dropdown-item v-model="sortType" :options="sortOption" />
+        <van-dropdown-item v-model="sortType" :options="sortOption" @change="sortChange(sortType)" />
 
         <van-dropdown-item title="价格" ref="priceItem">
           <van-cell-group class="price-group">
@@ -58,6 +58,26 @@
         <van-dropdown-item class="filter" title="筛选" ref="filterItem">
           <van-cell-group class="tag-group">
             <div class="tag">
+              <div class="title">性别</div>
+              <div class="buttons">
+                <van-button
+                  v-for="item in sexList"
+                  :key="item.id"
+                  type="default"
+                  size="small"
+                  @click="selectSex(item.key)"
+                  :style="{'background':sexChosen === item.key ? '#dcdee0':'#fff' }"
+                >{{item.value}}</van-button>
+                <van-button
+                  type="default"
+                  size="small"
+                  v-for="(item, index) in 2"
+                  :key="index"
+                  style="visibility: hidden;height:0;border: 0;margin: 0;"
+                >1</van-button>
+              </div>
+            </div>
+            <div class="tag">
               <div class="title">房间人数</div>
               <div class="buttons">
                 <van-button
@@ -65,8 +85,8 @@
                   :key="item.id"
                   type="default"
                   size="small"
-                  @click="selectRoommate(item.id)"
-                  :style="{'background':roomateChosen === item.id ? '#dcdee0':'#fff' }"
+                  @click="selectRoommate(item.key)"
+                  :style="{'background':roomateChosen === item.key ? '#dcdee0':'#fff' }"
                 >{{item.value}}</van-button>
               </div>
             </div>
@@ -78,8 +98,8 @@
                   :key="item.id"
                   type="default"
                   size="small"
-                  @click="selectToilet(item.id)"
-                  :style="{'background':toiletChosen === item.id ? '#dcdee0':'#fff' }"
+                  @click="selectToilet(item.key)"
+                  :style="{'background':toiletChosen === item.key ? '#dcdee0':'#fff' }"
                 >{{item.value}}</van-button>
                 <van-button
                   type="default"
@@ -98,8 +118,8 @@
                   size="small"
                   v-for="item in facilityList"
                   :key="item.id"
-                  @click="selectFacility(item.id)"
-                  :style="{'background':facilityChosen.indexOf(item.id) > -1 ? '#dcdee0':'#fff' }"
+                  @click="selectFacility(item.key)"
+                  :style="{'background':facilityChosen.indexOf(item.key) > -1 ? '#dcdee0':'#fff' }"
                 >{{item.value}}</van-button>
               </div>
             </div>
@@ -110,15 +130,17 @@
       </van-dropdown-menu>
 
       <!-- 商品列表 -->
-      <RoomList></RoomList>
+      <RoomList ref="roomList" :roomInfo="roomList"></RoomList>
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
+import { formatter, formatDate, getDiff } from "@/common/ts/utill.ts";
 import { Toast } from "vant";
 import RoomList from "@/components/RoomList.vue";
+import { roomListAPI } from "@/services/searchAPI.ts";
 
 @Component({
   name: "SearchIndex",
@@ -129,39 +151,44 @@ import RoomList from "@/components/RoomList.vue";
 export default class CommentIndex extends Vue {
   $refs: { quickEntry: HTMLFormElement };
   showDate: boolean = false;
+  roomList: any = [];
 
   value: string = "";
-  minPrice: number = null;
-  maxPrice: number = null;
+  minPrice: string = null;
+  maxPrice: string = null;
   sortType: number = 0;
   sortOption: any[] = [
     { text: "默认排序", value: 0 },
     { text: "好评优先", value: 1 },
     { text: "价格优先", value: 2 }
   ];
+  sexList: any = [
+    { id: 0, key: "sex_0", value: "女生" },
+    { id: 1, key: "sex_1", value: "男生" }
+  ];
   roomateList: any = [
-    { id: 0, value: "1~2人" },
-    { id: 1, value: "3~4人" },
-    { id: 2, value: "5~6人" },
-    { id: 3, value: "6人以上" }
+    { id: 0, key: "roommate_0", value: "1~2人" },
+    { id: 1, key: "roommate_1", value: "3~4人" },
+    { id: 2, key: "roommate_2", value: "5~6人" },
+    { id: 3, key: "roommate_3", value: "6人以上" }
   ];
   toiletList: any = [
-    { id: 0, value: "独卫" },
-    { id: 1, value: "公卫" }
+    { id: 0, key: "toilet_0", value: "独卫" },
+    { id: 1, key: "toilet_1", value: "公卫" }
   ];
   facilityList: any[] = [
-    { id: 0, value: "厨房" },
-    { id: 1, value: "空调" },
-    { id: 2, value: "洗衣机" },
-    { id: 3, value: "电梯" },
-    { id: 4, value: "wifi" },
-    { id: 5, value: "暖气" },
-    { id: 6, value: "吹风机" },
-    { id: 7, value: "电视机" },
-    { id: 8, value: "牙膏" },
-    { id: 9, value: "烘干机" },
-    { id: 10, value: "工作区域" },
-    { id: 11, value: "衣架" }
+    { id: 0, key: "kitchen_4", value: "厨房" },
+    { id: 1, key: "basis_2", value: "空调" },
+    { id: 2, key: "basis_4", value: "洗衣机" },
+    { id: 3, key: "basis_1", value: "电梯" },
+    { id: 4, key: "basis_0", value: "wifi" },
+    { id: 5, key: "basis_9", value: "暖气" },
+    { id: 6, key: "basis_5", value: "吹风机" },
+    { id: 7, key: "basis_6", value: "电视机" },
+    { id: 8, key: "shower_0", value: "牙膏" },
+    { id: 9, key: "shower_2", value: "拖鞋" },
+    { id: 10, key: "basis_10", value: "工作区域" },
+    { id: 11, key: "shower_5", value: "衣架" }
   ];
 
   date = {
@@ -169,6 +196,48 @@ export default class CommentIndex extends Vue {
     days: 1,
     end: `${new Date().getMonth() + 1}.${new Date().getDate() + 1}`
   };
+  formatter: any = formatter;
+
+  mounted() {
+    let content = this.$route.query.content;
+    this.getRoomList(content);
+  }
+
+  // 获取店家评论信息
+  async getRoomList(type: string | string[], filter?: any): Promise<any> {
+    let self = this;
+    self.roomList = [];
+    const res = await roomListAPI({
+      type: type,
+      filter: filter
+    });
+    try {
+      // console.log("获取房间列表成功" + JSON.stringify(res.data));
+      if (res.data.code === 0) {
+        self.roomList = res.data.data;
+      }
+    } catch (error) {
+      Toast.fail("获取用户评论信息失败");
+      console.log("获取用户评论信息失败" + error);
+    }
+  }
+
+  sortChange(sortType: number): void {
+    switch (sortType) {
+      case 0:
+        this.getRoomList("all");
+        break;
+      case 1:
+        this.getRoomList("score");
+        break;
+      case 2:
+        this.getRoomList("price", { min: -1 });
+        break;
+      default:
+        break;
+    }
+    this.$refs["roomList"].onLoad();
+  }
 
   onClickLeft(): void {
     this.$router.go(-1);
@@ -181,73 +250,73 @@ export default class CommentIndex extends Vue {
 
   // 价格确认
   onPriceConfirm(): void {
+    this.getRoomList("price", { min: this.minPrice, max: this.maxPrice });
     this.$refs["priceItem"].toggle();
+    this.$refs["roomList"].onLoad();
   }
 
   // 筛选确认
   onFilterConfirm(): void {
     this.$refs["filterItem"].toggle();
+    let filter = {
+      sex: this.sexChosen ? this.sexChosen.split("_")[1] : null,
+      roommate: this.roomateChosen ? this.roomateChosen.split("_")[1] : null,
+      toilet: this.toiletChosen ? this.toiletChosen.split("_")[1] : null,
+      facility: this.facilityChosen ? this.facilityChosen : null
+    };
+    this.getRoomList("filter", filter);
+    this.$refs["roomList"].onLoad();
   }
 
-  // 自定义日期文案
-  formatter(day: any): any {
-    if (day.type === "start") {
-      day.bottomInfo = "入住";
-    } else if (day.type === "end") {
-      day.bottomInfo = "离店";
-    }
-    return day;
-  }
-
-  // 格式化日期
-  formatDate(date: any): any {
-    return `${date.getMonth() + 1}.${date.getDate()}`;
-  }
-  // 获取天数差
-  getDiff(start: any, end: any): number {
-    var days: number = end.getTime() - start.getTime();
-    var times = days / (1000 * 60 * 60 * 24);
-    return times;
-  }
   // 选择日期
   onDateConfirm(date: any): void {
     const [start, end] = date;
     this.showDate = false;
     this.date = {
-      start: this.formatDate(start),
-      days: this.getDiff(start, end),
-      end: this.formatDate(end)
+      start: formatDate(start),
+      days: getDiff(start, end),
+      end: formatDate(end)
     };
   }
 
-  // 选择房间人数
-  roomateChosen: number = null;
-  selectRoommate(id): void {
-    if (id === this.roomateChosen) {
-      this.roomateChosen = null;
+  // 选择性别
+  sexChosen: string = null;
+  selectSex(key): void {
+    if (key === this.sexChosen) {
+      this.sexChosen = null;
     } else {
-      this.roomateChosen = id;
+      this.sexChosen = key;
     }
   }
+
+  // 选择房间人数
+  roomateChosen: string = null;
+  selectRoommate(key): void {
+    if (key === this.roomateChosen) {
+      this.roomateChosen = null;
+    } else {
+      this.roomateChosen = key;
+    }
+  }
+
   // 选择卫生间
-  toiletChosen: number = null;
-  selectToilet(id): void {
-    if (id === this.toiletChosen) {
+  toiletChosen: string = null;
+  selectToilet(key): void {
+    if (key === this.toiletChosen) {
       this.toiletChosen = null;
     } else {
-      this.toiletChosen = id;
+      this.toiletChosen = key;
     }
   }
 
   // 选择遍历设施
-  facilityChosen: number[] = [];
-  selectFacility(id): void {
-    if (this.facilityChosen.indexOf(id) < 0) {
-      this.facilityChosen.push(id);
+  facilityChosen: string[] = [];
+  selectFacility(key): void {
+    if (this.facilityChosen.indexOf(key) < 0) {
+      this.facilityChosen.push(key);
     } else {
-      this.facilityChosen.splice(this.facilityChosen.indexOf(id), 1);
+      this.facilityChosen.splice(this.facilityChosen.indexOf(key), 1);
     }
-    console.log(this.facilityChosen);
   }
 }
 </script>

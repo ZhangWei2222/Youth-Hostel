@@ -1,6 +1,11 @@
 <template>
   <div class="room-list">
-    <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
+    <van-list
+      v-model="loading"
+      :finished="finished"
+      :finished-text="roomList.length>0?'没有更多了':'未找到符合筛选条件的房间'"
+      @load="onLoad"
+    >
       <div class="overview" v-for="item in roomList" :key="item.id" @click="goDetails(item.id)">
         <div class="room">
           <van-swipe class="my-swipe" :loop="false" indicator-color="white">
@@ -57,6 +62,7 @@ export default class RoomList extends Vue {
 
   onLoad(): void {
     let self = this;
+    self.roomList = [];
     let num = self.roomInfo.length;
     setTimeout(() => {
       for (let i = 0; i < self.roomInfo.length; i++) {
@@ -70,7 +76,7 @@ export default class RoomList extends Vue {
       if (self.roomList.length >= num) {
         self.finished = true;
       }
-    }, 1000);
+    }, 500);
   }
 
   // 去详情页
