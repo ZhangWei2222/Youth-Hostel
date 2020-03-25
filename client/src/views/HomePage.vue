@@ -12,7 +12,7 @@
       @confirm="onConfirm"
     />
     <div class="search">
-      <van-field v-model="text" clearable placeholder="输入目的地、城市或店名" />
+      <van-field v-model="text" clearable placeholder="输入城市、店名或性别" />
       <div class="date-box" @click="show = true">
         <div>{{date.start}}</div>
         <div class="line-box">{{date.days}}晚</div>
@@ -40,6 +40,9 @@ export default class HomePage extends Vue {
   formatter: any = formatter;
   show: boolean = false;
 
+  sexList: any = ["男", "女"];
+  locationList: any = [];
+
   // 选择日期
   onConfirm(date: any): void {
     const [start, end] = date;
@@ -53,11 +56,16 @@ export default class HomePage extends Vue {
 
   // 查找房间
   goSearch(): void {
-    let content = this.text.length === 0 ? "all" : this.text;
-    this.$router.push({
-      name: "Search",
-      query: { content: content }
-    });
+    if (this.text.length === 0) {
+      this.$router.push({
+        name: "Search"
+      });
+    } else {
+      this.$router.push({
+        name: "Search",
+        query: { searchContent: this.text }
+      });
+    }
   }
 }
 </script>

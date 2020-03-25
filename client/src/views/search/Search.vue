@@ -16,11 +16,11 @@
       <form action="/">
         <van-search
           class="search-box"
-          v-model="value"
+          v-model="searchValue"
           show-action
           shape="round"
           background="#86cd71"
-          placeholder="输入目的地、城市或店名"
+          placeholder="输入城市、店名或性别"
           @search="onSearch"
         >
           <div slot="action" class="date-box" @click="showDate = true">
@@ -86,7 +86,7 @@
                   type="default"
                   size="small"
                   @click="selectRoommate(item.key)"
-                  :style="{'background':roomateChosen === item.key ? '#dcdee0':'#fff' }"
+                  :style="{'background':roommateChosen === item.key ? '#dcdee0':'#fff' }"
                 >{{item.value}}</van-button>
               </div>
             </div>
@@ -136,11 +136,12 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component } from "vue-property-decorator";
+import { Vue, Component, Watch } from "vue-property-decorator";
 import { formatter, formatDate, getDiff } from "@/common/ts/utill.ts";
 import { Toast } from "vant";
 import RoomList from "@/components/RoomList.vue";
-import { roomListAPI } from "@/services/searchAPI.ts";
+import { roomListAPI, locationListAPI } from "@/services/searchAPI.ts";
+import merge from "webpack-merge";
 
 @Component({
   name: "SearchIndex",
@@ -153,9 +154,9 @@ export default class CommentIndex extends Vue {
   showDate: boolean = false;
   roomList: any = [];
 
-  value: string = "";
-  minPrice: string = null;
-  maxPrice: string = null;
+  searchValue: any = "";
+  minPrice: any = null;
+  maxPrice: any = null;
   sortType: number = 0;
   sortOption: any[] = [
     { text: "默认排序", value: 0 },
@@ -163,8 +164,8 @@ export default class CommentIndex extends Vue {
     { text: "价格优先", value: 2 }
   ];
   sexList: any = [
-    { id: 0, key: "sex_0", value: "女生" },
-    { id: 1, key: "sex_1", value: "男生" }
+    { id: 0, key: "sex_0", value: "女" },
+    { id: 1, key: "sex_1", value: "男" }
   ];
   roomateList: any = [
     { id: 0, key: "roommate_0", value: "1~2人" },
@@ -190,6 +191,7 @@ export default class CommentIndex extends Vue {
     { id: 10, key: "basis_10", value: "工作区域" },
     { id: 11, key: "shower_5", value: "衣架" }
   ];
+  locationList: any = [];
 
   date = {
     start: `${new Date().getMonth() + 1}.${new Date().getDate()}`,
@@ -198,45 +200,174 @@ export default class CommentIndex extends Vue {
   };
   formatter: any = formatter;
 
-  mounted() {
-    let content = this.$route.query.content;
-    this.getRoomList(content);
+  @Watch("$route")
+  watchRoute(to, from) {
+    window.location.reload();
   }
 
-  // 获取店家评论信息
-  async getRoomList(type: string | string[], filter?: any): Promise<any> {
+  async initLocationList(): Promise<any> {
+    let self = this;
+    const res = await locationListAPI();
+    try {
+      // console.log("获取房间信息成功" + JSON.stringify(res.data));
+      if (res.data.code === 0) {
+        res.data.data.forEach(item => {
+          self.locationList.push(item.class_name);
+        });
+      }
+    } catch (error) {
+      // Toast.fail("获取房间名字失败");
+      console.log("获取房间信息失败" + error);
+    }
+  }
+
+  formatterSearchContent(content) {
+    let contents = content.split(" ");
+    let sexParams = "";
+    let houseParams = "";
+    let locationParams = "";
+    for (let i = 0; i < contents.length; i++) {
+      for (let j = 0; j < this.sexList.length; j++) {
+        if (contents[i].match(this.sexList[j].value)) {
+          sexParams =
+            contents[i].match(this.sexList[j].value)[0] === "男" ? "1" : "0";
+          contents[i] = "";
+        }
+      }
+      if (contents[i]) {
+        for (let j = 0; j < this.locationList.length; j++) {
+          if (contents[i].match(this.locationList[j])) {
+            locationParams = contents[i].match(this.locationList[j])[0];
+            contents[i] = "";
+          }
+        }
+      }
+    }
+    contents.forEach((item, index) => {
+      if (item) {
+        houseParams += item;
+      }
+    });
+    return {
+      sex: sexParams,
+      houseName: houseParams,
+      location: locationParams
+    };
+  }
+
+  buttonLight() {
+    if (this.$route.query.sortType) {
+      switch (this.$route.query.sortType) {
+        case "all":
+          this.sortType = 0;
+          break;
+        case "score":
+          this.sortType = 1;
+          break;
+        case "price":
+          this.sortType = 2;
+          break;
+        default:
+          break;
+      }
+    }
+    if (this.$route.query.minPrice) {
+      this.minPrice = this.$route.query.minPrice;
+    }
+    if (this.$route.query.maxPrice) {
+      this.maxPrice = this.$route.query.maxPrice;
+    }
+    if (this.$route.query.sexFilter) {
+      this.sexChosen = this.$route.query.sexFilter;
+    }
+    if (this.$route.query.roommateFilter) {
+      this.roommateChosen = this.$route.query.roommateFilter;
+    }
+    if (this.$route.query.toiletFilter) {
+      this.toiletChosen = this.$route.query.toiletFilter;
+    }
+    if (this.$route.query.facilityFilter) {
+      this.facilityChosen = (<string>this.$route.query.facilityFilter).split(
+        " "
+      );
+    }
+  }
+
+  async mounted(): Promise<any> {
+    await this.initLocationList();
+    this.buttonLight();
+    let filter = {
+      sortType: this.$route.query.sortType ? this.$route.query.sortType : "",
+      price: {
+        min: this.$route.query.minPrice ? this.$route.query.minPrice : -1,
+        max: this.$route.query.maxPrice ? this.$route.query.maxPrice : -1
+      },
+      filter: {
+        sex: this.sexChosen ? this.sexChosen.split("_")[1] : null,
+        roommate: this.roommateChosen
+          ? this.roommateChosen.split("_")[1]
+          : null,
+        toilet: this.toiletChosen ? this.toiletChosen.split("_")[1] : null,
+        facility: this.facilityChosen ? this.facilityChosen : null
+      }
+    };
+    if (this.$route.query.searchContent) {
+      this.searchValue = this.$route.query.searchContent;
+      this.getRoomList(
+        "search",
+        filter,
+        this.formatterSearchContent(this.searchValue)
+      );
+    } else {
+      this.getRoomList("all", filter, {});
+    }
+  }
+
+  // 获取房间列表
+  async getRoomList(
+    type: string | string[],
+    filter?: any,
+    searchFilter?: any
+  ): Promise<any> {
+    // console.log(type, searchFilter, filter);
     let self = this;
     self.roomList = [];
+
     const res = await roomListAPI({
       type: type,
+      searchFilter: searchFilter,
       filter: filter
     });
+
     try {
       // console.log("获取房间列表成功" + JSON.stringify(res.data));
       if (res.data.code === 0) {
         self.roomList = res.data.data;
       }
     } catch (error) {
-      Toast.fail("获取用户评论信息失败");
-      console.log("获取用户评论信息失败" + error);
+      Toast.fail("获取房间列表失败");
+      console.log("获取房间列表失败" + error);
     }
   }
 
   sortChange(sortType: number): void {
+    let type;
     switch (sortType) {
       case 0:
-        this.getRoomList("all");
+        type = "all";
         break;
       case 1:
-        this.getRoomList("score");
+        type = "score";
         break;
       case 2:
-        this.getRoomList("price", { min: -1 });
+        type = "price";
         break;
       default:
         break;
     }
-    this.$refs["roomList"].onLoad();
+    this.$router.push({
+      query: merge(this.$route.query, { sortType: type })
+    });
   }
 
   onClickLeft(): void {
@@ -245,14 +376,27 @@ export default class CommentIndex extends Vue {
 
   // 搜索
   onSearch(val): void {
-    Toast(val);
+    if (this.searchValue.length === 0) {
+      this.$router.push({
+        name: "Search"
+      });
+    } else {
+      this.$router.push({
+        name: "Search",
+        query: { searchContent: this.searchValue }
+      });
+    }
   }
 
   // 价格确认
   onPriceConfirm(): void {
-    this.getRoomList("price", { min: this.minPrice, max: this.maxPrice });
+    this.$router.push({
+      query: merge(this.$route.query, {
+        minPrice: this.minPrice,
+        maxPrice: this.maxPrice
+      })
+    });
     this.$refs["priceItem"].toggle();
-    this.$refs["roomList"].onLoad();
   }
 
   // 筛选确认
@@ -260,12 +404,18 @@ export default class CommentIndex extends Vue {
     this.$refs["filterItem"].toggle();
     let filter = {
       sex: this.sexChosen ? this.sexChosen.split("_")[1] : null,
-      roommate: this.roomateChosen ? this.roomateChosen.split("_")[1] : null,
+      roommate: this.roommateChosen ? this.roommateChosen.split("_")[1] : null,
       toilet: this.toiletChosen ? this.toiletChosen.split("_")[1] : null,
       facility: this.facilityChosen ? this.facilityChosen : null
     };
-    this.getRoomList("filter", filter);
-    this.$refs["roomList"].onLoad();
+    this.$router.push({
+      query: merge(this.$route.query, {
+        sexFilter: this.sexChosen,
+        roommateFilter: this.roommateChosen,
+        toiletFilter: this.toiletChosen,
+        facilityFilter: this.facilityChosen.join(" ")
+      })
+    });
   }
 
   // 选择日期
@@ -280,7 +430,7 @@ export default class CommentIndex extends Vue {
   }
 
   // 选择性别
-  sexChosen: string = null;
+  sexChosen: any = null;
   selectSex(key): void {
     if (key === this.sexChosen) {
       this.sexChosen = null;
@@ -290,17 +440,17 @@ export default class CommentIndex extends Vue {
   }
 
   // 选择房间人数
-  roomateChosen: string = null;
+  roommateChosen: any = null;
   selectRoommate(key): void {
-    if (key === this.roomateChosen) {
-      this.roomateChosen = null;
+    if (key === this.roommateChosen) {
+      this.roommateChosen = null;
     } else {
-      this.roomateChosen = key;
+      this.roommateChosen = key;
     }
   }
 
   // 选择卫生间
-  toiletChosen: string = null;
+  toiletChosen: any = null;
   selectToilet(key): void {
     if (key === this.toiletChosen) {
       this.toiletChosen = null;
@@ -310,7 +460,7 @@ export default class CommentIndex extends Vue {
   }
 
   // 选择遍历设施
-  facilityChosen: string[] = [];
+  facilityChosen: any = [];
   selectFacility(key): void {
     if (this.facilityChosen.indexOf(key) < 0) {
       this.facilityChosen.push(key);

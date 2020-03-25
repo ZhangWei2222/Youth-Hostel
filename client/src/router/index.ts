@@ -1,5 +1,9 @@
 import Vue from "vue";
 import Router from "vue-router";
+const routerPush = Router.prototype.push
+Router.prototype.push = function push(location) {
+  return routerPush.call(this, location).catch(error => error)
+}
 import cookie from 'js-cookie'
 
 const views: any = require['context']('../views', true, /\.vue$/im);
