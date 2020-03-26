@@ -291,6 +291,9 @@ export default class CommentIndex extends Vue {
         " "
       );
     }
+    // let searchStartDate = <string>this.$route.query.searchStartDate;
+    // console.log(searchStartDate.split(" ")[0].split("-"));
+    // console.log(this.$route.query.searchDays);
   }
 
   async mounted(): Promise<any> {
@@ -315,34 +318,52 @@ export default class CommentIndex extends Vue {
       this.searchValue = this.$route.query.searchContent;
       this.getRoomList(
         "search",
+        {
+          searchStartDate: this.$route.query.searchStartDate,
+          searchDays: this.$route.query.searchDays
+        },
         filter,
         this.formatterSearchContent(this.searchValue)
       );
     } else {
-      this.getRoomList("all", filter, {});
+      this.getRoomList(
+        "all",
+        {
+          searchStartDate: this.$route.query.searchStartDate,
+          searchDays: this.$route.query.searchDays
+        },
+        filter,
+        {}
+      );
     }
   }
 
   // 获取房间列表
   async getRoomList(
     type: string | string[],
+    dateFilter: any,
     filter?: any,
     searchFilter?: any
   ): Promise<any> {
-    // console.log(type, searchFilter, filter);
+    console.log(type);
+    console.log(dateFilter);
+    console.log(searchFilter);
+    console.log(filter);
     let self = this;
     self.roomList = [];
 
     const res = await roomListAPI({
       type: type,
       searchFilter: searchFilter,
-      filter: filter
+      filter: filter,
+      dateFilter: dateFilter
     });
 
     try {
       // console.log("获取房间列表成功" + JSON.stringify(res.data));
       if (res.data.code === 0) {
         self.roomList = res.data.data;
+        this.$refs["roomList"].onLoad();
       }
     } catch (error) {
       Toast.fail("获取房间列表失败");
@@ -376,14 +397,36 @@ export default class CommentIndex extends Vue {
 
   // 搜索
   onSearch(val): void {
+    let dateObj: any = new Date();
+    let cacheTime: string =
+      dateObj.getFullYear() +
+      "-" +
+      (dateObj.getMonth() + 1) +
+      "-" +
+      dateObj.getDate() +
+      " " +
+      "14:00:00";
+
     if (this.searchValue.length === 0) {
       this.$router.push({
-        name: "Search"
+        name: "Search",
+        query: {
+          searchStartDate: this.searchStartDate
+            ? this.searchStartDate
+            : cacheTime,
+          searchDays: this.searchDays ? this.searchDays : 1
+        }
       });
     } else {
       this.$router.push({
         name: "Search",
-        query: { searchContent: this.searchValue }
+        query: {
+          searchContent: this.searchValue,
+          searchStartDate: this.searchStartDate
+            ? this.searchStartDate
+            : cacheTime,
+          searchDays: this.searchDays ? this.searchDays : 1
+        }
       });
     }
   }
@@ -418,6 +461,8 @@ export default class CommentIndex extends Vue {
     });
   }
 
+  searchStartDate: any = "";
+  searchDays: any = "";
   // 选择日期
   onDateConfirm(date: any): void {
     const [start, end] = date;
@@ -427,6 +472,21 @@ export default class CommentIndex extends Vue {
       days: getDiff(start, end),
       end: formatDate(end)
     };
+    this.searchDays = getDiff(start, end);
+    this.searchStartDate =
+      start.getFullYear() +
+      "-" +
+      (start.getMonth() + 1) +
+      "-" +
+      start.getDate() +
+      " " +
+      "14:00:00";
+    this.$router.push({
+      query: merge(this.$route.query, {
+        searchStartDate: this.searchStartDate,
+        searchDays: this.searchDays
+      })
+    });
   }
 
   // 选择性别

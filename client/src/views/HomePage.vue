@@ -9,7 +9,7 @@
       position="right"
       color="#86cd71"
       :formatter="formatter"
-      @confirm="onConfirm"
+      @confirm="onDateConfirm"
     />
     <div class="search">
       <van-field v-model="text" clearable placeholder="输入城市、店名或性别" />
@@ -39,12 +39,13 @@ export default class HomePage extends Vue {
   };
   formatter: any = formatter;
   show: boolean = false;
-
   sexList: any = ["男", "女"];
   locationList: any = [];
+  searchStartDate: any = "";
+  searchDays: any = "";
 
   // 选择日期
-  onConfirm(date: any): void {
+  onDateConfirm(date: any): void {
     const [start, end] = date;
     this.show = false;
     this.date = {
@@ -52,18 +53,49 @@ export default class HomePage extends Vue {
       days: getDiff(start, end),
       end: formatDate(end)
     };
+    this.searchDays = getDiff(start, end);
+    this.searchStartDate =
+      start.getFullYear() +
+      "-" +
+      (start.getMonth() + 1) +
+      "-" +
+      start.getDate() +
+      " " +
+      "14:00:00";
   }
 
   // 查找房间
   goSearch(): void {
+    let dateObj: any = new Date();
+    let cacheTime: string =
+      dateObj.getFullYear() +
+      "-" +
+      (dateObj.getMonth() + 1) +
+      "-" +
+      dateObj.getDate() +
+      " " +
+      "14:00:00";
+
     if (this.text.length === 0) {
       this.$router.push({
-        name: "Search"
+        name: "Search",
+        query: {
+          searchStartDate: this.searchStartDate
+            ? this.searchStartDate
+            : cacheTime,
+          searchDays: this.searchDays ? this.searchDays : 1
+        }
       });
     } else {
       this.$router.push({
         name: "Search",
-        query: { searchContent: this.text }
+        query: {
+          searchContent: this.text,
+          searchStartDate: this.searchStartDate
+            ? this.searchStartDate
+            : cacheTime,
+          searchDays: this.searchDays ? this.searchDays : 1
+        }
       });
     }
   }

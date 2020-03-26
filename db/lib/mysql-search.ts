@@ -2,7 +2,7 @@
  * @Description: 连接mysql、执行sql语句-搜索相关
  * @Author: Vivian
  * @Date: 2020-03-24 09:37:39
- * @LastEditTime: 2020-03-26 11:19:42
+ * @LastEditTime: 2020-03-26 20:09:52
  */
 
 const globalAny: any = global;
@@ -168,6 +168,37 @@ const facilityFilter = (val) => { // 筛选便利设施
   return query(result.sql, result.value)
 }
 
+const dateFilter = (val) => { // 筛选日期
+  let stru = getSQLObject();
+  stru["query"] = "select";
+  stru["tables"] = "orders,rooms ";
+  stru["data"] = {
+    "rooms.id": '*',
+    "rooms.roommateNum": '*',
+    "COUNT(rooms.id) AS guestsNum": '*'
+  };
+  stru["where"]["condition"] = [
+    `"${val.searchStartDate}" >= startDate `,
+    `"${val.searchStartDate}" <= (startDate + INTERVAL days DAY ) `,
+    `roomId = rooms.id`,
+    `orders.status != -4`,
+    `orders.status != -3`,
+    `orders.status != -2`
+  ];
+  let result = _structureAnalysis(stru);
+  result.sql = result.sql.substring(0, result.sql.length - 1)
+  result.sql += 'and ('
+  val.roomIds.forEach((item, index) => {
+    result.sql += `roomId = ${item} `
+    if (index != val.roomIds.length - 1) {
+      result.sql += `or `
+    }
+  })
+  result.sql += ') GROUP BY rooms.id'
+  globalAny.log.trace("[dateFilter] sql语句: " + result.sql + " value参数: " + result.value);
+  return query(result.sql, result.value)
+}
+
 const locationListAPI = (val) => { // 获取城市列表
   let stru = getSQLObject();
   stru["query"] = "select";
@@ -183,7 +214,8 @@ const locationListAPI = (val) => { // 获取城市列表
 module.exports = {
   roomList,
   facilityFilter,
-  locationListAPI
+  locationListAPI,
+  dateFilter
 }
 
 export { };
