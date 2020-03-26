@@ -2,7 +2,7 @@
  * @Description: 连接mysql、执行sql语句-搜索相关
  * @Author: Vivian
  * @Date: 2020-03-24 09:37:39
- * @LastEditTime: 2020-03-25 18:10:53
+ * @LastEditTime: 2020-03-26 11:19:42
  */
 
 const globalAny: any = global;
@@ -79,7 +79,7 @@ const roomList = (val) => { // 获取房间列表
         break;
       case 'price':
         stru["options"]["order by"] = [
-          "price desc"
+          "price"
         ];
         break;
       default:
