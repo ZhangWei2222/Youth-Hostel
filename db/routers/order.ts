@@ -2,7 +2,7 @@
  * @Description: 订单相关接口
  * @Author: Vivian
  * @Date: 2020-03-11 16:29:45
- * @LastEditTime: 2020-03-27 11:27:37
+ * @LastEditTime: 2020-03-27 16:46:54
  */
 
 const globalAny: any = global;
@@ -95,8 +95,7 @@ router.post('/api/submitOrder', checkToken, async (ctx, next) => {
     phoneNum: ctx.request.body.phoneNum,
     userName: ctx.request.body.userName,
     message: ctx.request.body.message,
-    key: uuidV1(),
-    status: -1
+    key: uuidV1()
   }
   await userModel.insetOrder(order).then(async (res) => {
     // globalAny.log.trace("[submitOrder] 下订单成功" + JSON.stringify(res));
