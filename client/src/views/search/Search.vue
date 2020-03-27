@@ -10,6 +10,7 @@
         color="#86cd71"
         :formatter="formatter"
         @confirm="onDateConfirm"
+        ref="calendar"
       />
 
       <!-- 搜索栏 -->
@@ -291,9 +292,28 @@ export default class CommentIndex extends Vue {
         " "
       );
     }
-    // let searchStartDate = <string>this.$route.query.searchStartDate;
-    // console.log(searchStartDate.split(" ")[0].split("-"));
-    // console.log(this.$route.query.searchDays);
+
+    // 日期初始化
+    let searchStartDate: any = (<string>this.$route.query.searchStartDate)
+      .split(" ")[0]
+      .split("-");
+    let searchStartDateObj: any = new Date(
+      Number(searchStartDate[0]),
+      Number(searchStartDate[1]) - 1,
+      Number(searchStartDate[2]),
+      14
+    );
+    let days: any = this.$route.query.searchDays;
+    let searchEndDateObj = new Date(
+      (searchStartDateObj / 1000 + 86400 * days) * 1000
+    );
+    this.$refs["calendar"].currentDate[0] = searchStartDateObj;
+    this.$refs["calendar"].currentDate[1] = searchEndDateObj;
+    this.date = {
+      start: formatDate(searchStartDateObj),
+      days: getDiff(searchStartDateObj, searchEndDateObj),
+      end: formatDate(searchEndDateObj)
+    };
   }
 
   async mounted(): Promise<any> {
