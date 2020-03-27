@@ -2,7 +2,7 @@
  * @Description: 搜索相关接口
  * @Author: Vivian
  * @Date: 2020-03-24 09:37:30
- * @LastEditTime: 2020-03-26 20:14:01
+ * @LastEditTime: 2020-03-27 10:55:53
  */
 
 const globalAny: any = global;
@@ -17,6 +17,9 @@ router.get('/api/roomList', async (ctx, next) => {
       msg: '房间列表获取成功',
       data: res
     }
+    ctx.body.data.forEach(data => {
+      data.guestsNum = 0
+    })
 
     let roomIds = []
     ctx.body.data.forEach((item) => {
@@ -27,9 +30,14 @@ router.get('/api/roomList', async (ctx, next) => {
       globalAny.log.trace("[dateFilter] 筛选日期成功!" + JSON.stringify(res));
       let errIds = []
       res.forEach((item) => {
-        if (item.guestsNum >= item.roommateNum) {
+        if (item.searchGuestsNum >= item.roommateNum) {
           errIds.push(item.id)
         }
+        ctx.body.data.forEach(data => {
+          if (item.id === data.id) {
+            data.guestsNum = item.searchGuestsNum
+          }
+        })
       })
       errIds.forEach(errId => {
         ctx.body.data = ctx.body.data.filter(item => item.id !== errId);

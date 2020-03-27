@@ -2,7 +2,7 @@
  * @Description: 订单相关接口
  * @Author: Vivian
  * @Date: 2020-03-11 16:29:45
- * @LastEditTime: 2020-03-18 12:42:09
+ * @LastEditTime: 2020-03-27 11:27:37
  */
 
 const globalAny: any = global;
@@ -95,7 +95,8 @@ router.post('/api/submitOrder', checkToken, async (ctx, next) => {
     phoneNum: ctx.request.body.phoneNum,
     userName: ctx.request.body.userName,
     message: ctx.request.body.message,
-    key: uuidV1()
+    key: uuidV1(),
+    status: -1
   }
   await userModel.insetOrder(order).then(async (res) => {
     // globalAny.log.trace("[submitOrder] 下订单成功" + JSON.stringify(res));
@@ -104,9 +105,6 @@ router.post('/api/submitOrder', checkToken, async (ctx, next) => {
       msg: '下订单成功!',
       data: { orderId: res.insertId }
     }
-    await userModel.setGuestsNum({ roomId: order.roomId, type: 1 }).then(async (res) => {
-      // globalAny.log.trace("[setGuestsNum] 调整可住人数" + JSON.stringify(res));
-    })
   }).catch((err) => {
     globalAny.log.error("[submitOrder] 下订单失败: " + err);
     ctx.body = {
@@ -124,9 +122,6 @@ router.post('/api/checkOutOrder', checkToken, async (ctx, next) => {
       code: 0,
       msg: '退房成功!'
     }
-    await userModel.setGuestsNum({ roomId: ctx.request.body.roomId, type: 0 }).then(async (res) => {
-      globalAny.log.trace("[setGuestsNum] 调整可住人数" + JSON.stringify(res));
-    })
   }).catch((err) => {
     globalAny.log.error("[submitOrder] 下订单失败: " + err);
     ctx.body = {

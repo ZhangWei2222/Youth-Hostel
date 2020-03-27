@@ -2,7 +2,7 @@
  * @Description: 连接mysql、执行sql语句-订单相关
  * @Author: Vivian
  * @Date: 2020-03-11 16:31:25
- * @LastEditTime: 2020-03-16 12:51:01
+ * @LastEditTime: 2020-03-27 11:26:46
  */
 
 const globalAny: any = global;
@@ -130,13 +130,6 @@ const insetOrder = (val) => { // 下订单
   return query(result.sql, result.value)
 }
 
-const setGuestsNum = (val) => { // 调整可住人数
-  let sql = `SELECT set_guestsNum(${val.roomId}, ${val.type})`
-  globalAny.log.trace("[insetOrder] sql语句: " + sql + " value参数: " + val);
-
-  return query(sql, val)
-}
-
 const changeOrderStatus = (val) => { // 修改订单状态
   let sql = `CALL set_orderStatus(${val.orderId}, ${val.status})`
   globalAny.log.trace("[changeOrderStatus] sql语句: " + sql + " value参数: " + val);
@@ -183,7 +176,6 @@ module.exports = {
   sumbitRoomInfo,
   orderDetail,
   insetOrder,
-  setGuestsNum,
   changeOrderStatus,
   deleteOrder,
   orderComments

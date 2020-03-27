@@ -2,7 +2,7 @@
  * @Description: 连接mysql、执行sql语句-搜索相关
  * @Author: Vivian
  * @Date: 2020-03-24 09:37:39
- * @LastEditTime: 2020-03-26 20:09:52
+ * @LastEditTime: 2020-03-27 11:23:15
  */
 
 const globalAny: any = global;
@@ -33,6 +33,19 @@ const query = function (sql, val) {
 
 const roomList = (val) => { // 获取房间列表
   let stru = getSQLObject();
+  // stru["query"] = "select";
+  // stru["tables"] = "roomList_view,orders ";
+  // stru["data"] = {
+  //   "roomList_view.*": '*',
+  //   "COUNT(orders.roomId) AS guestsNum": '*',
+  // };
+  // stru["where"]["condition"] = [
+  //   "roomList_view.id = orders.roomId",
+  //   " (orders.`status` = -1 OR (orders.`status` = 0 AND NOW() < (orders.startDate + INTERVAL orders.days DAY) )   )"
+  // ];
+  // stru["options"]["group by"] = [
+  //   "roomList_view.id"
+  // ];
   stru["query"] = "select";
   stru["tables"] = "roomList_view";
   stru["data"] = {
@@ -43,7 +56,7 @@ const roomList = (val) => { // 获取房间列表
   switch (val.type) {
     case 'all':
       stru["options"]["order by"] = [
-        "id"
+        "roomList_view.id"
       ];
       break;
     case 'search':
@@ -57,7 +70,7 @@ const roomList = (val) => { // 获取房间列表
         stru["where"]["condition"].push(`houseName like '%${JSON.parse(val.searchFilter).houseName}%'`);
       }
       stru["options"]["order by"] = [
-        "id"
+        "roomList_view.id"
       ];
       break;
     default:
@@ -171,19 +184,17 @@ const facilityFilter = (val) => { // 筛选便利设施
 const dateFilter = (val) => { // 筛选日期
   let stru = getSQLObject();
   stru["query"] = "select";
-  stru["tables"] = "orders,rooms ";
+  stru["tables"] = "orders,roomList_view ";
   stru["data"] = {
-    "rooms.id": '*',
-    "rooms.roommateNum": '*',
-    "COUNT(rooms.id) AS guestsNum": '*'
+    "roomList_view.id": '*',
+    "roomList_view.roommateNum": '*',
+    "COUNT(roomList_view.id) AS searchGuestsNum": '*'
   };
   stru["where"]["condition"] = [
     `"${val.searchStartDate}" >= startDate `,
-    `"${val.searchStartDate}" <= (startDate + INTERVAL days DAY ) `,
-    `roomId = rooms.id`,
-    `orders.status != -4`,
-    `orders.status != -3`,
-    `orders.status != -2`
+    `"${val.searchStartDate}" <= (startDate + INTERVAL days DAY -INTERVAL 90 minute ) `,
+    `orders.roomId = roomList_view.id`,
+    `orders.status = -1`
   ];
   let result = _structureAnalysis(stru);
   result.sql = result.sql.substring(0, result.sql.length - 1)
@@ -194,7 +205,7 @@ const dateFilter = (val) => { // 筛选日期
       result.sql += `or `
     }
   })
-  result.sql += ') GROUP BY rooms.id'
+  result.sql += ') GROUP BY roomList_view.id'
   globalAny.log.trace("[dateFilter] sql语句: " + result.sql + " value参数: " + result.value);
   return query(result.sql, result.value)
 }

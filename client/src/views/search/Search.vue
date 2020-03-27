@@ -365,10 +365,10 @@ export default class CommentIndex extends Vue {
     filter?: any,
     searchFilter?: any
   ): Promise<any> {
-    console.log(type);
-    console.log(dateFilter);
-    console.log(searchFilter);
-    console.log(filter);
+    // console.log(type);
+    // console.log(dateFilter);
+    // console.log(searchFilter);
+    // console.log(filter);
     let self = this;
     self.roomList = [];
 
