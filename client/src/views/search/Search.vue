@@ -287,16 +287,14 @@ export default class CommentIndex extends Vue {
     if (this.$route.query.toiletFilter) {
       this.toiletChosen = this.$route.query.toiletFilter;
     }
+    let routeFacilityFilter: any = this.$route.query.facilityFilter;
     if (this.$route.query.facilityFilter) {
-      this.facilityChosen = (<string>this.$route.query.facilityFilter).split(
-        " "
-      );
+      this.facilityChosen = routeFacilityFilter.split(" ");
     }
 
+    let routeSearchStartDate: any = this.$route.query.searchStartDate;
     // 日期初始化
-    let searchStartDate: any = (<string>this.$route.query.searchStartDate)
-      .split(" ")[0]
-      .split("-");
+    let searchStartDate: any = routeSearchStartDate.split(" ")[0].split("-");
     let searchStartDateObj: any = new Date(
       Number(searchStartDate[0]),
       Number(searchStartDate[1]) - 1,
