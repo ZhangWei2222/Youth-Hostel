@@ -175,8 +175,8 @@ export default class CommentIndex extends Vue {
     { id: 3, key: "roommate_3", value: "6人以上" }
   ];
   toiletList: any = [
-    { id: 0, key: "toilet_0", value: "独卫" },
-    { id: 1, key: "toilet_1", value: "公卫" }
+    { id: 0, key: "toilet_0", value: "公卫" },
+    { id: 1, key: "toilet_1", value: "独卫" }
   ];
   facilityList: any[] = [
     { id: 0, key: "kitchen_4", value: "厨房" },
@@ -334,6 +334,8 @@ export default class CommentIndex extends Vue {
     };
     if (this.$route.query.searchContent) {
       this.searchValue = this.$route.query.searchContent;
+      this.searchStartDate = this.$route.query.searchStartDate;
+      this.searchDays = this.$route.query.searchDays;
       this.getRoomList(
         "search",
         {
@@ -463,12 +465,12 @@ export default class CommentIndex extends Vue {
   // 筛选确认
   onFilterConfirm(): void {
     this.$refs["filterItem"].toggle();
-    let filter = {
-      sex: this.sexChosen ? this.sexChosen.split("_")[1] : null,
-      roommate: this.roommateChosen ? this.roommateChosen.split("_")[1] : null,
-      toilet: this.toiletChosen ? this.toiletChosen.split("_")[1] : null,
-      facility: this.facilityChosen ? this.facilityChosen : null
-    };
+    // let filter = {
+    //   sex: this.sexChosen ? this.sexChosen.split("_")[1] : null,
+    //   roommate: this.roommateChosen ? this.roommateChosen.split("_")[1] : null,
+    //   toilet: this.toiletChosen ? this.toiletChosen.split("_")[1] : null,
+    //   facility: this.facilityChosen ? this.facilityChosen : null
+    // };
     this.$router.push({
       query: merge(this.$route.query, {
         sexFilter: this.sexChosen,

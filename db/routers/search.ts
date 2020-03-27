@@ -2,7 +2,7 @@
  * @Description: 搜索相关接口
  * @Author: Vivian
  * @Date: 2020-03-24 09:37:30
- * @LastEditTime: 2020-03-27 10:55:53
+ * @LastEditTime: 2020-03-27 12:18:41
  */
 
 const globalAny: any = global;
@@ -26,34 +26,36 @@ router.get('/api/roomList', async (ctx, next) => {
       roomIds.push(item.id);
     })
     console.log(roomIds)
-    await userModel.dateFilter({ searchStartDate: JSON.parse(ctx.query.dateFilter).searchStartDate, roomIds: roomIds }).then(async (res) => {
-      globalAny.log.trace("[dateFilter] 筛选日期成功!" + JSON.stringify(res));
-      let errIds = []
-      res.forEach((item) => {
-        if (item.searchGuestsNum >= item.roommateNum) {
-          errIds.push(item.id)
-        }
-        ctx.body.data.forEach(data => {
-          if (item.id === data.id) {
-            data.guestsNum = item.searchGuestsNum
+    if (roomIds.length > 0) {
+      await userModel.dateFilter({ searchStartDate: JSON.parse(ctx.query.dateFilter).searchStartDate, roomIds: roomIds }).then(async (res) => {
+        globalAny.log.trace("[dateFilter] 筛选日期成功!" + JSON.stringify(res));
+        let errIds = []
+        res.forEach((item) => {
+          if (item.searchGuestsNum >= item.roommateNum) {
+            errIds.push(item.id)
           }
+          ctx.body.data.forEach(data => {
+            if (item.id === data.id) {
+              data.guestsNum = item.searchGuestsNum
+            }
+          })
         })
+        errIds.forEach(errId => {
+          ctx.body.data = ctx.body.data.filter(item => item.id !== errId);
+        })
+        let facilityContent = JSON.parse(ctx.query.filter).filter.facility
+        if (facilityContent.length > 0) {
+          let roomIds = []
+          ctx.body.data.forEach((item) => {
+            roomIds.push(item.id);
+          })
+          await userModel.facilityFilter({ content: facilityContent, roomIds: roomIds }).then(async (res) => {
+            globalAny.log.trace("[facilityFilter] 筛选便利设施成功!" + JSON.stringify(res));
+            ctx.body.data = res
+          })
+        }
       })
-      errIds.forEach(errId => {
-        ctx.body.data = ctx.body.data.filter(item => item.id !== errId);
-      })
-      let facilityContent = JSON.parse(ctx.query.filter).filter.facility
-      if (facilityContent.length > 0) {
-        let roomIds = []
-        ctx.body.data.forEach((item) => {
-          roomIds.push(item.id);
-        })
-        await userModel.facilityFilter({ content: facilityContent, roomIds: roomIds }).then(async (res) => {
-          globalAny.log.trace("[facilityFilter] 筛选便利设施成功!" + JSON.stringify(res));
-          ctx.body.data = res
-        })
-      }
-    })
+    }
 
 
   }).catch((err) => {

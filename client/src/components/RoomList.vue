@@ -62,9 +62,9 @@ export default class RoomList extends Vue {
 
   onLoad(): void {
     let self = this;
-    self.roomList = [];
-    let num = self.roomInfo.length;
     setTimeout(() => {
+      self.roomList = [];
+      let num = self.roomInfo.length;
       for (let i = 0; i < self.roomInfo.length; i++) {
         if (self.roomInfo[i].guestsNum >= self.roomInfo[i].roommateNum) {
           num--;
