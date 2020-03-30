@@ -2,11 +2,16 @@
  * @Description:
  * @Author: Vivian
  * @Date: 2020-03-06 16:09:44
- * @LastEditTime: 2020-03-23 20:00:36
+ * @LastEditTime: 2020-03-30 10:58:54
  -->
 <template>
   <div class="order-detail">
-    <van-nav-bar title="订单详情" :border="false" left-arrow @click-left="onClickLeft" />
+    <van-nav-bar title="订单详情" :border="false" left-arrow @click-left="onClickLeft">
+      <template #right>
+        <van-icon name="home-o" @click="goHome()" />
+      </template>
+    </van-nav-bar>
+
     <div class="wrapper">
       <div class="room-info">
         <div class="detailBox">
@@ -217,6 +222,12 @@ export default class OrderDetail extends Vue {
       .catch(() => {
         // on cancel
       });
+  }
+
+  goHome(): void {
+    this.$router.push({
+      name: "HomePage"
+    });
   }
 }
 </script>

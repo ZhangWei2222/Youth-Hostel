@@ -102,7 +102,8 @@ const router = new Router({
       name: 'SubmitOrder',
       component: modules['SubmitOrder'],
       meta: {
-        child: true
+        child: true,
+        requireAuth: true
       }
     },
     {

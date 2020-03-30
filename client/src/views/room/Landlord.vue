@@ -1,6 +1,11 @@
 <template>
   <div class="landlord-index">
-    <van-nav-bar title="店家主页" left-arrow @click-left="onClickLeft" :border="false" />
+    <van-nav-bar title="店家主页" left-arrow @click-left="onClickLeft" :border="false">
+      <template #right>
+        <van-icon name="home-o" @click="goHome()" />
+      </template>
+    </van-nav-bar>
+
     <div class="wrapper">
       <div class="person">
         <div class="img">
@@ -102,6 +107,12 @@ export default class LandlordIndex extends Vue {
 
   onClickLeft(): void {
     this.$router.go(-1);
+  }
+
+  goHome(): void {
+    this.$router.push({
+      name: "HomePage"
+    });
   }
 }
 </script>

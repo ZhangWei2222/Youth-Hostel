@@ -1,6 +1,10 @@
 <template>
   <div class="room-details">
-    <van-nav-bar title="房间详情" left-arrow @click-left="onClickLeft" :border="false" />
+    <van-nav-bar title="房间详情" left-arrow @click-left="onClickLeft" :border="false">
+      <template #right>
+        <van-icon name="home-o" @click="goView(3)" />
+      </template>
+    </van-nav-bar>
 
     <van-swipe :autoplay="3000">
       <van-swipe-item v-for="(image, index) in images" :key="index">
@@ -403,11 +407,26 @@ export default class RoomDetails extends Vue {
         });
         break;
       case 2:
-        // this.$router.push({
-        //   name: "SubmitOrder",
-        //   query: { roomId: this.$route.query.id },
-        //   params: { date: this.roomDate, days: this.roomDays.toString() }
-        // });
+        if (
+          this.roomDetail.roomData.guestsNum >=
+          this.roomDetail.roomData.guestsNum.roommateNum
+        ) {
+          Toast.fail("很抱歉，当前房间房客已满");
+        } else {
+          this.$router.push({
+            name: "SubmitOrder",
+            query: {
+              roomId: this.$route.query.id,
+              searchStartDate: this.$route.query.searchStartDate,
+              searchDays: this.$route.query.searchDays
+            }
+          });
+        }
+        break;
+      case 3:
+        this.$router.push({
+          name: "HomePage"
+        });
         break;
       default:
         break;

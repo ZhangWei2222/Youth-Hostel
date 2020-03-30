@@ -2,11 +2,16 @@
  * @Description:
  * @Author: Vivian
  * @Date: 2020-03-06 16:09:44
- * @LastEditTime: 2020-03-18 16:23:25
+ * @LastEditTime: 2020-03-30 10:12:53
  -->
 <template>
   <div class="room-comment">
-    <van-nav-bar title="房间评价" left-arrow @click-left="onClickLeft" :border="false" />
+    <van-nav-bar title="房间评价" left-arrow @click-left="onClickLeft" :border="false">
+      <template #right>
+        <van-icon name="home-o" @click="goHome()" />
+      </template>
+    </van-nav-bar>
+
     <div class="wrapper">
       <CommentRate :userInfo="roomComments" :type="1"></CommentRate>
       <div class="divider"></div>
@@ -72,6 +77,12 @@ export default class RoomComment extends Vue {
 
   onClickLeft(): void {
     this.$router.go(-1);
+  }
+
+  goHome(): void {
+    this.$router.push({
+      name: "HomePage"
+    });
   }
 }
 </script>

@@ -1,3 +1,9 @@
+<!--
+ * @Description:
+ * @Author: Vivian
+ * @Date: 2020-03-06 16:09:44
+ * @LastEditTime: 2020-03-30 11:03:17
+ -->
 <template>
   <div class="sign-in">
     <van-nav-bar title="登录" left-arrow @click-left="onClickLeft" :border="false" />
@@ -53,7 +59,6 @@ export default class SignIn extends Vue {
         if (res.data.code === 0) {
           Toast.success(res.data.msg);
           cookie.set("assent_token", res.data.token, { expires: 1, path: "" });
-          self.$router.replace("/");
           if (self.$route.query.redirect) {
             self.$router.replace("" + self.$route.query.redirect);
           } else {

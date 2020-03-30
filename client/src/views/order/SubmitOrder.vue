@@ -1,6 +1,11 @@
 <template>
   <div class="submit-order">
-    <van-nav-bar title="提交订单" :border="false" left-arrow @click-left="onClickLeft" />
+    <van-nav-bar title="提交订单" :border="false" left-arrow @click-left="onClickLeft">
+      <template #right>
+        <van-icon name="home-o" @click="goHome()" />
+      </template>
+    </van-nav-bar>
+
     <div class="wrapper">
       <div class="room-info">
         <div class="detailBox">
@@ -47,9 +52,9 @@
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
 import Notice from "@/components/Notice.vue";
-import { Toast } from "vant";
+import { Toast, Dialog } from "vant";
 import { sumbitRoomInfoAPI, submitOrderAPI } from "@/services/orderAPI.ts";
-import { checkPhone, checkId } from "@/common/ts/utill.ts";
+import { checkPhone, checkId, formatOrderDate } from "@/common/ts/utill.ts";
 
 @Component({
   name: "SubmitOrder",
@@ -80,8 +85,11 @@ export default class SubmitOrder extends Vue {
       // console.log("获取订单信息" + JSON.stringify(res.data));
       if (res.data.code === 0) {
         self.roomInfo = res.data.data[0];
-        self.orderInfo.date = self.$route.params.date;
-        self.orderInfo.days = parseInt(self.$route.params.days);
+        self.orderInfo.date = formatOrderDate(
+          self.$route.query.searchStartDate,
+          Number(self.$route.query.searchDays)
+        );
+        self.orderInfo.days = self.$route.query.searchDays;
       }
     } catch (error) {
       Toast.fail("获取订单信息失败");
@@ -112,18 +120,6 @@ export default class SubmitOrder extends Vue {
   // 模拟支付成功
   async onSumbit(id: string): Promise<any> {
     let self = this;
-    let cacheStartDate: string = "";
-
-    if (!self.orderInfo.date.split("-")[0].match("年")) {
-      cacheStartDate =
-        new Date().getFullYear() +
-        "-" +
-        self.orderInfo.date.split("-")[0].replace(/[\D]/g, "-");
-
-      cacheStartDate =
-        cacheStartDate.substr(0, cacheStartDate.length - 1) + " 14:00:00";
-    }
-
     let dateObj: any = new Date();
     let cacheOrderTime: string =
       dateObj.getFullYear() +
@@ -137,11 +133,10 @@ export default class SubmitOrder extends Vue {
       dateObj.getMinutes() +
       ":" +
       dateObj.getSeconds();
-
     let params = {
       roomId: self.roomInfo.id,
-      startDate: cacheStartDate,
-      days: self.orderInfo.days,
+      startDate: self.$route.query.searchStartDate,
+      days: self.$route.query.searchDays,
       orderTime: cacheOrderTime,
       userId: 11,
       idCard: self.orderInfo.idCard,
@@ -149,26 +144,38 @@ export default class SubmitOrder extends Vue {
       userName: self.orderInfo.userName,
       message: self.orderInfo.message
     };
-
     if (self.checkParams(params)) {
-      let res = await submitOrderAPI(params);
-      try {
-        // console.log("下订单成功" + JSON.stringify(res.data));
-        if (res.data.code === 0) {
-          Toast.success("下订单成功");
-          self.$router.push({
-            name: "OrderSuccess",
-            query: { orderId: res.data.data.orderId }
-          });
-        } else if (res.data.code === 104) {
-          Toast.fail(res.data.msg);
-          self.$router.push("SignIn");
-        }
-      } catch (error) {
-        Toast.fail("获取房间信息失败");
-        console.log("获取房间信息失败" + error);
-      }
+      Dialog.confirm({
+        message: "确定支付？（模拟付款接口）"
+      })
+        .then(async () => {
+          let res = await submitOrderAPI(params);
+          try {
+            // console.log("下订单成功" + JSON.stringify(res.data));
+            if (res.data.code === 0) {
+              Toast.success("下订单成功");
+              self.$router.push({
+                name: "OrderSuccess",
+                query: { orderId: res.data.data.orderId }
+              });
+            } else if (res.data.code === 104) {
+              Toast.fail(res.data.msg);
+            }
+          } catch (error) {
+            Toast.fail("获取房间信息失败");
+            console.log("获取房间信息失败" + error);
+          }
+        })
+        .catch(() => {
+          console.log("取消支付");
+        });
     }
+  }
+
+  goHome(): void {
+    this.$router.push({
+      name: "HomePage"
+    });
   }
 }
 </script>
