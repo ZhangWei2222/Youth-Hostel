@@ -2,7 +2,7 @@
  * @Description: 连接mysql、执行sql语句-搜索相关
  * @Author: Vivian
  * @Date: 2020-03-24 09:37:39
- * @LastEditTime: 2020-03-27 11:23:15
+ * @LastEditTime: 2020-03-30 09:43:55
  */
 
 const globalAny: any = global;
@@ -33,19 +33,6 @@ const query = function (sql, val) {
 
 const roomList = (val) => { // 获取房间列表
   let stru = getSQLObject();
-  // stru["query"] = "select";
-  // stru["tables"] = "roomList_view,orders ";
-  // stru["data"] = {
-  //   "roomList_view.*": '*',
-  //   "COUNT(orders.roomId) AS guestsNum": '*',
-  // };
-  // stru["where"]["condition"] = [
-  //   "roomList_view.id = orders.roomId",
-  //   " (orders.`status` = -1 OR (orders.`status` = 0 AND NOW() < (orders.startDate + INTERVAL orders.days DAY) )   )"
-  // ];
-  // stru["options"]["group by"] = [
-  //   "roomList_view.id"
-  // ];
   stru["query"] = "select";
   stru["tables"] = "roomList_view";
   stru["data"] = {
@@ -150,7 +137,7 @@ const roomList = (val) => { // 获取房间列表
   }
 
   let result = _structureAnalysis(stru);
-  globalAny.log.trace("[orderList] sql语句: " + result.sql + " value参数: " + result.value);
+  globalAny.log.trace("[roomList] sql语句: " + result.sql + " value参数: " + result.value);
   return query(result.sql, result.value)
 }
 

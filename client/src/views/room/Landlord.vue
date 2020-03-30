@@ -81,7 +81,8 @@ export default class LandlordIndex extends Vue {
   async init(): Promise<any> {
     let self = this;
     const res = await landlordInfoAPI({
-      landlordId: self.$route.query.landlordId
+      landlordId: self.$route.query.landlordId,
+      searchStartDate: self.$route.query.searchStartDate
     });
     try {
       // console.log("获取店家评论信息成功" + JSON.stringify(res.data));
@@ -149,9 +150,9 @@ export default class LandlordIndex extends Vue {
     font-size: @min-size;
     display: flex;
     align-items: center;
+    justify-content: space-around;
     margin: 20px 0;
     .item {
-      margin-right: 60px;
       span {
         display: block;
         font-size: @middle-size;

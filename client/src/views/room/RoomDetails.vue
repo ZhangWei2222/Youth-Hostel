@@ -9,13 +9,14 @@
     </van-swipe>
 
     <van-calendar
+      ref="calendar"
       v-model="show"
       :round="false"
       type="range"
       position="right"
       color="#86cd71"
       :formatter="formatter"
-      @confirm="onConfirm"
+      @confirm="onDateConfirm"
     />
 
     <div class="wrapper">
@@ -203,6 +204,7 @@ import {
   returnFloat
 } from "@/common/ts/utill.ts";
 import { formatFacilityList } from "@/common/ts/facility.ts";
+import merge from "webpack-merge";
 Vue.use(Lazyload, Dialog);
 
 @Component({
@@ -213,6 +215,7 @@ Vue.use(Lazyload, Dialog);
   }
 })
 export default class RoomDetails extends Vue {
+  $refs: { quickEntry: HTMLFormElement };
   images: any[] = [
     "https://img.yzcdn.cn/vant/apple-1.jpg",
     "https://img.yzcdn.cn/vant/apple-2.jpg"
@@ -265,13 +268,40 @@ export default class RoomDetails extends Vue {
     return formatRoomDate(this.date);
   }
 
+  initDate(): void {
+    let routeSearchStartDate: any = this.$route.query.searchStartDate;
+    // 日期初始化
+    let searchStartDate: any = routeSearchStartDate.split(" ")[0].split("-");
+    let searchStartDateObj: any = new Date(
+      Number(searchStartDate[0]),
+      Number(searchStartDate[1]) - 1,
+      Number(searchStartDate[2]),
+      14
+    );
+    let days: any = this.$route.query.searchDays;
+    let searchEndDateObj = new Date(
+      (searchStartDateObj / 1000 + 86400 * days) * 1000
+    );
+    this.$refs["calendar"].currentDate[0] = searchStartDateObj;
+    this.$refs["calendar"].currentDate[1] = searchEndDateObj;
+    this.date = {
+      start: formatDate(searchStartDateObj),
+      days: getDiff(searchStartDateObj, searchEndDateObj),
+      end: formatDate(searchEndDateObj)
+    };
+  }
+
   mounted(): void {
+    this.initDate();
     this.init();
   }
 
   async init(): Promise<any> {
     let self = this;
-    const res = await roomDetailAPI({ roomId: self.$route.query.id });
+    const res = await roomDetailAPI({
+      roomId: self.$route.query.id,
+      searchStartDate: self.$route.query.searchStartDate
+    });
     try {
       // console.log("获取房间信息" + JSON.stringify(res.data));
       if (res.data.code === 0) {
@@ -321,8 +351,10 @@ export default class RoomDetails extends Vue {
     self.cacheFacilityList = formatFacilityList(self.roomDetail.facilityList);
   }
 
+  searchStartDate: any = "";
+  searchDays: any = "";
   // 选择日期
-  onConfirm(date: any): void {
+  onDateConfirm(date: any): void {
     const [start, end] = date;
     this.show = false;
     this.date = {
@@ -330,6 +362,21 @@ export default class RoomDetails extends Vue {
       days: getDiff(start, end),
       end: formatDate(end)
     };
+    this.searchDays = getDiff(start, end);
+    this.searchStartDate =
+      start.getFullYear() +
+      "-" +
+      (start.getMonth() + 1) +
+      "-" +
+      start.getDate() +
+      " " +
+      "14:00:00";
+    this.$router.push({
+      query: merge(this.$route.query, {
+        searchStartDate: this.searchStartDate,
+        searchDays: this.searchDays
+      })
+    });
   }
 
   onClickLeft(): void {
@@ -342,7 +389,11 @@ export default class RoomDetails extends Vue {
       case 0:
         this.$router.push({
           name: "Landlord",
-          query: { landlordId: id }
+          query: {
+            landlordId: id,
+            searchStartDate: this.$route.query.searchStartDate,
+            searchDays: this.$route.query.searchDays
+          }
         });
         break;
       case 1:
@@ -352,11 +403,11 @@ export default class RoomDetails extends Vue {
         });
         break;
       case 2:
-        this.$router.push({
-          name: "SubmitOrder",
-          query: { roomId: this.$route.query.id },
-          params: { date: this.roomDate, days: this.roomDays.toString() }
-        });
+        // this.$router.push({
+        //   name: "SubmitOrder",
+        //   query: { roomId: this.$route.query.id },
+        //   params: { date: this.roomDate, days: this.roomDays.toString() }
+        // });
         break;
       default:
         break;

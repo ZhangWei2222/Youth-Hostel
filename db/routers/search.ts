@@ -2,7 +2,7 @@
  * @Description: 搜索相关接口
  * @Author: Vivian
  * @Date: 2020-03-24 09:37:30
- * @LastEditTime: 2020-03-27 12:18:41
+ * @LastEditTime: 2020-03-30 09:38:47
  */
 
 const globalAny: any = global;
@@ -25,7 +25,7 @@ router.get('/api/roomList', async (ctx, next) => {
     ctx.body.data.forEach((item) => {
       roomIds.push(item.id);
     })
-    console.log(roomIds)
+    // console.log(roomIds)
     if (roomIds.length > 0) {
       await userModel.dateFilter({ searchStartDate: JSON.parse(ctx.query.dateFilter).searchStartDate, roomIds: roomIds }).then(async (res) => {
         globalAny.log.trace("[dateFilter] 筛选日期成功!" + JSON.stringify(res));

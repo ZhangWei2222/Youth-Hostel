@@ -1,5 +1,8 @@
 <template>
-  <div class="comment-list">
+  <div
+    class="comment-list"
+    :style="{'padding':this.$route.meta.child?'10px 20px 20px':'10px 20px 60px'}"
+  >
     <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
       <div class="comment" v-for="item in commentList" :key="item.id">
         <div class="person">

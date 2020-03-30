@@ -2,7 +2,7 @@
  * @Description: 连接mysql、执行sql语句-房间相关
  * @Author: Vivian
  * @Date: 2020-03-10 10:31:15
- * @LastEditTime: 2020-03-18 12:05:41
+ * @LastEditTime: 2020-03-30 09:53:52
  */
 
 const globalAny: any = global;
@@ -31,13 +31,51 @@ const query = function (sql, val) {
   })
 }
 
-const landlordRoomInfo = (val) => { // 店家主页中的房源信息
-  let sql = `SELECT a.id,a.roomName,c.houseName,a.sex,a.price,a.roommateNum,a.guestsNum,a.toiletNum,AVG(b.score) AS score,COUNT(b.score) AS commentsNum
-  FROM rooms a
-  left join room_comments_view b ON a.landlordId = b.landlordId AND a.landlordId = 1 AND a.id = b.roomId
-  LEFT JOIN houses c ON a.houseId = c.id group BY a.id`
-  globalAny.log.trace("[landlordRoomInfo] sql语句: " + sql + " value参数: " + val);
-  return query(sql, val)
+const landlordRoomInfo_roomList = (val) => { // 获取房间列表
+  let stru = getSQLObject();
+  stru["query"] = "select";
+  stru["tables"] = "roomList_view";
+  stru["data"] = {
+    "*": '*'
+  };
+  stru["where"]["condition"] = [
+    "roomList_view.landlordId = " + val.landlordId,
+  ];
+  stru["options"]["order by"] = [
+    "roomList_view.id"
+  ];
+  let result = _structureAnalysis(stru);
+  globalAny.log.trace("[landlordRoomInfo_roomList] sql语句: " + result.sql + " value参数: " + result.value);
+  return query(result.sql, result.value)
+}
+
+const landlordRoomInfo_dateFilter = (val) => { // 筛选日期
+  let stru = getSQLObject();
+  stru["query"] = "select";
+  stru["tables"] = "orders,roomList_view ";
+  stru["data"] = {
+    "roomList_view.id": '*',
+    "roomList_view.roommateNum": '*',
+    "COUNT(roomList_view.id) AS searchGuestsNum": '*'
+  };
+  stru["where"]["condition"] = [
+    `"${val.searchStartDate}" >= startDate `,
+    `"${val.searchStartDate}" <= (startDate + INTERVAL days DAY -INTERVAL 90 minute ) `,
+    `orders.roomId = roomList_view.id`,
+    `orders.status = -1`
+  ];
+  let result = _structureAnalysis(stru);
+  result.sql = result.sql.substring(0, result.sql.length - 1)
+  result.sql += 'and ('
+  val.roomIds.forEach((item, index) => {
+    result.sql += `roomId = ${item} `
+    if (index != val.roomIds.length - 1) {
+      result.sql += `or `
+    }
+  })
+  result.sql += ') GROUP BY roomList_view.id'
+  globalAny.log.trace("[landlordRoomInfo_dateFilter] sql语句: " + result.sql + " value参数: " + result.value);
+  return query(result.sql, result.value)
 }
 
 const landlordComments = (val) => { // 获取店家评论
@@ -79,13 +117,19 @@ const landlordCommentsAVG = (val) => { // 获取店家评论平均数
 const roomDetail = (val) => { // 获取房间详情
   let stru = getSQLObject();
   stru["query"] = "select";
-  stru["tables"] = "rooms";
+  stru["tables"] = "rooms,orders";
   stru["data"] = {
-    "*": '*',
-  };
+    "rooms.*": '*',
+    "COUNT(orders.roomId) AS guestsNum": '*'
+  }
   stru["where"]["condition"] = [
-    "id = " + val,
+    "rooms.id = " + val.roomId,
+    "rooms.id = orders.roomId",
+    "orders.`status` = -1",
+    `"${val.searchStartDate}" >= startDate `,
+    `"${val.searchStartDate}" <= (startDate + INTERVAL days DAY -INTERVAL 90 minute ) `,
   ];
+  stru["options"]["group by"] = 'rooms.id';
   let result = _structureAnalysis(stru);
   globalAny.log.trace("[roomDetail] sql语句: " + result.sql + " value参数: " + result.value);
   return query(result.sql, result.value)
@@ -171,7 +215,8 @@ const facilityList = (val) => { // 获取服务设施表
 }
 
 module.exports = {
-  landlordRoomInfo,
+  landlordRoomInfo_roomList,
+  landlordRoomInfo_dateFilter,
   landlordComments,
   landlordCommentsAVG,
   roomDetail,

@@ -1,5 +1,5 @@
 <template>
-  <div class="room-list">
+  <div class="room-list" :style="{'margin-bottom':this.$route.meta.child?'20px':'60px'}">
     <van-list
       v-model="loading"
       :finished="finished"
@@ -83,7 +83,11 @@ export default class RoomList extends Vue {
   goDetails(id): void {
     this.$router.push({
       name: "RoomDetails",
-      query: { id: id }
+      query: {
+        id: id,
+        searchStartDate: this.$route.query.searchStartDate,
+        searchDays: this.$route.query.searchDays
+      }
     });
   }
 }
@@ -104,7 +108,6 @@ export default class RoomList extends Vue {
 <style scoped lang="less">
 @import url("~@/common/style/Variable.less");
 .room-list {
-  margin-bottom: 60px;
   .room {
     height: 260px;
     border-radius: 5px;
