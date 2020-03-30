@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Vivian
  * @Date: 2020-03-06 16:09:44
- * @LastEditTime: 2020-03-30 10:58:54
+ * @LastEditTime: 2020-03-30 17:19:08
  -->
 <template>
   <div class="order-detail">
@@ -24,7 +24,7 @@
           >{{statusText}}</div>
         </div>
         <div class="avator">
-          <img src="../../common/images/home.jpg" alt />
+          <img src="http://101.133.132.172/public/home.jpg" alt />
         </div>
       </div>
 
@@ -39,7 +39,7 @@
       </div>
 
       <van-divider style="padding: 10px 0;" />
-      <Notice :type="2" :status="orderInfo.status"></Notice>
+      <Notice class="notice-box" :type="2" :status="orderInfo.status"></Notice>
 
       <van-submit-bar
         button-type="warning"
@@ -256,7 +256,7 @@ export default class OrderDetail extends Vue {
 @import url("~@/common/style/Variable.less");
 .order-detail {
   .wrapper {
-    padding: 0 20px 80px;
+    padding: 0 20px 100px;
   }
 
   .room-info {
@@ -267,14 +267,15 @@ export default class OrderDetail extends Vue {
     display: flex;
     justify-content: space-between;
     background: @yellow;
-    height: 100px;
     .detailBox {
       display: flex;
       flex-direction: column;
       justify-content: space-around;
       align-items: flex-start;
+      margin-right: 5px;
       .title {
         font-weight: bold;
+        text-align: left;
       }
       .time {
         font-size: @min-size;
@@ -282,7 +283,7 @@ export default class OrderDetail extends Vue {
       .status {
         font-size: @middle-size;
         font-weight: bold;
-        margin-top: 10px;
+        margin-top: 5px;
       }
     }
     .avator {

@@ -2,14 +2,14 @@
  * @Description: 订单列表
  * @Author: Vivian
  * @Date: 2020-03-16 10:19:58
- * @LastEditTime: 2020-03-23 20:27:07
+ * @LastEditTime: 2020-03-30 17:20:12
  -->
 
 <template>
   <div class="order-list">
     <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
       <div class="order" v-for="item in list" :key="item.id" @click="goView(item.id)">
-        <img src="https://img.yzcdn.cn/vant/cat.jpeg" alt />
+        <img src="http://101.133.132.172/public/home.jpg" alt />
         <div class="details">
           <div class="title">{{item.name}}</div>
           <div
@@ -82,13 +82,14 @@ export default class OrderList extends Vue {
 .order-list {
   .order {
     height: 60px;
-    padding: 20px;
+    padding: 10px;
     border-radius: 5px;
     box-shadow: 0 0 5px @shadow-color;
     display: flex;
     align-items: center;
     background: @incarnadine;
     margin: 20px 0;
+    justify-content: space-between;
     img {
       width: 60px;
       height: 60px;
@@ -100,10 +101,13 @@ export default class OrderList extends Vue {
       flex-direction: column;
       align-items: flex-start;
       justify-content: space-between;
-      margin-left: 20px;
+      width: 77%;
       .title {
-        font-size: @middle-size;
         font-weight: bold;
+        text-align: left;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
       }
     }
   }

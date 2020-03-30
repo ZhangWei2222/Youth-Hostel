@@ -1,3 +1,9 @@
+<!--
+ * @Description:
+ * @Author: Vivian
+ * @Date: 2020-03-06 16:09:44
+ * @LastEditTime: 2020-03-30 17:20:37
+ -->
 <template>
   <div class="info-index">
     <van-nav-bar title="编辑个人信息" left-arrow @click-left="onClickLeft" :border="false" />
@@ -15,6 +21,7 @@ import { Vue, Component } from "vue-property-decorator";
 import { Toast } from "vant";
 import UserForm from "@/components/UserForm.vue";
 import { userInfoAPI, editUserInfoAPI } from "@/services/userAPI.ts";
+import { checkPhone } from "@/common/ts/utill.ts";
 
 @Component({
   name: "InfoIndex",
@@ -53,7 +60,11 @@ export default class InfoIndex extends Vue {
     let self = this;
     let userForm = self.$refs["UserForm"].userForm;
 
-    if (userForm.password && userForm.phoneNum && userForm.message) {
+    if (
+      userForm.password &&
+      checkPhone(userForm.phoneNum) &&
+      userForm.message
+    ) {
       const res = await editUserInfoAPI({
         id: userForm.id,
         password: userForm.password,
@@ -64,9 +75,7 @@ export default class InfoIndex extends Vue {
         console.log("编辑信息" + JSON.stringify(res.data));
         if (res.data.code === 0) {
           Toast.success(res.data.msg);
-        } else if (res.data.code === 104) {
-          Toast.fail(res.data.msg);
-          self.$router.push("SignIn");
+          window.location.reload();
         }
       } catch (error) {
         Toast.fail("修改失败");

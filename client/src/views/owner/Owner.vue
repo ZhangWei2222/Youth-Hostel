@@ -120,13 +120,11 @@ export default class OwnerIndex extends Vue {
     };
 
     const res = await userImageAPI(params, config);
-
     try {
       console.log("上传头像信息" + JSON.stringify(res.data));
       if (res.data.code === 0) {
         Toast.success(res.data.msg);
-        self.SET_USER_AVATOR(res.data.filename);
-        self.$router.go(0);
+        window.location.reload();
       } else if (res.data.code === 104) {
         Toast.fail(res.data.msg);
       }
@@ -168,7 +166,8 @@ export default class OwnerIndex extends Vue {
         cookie.remove("assent_token");
         self.isSignIn = false;
         Toast("你已登出!");
-        self.$router.go(0);
+        self.user.avator = "user.png";
+        window.location.reload();
       })
       .catch(() => {
         Toast("你已取消操作!");
