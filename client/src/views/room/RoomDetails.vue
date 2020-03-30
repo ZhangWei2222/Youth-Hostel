@@ -32,7 +32,7 @@
         <van-divider :style="{  width: '100%' }" />
         <div
           class="title"
-        >{{roomDetail.houseData.houseName}}·{{roomDetail.roomData.roomName}}·{{roomDetail.roomData.sex===1?'男生':'女生'}}</div>
+        >{{roomDetail.roomData.roomName}}·{{roomDetail.roomData.sex===1?'男生':'女生'}}</div>
         <div class="tags">
           <van-tag
             color="rgba(142, 218, 119, 0.47)"
@@ -102,8 +102,10 @@
           </div>
           <div style="padding: 5px;background: #f7f8fa;border-radius: 3px;">
             <div class="intro" @click="roomIntro(roomDetail.houseData.intro)">
-              <span class="title">房源介绍：</span>
-              {{roomDetail.houseData.redecoratedDate}}装修；{{roomDetail.houseData.intro}}
+              <span
+                class="title"
+              >房源介绍：{{roomDetail.houseData.houseName}}·{{roomDetail.houseData.redecoratedDate}}装修；</span>
+              {{roomDetail.houseData.intro}}
             </div>
           </div>
         </div>
@@ -441,7 +443,7 @@ export default class RoomDetails extends Vue {
   // 房屋介绍
   roomIntro(intro): void {
     Dialog.alert({
-      title: "房源介绍",
+      title: `${this.roomDetail.houseData.houseName}`,
       message: intro
     }).then(() => {
       // on close

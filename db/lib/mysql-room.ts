@@ -2,7 +2,7 @@
  * @Description: 连接mysql、执行sql语句-房间相关
  * @Author: Vivian
  * @Date: 2020-03-10 10:31:15
- * @LastEditTime: 2020-03-30 09:53:52
+ * @LastEditTime: 2020-03-30 12:49:31
  */
 
 const globalAny: any = global;
@@ -129,7 +129,7 @@ const roomDetail = (val) => { // 获取房间详情
     `"${val.searchStartDate}" >= startDate `,
     `"${val.searchStartDate}" <= (startDate + INTERVAL days DAY -INTERVAL 90 minute ) `,
   ];
-  stru["options"]["group by"] = 'rooms.id';
+  // stru["options"]["group by"] = 'rooms.id';
   let result = _structureAnalysis(stru);
   globalAny.log.trace("[roomDetail] sql语句: " + result.sql + " value参数: " + result.value);
   return query(result.sql, result.value)
