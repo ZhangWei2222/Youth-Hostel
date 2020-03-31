@@ -2,7 +2,7 @@
  * @Description: 工具类-比如格式化函数等
  * @Author: Vivian
  * @Date: 2020-03-06 14:00:16
- * @LastEditTime: 2020-03-16 18:36:27
+ * @LastEditTime: 2020-03-31 12:01:36
  */
 
 // 自定义日期文案
@@ -21,6 +21,14 @@ export function formatDate(date: any): any {
     return `${date.getFullYear()}年${date.getMonth() + 1}月${date.getDate()}日`;
   }
   return `${date.getMonth() + 1}月${date.getDate()}日`;
+}
+
+// 格式化日期 *.*
+export function formatDate3(date: any): any {
+  if (date.getFullYear() !== new Date().getFullYear()) {
+    return `${date.getFullYear()}.${date.getMonth() + 1}.${date.getDate()}`;
+  }
+  return `${date.getMonth() + 1}.${date.getDate()}`;
 }
 
 // 获取天数差
@@ -76,7 +84,8 @@ export function formatRoomDate(date: any): any {
 
 // 格式化订的房间日期
 export function formatOrderDate(time: any, days: number): any {
-  let timeObj: any = new Date(time);
+  console.log(time)
+  let timeObj: any = new Date(time.toString());
   let year = timeObj.getFullYear();
   let month = timeObj.getMonth() + 1
   let date = timeObj.getDate()

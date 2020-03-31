@@ -222,10 +222,7 @@ Vue.use(Lazyload, Dialog);
 })
 export default class RoomDetails extends Vue {
   $refs: { quickEntry: HTMLFormElement };
-  images: any[] = [
-    "https://img.yzcdn.cn/vant/apple-1.jpg",
-    "https://img.yzcdn.cn/vant/apple-2.jpg"
-  ];
+  images: any[] = [];
   date = {
     start: `${new Date().getMonth() + 1}月${new Date().getDate()}日`,
     days: 1,
@@ -322,6 +319,10 @@ export default class RoomDetails extends Vue {
           facilityList: res.data.data.facilityList[0]
         };
         self.formatData();
+        let baseURL = `http://101.133.132.172/public/houseUploads/house${self.roomDetail.houseData.id}/room${self.roomDetail.roomData.id}`;
+        for (let i = 1; i < 5; i++) {
+          self.images.push(`${baseURL}/avator${i}.jpg`);
+        }
       }
     } catch (error) {
       Toast.fail("获取房间信息失败");

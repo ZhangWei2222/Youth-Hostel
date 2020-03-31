@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Vivian
  * @Date: 2020-03-06 16:09:44
- * @LastEditTime: 2020-03-30 17:19:08
+ * @LastEditTime: 2020-03-31 12:11:30
  -->
 <template>
   <div class="order-detail">
@@ -23,9 +23,13 @@
             :style="{'color':orderInfo.status===-3? '#bf3c20':'#323233'}"
           >{{statusText}}</div>
         </div>
-        <div class="avator">
-          <img src="http://101.133.132.172/public/home.jpg" alt />
-        </div>
+        <van-image
+          class="img"
+          width="100"
+          height="80"
+          radius="3"
+          :src="`http://101.133.132.172/public/houseUploads/house${orderInfo.houseId}/room${orderInfo.roomId}/avator1.jpg`"
+        />
       </div>
 
       <div class="order-info">
@@ -156,10 +160,12 @@ export default class OrderDetail extends Vue {
     if (new Date() > startDate) {
       tip = "抱歉，根据退房政策，入住当天不可退房";
     } else if (new Date() < startDate && new Date() > startThreeDate) {
-      tip = "根据退房政策，仅可退房费的80%，确认退房后退款将于一天内转至账户";
+      tip =
+        "根据退房政策，仅可退房费的80%，店家确认退房后,退款将于一天内转至账户";
       isDate = true;
     } else {
-      tip = "当前日期在全额退房允许范围内，确认退房后退款将于一天内转至账户";
+      tip =
+        "当前日期在全额退房允许范围内，店家确认退房后,退款将于一天内转至账户。";
       isDate = true;
     }
 
@@ -284,14 +290,6 @@ export default class OrderDetail extends Vue {
         font-size: @middle-size;
         font-weight: bold;
         margin-top: 5px;
-      }
-    }
-    .avator {
-      width: 100px;
-      height: 80px;
-      img {
-        width: 100px;
-        height: 80px;
       }
     }
   }

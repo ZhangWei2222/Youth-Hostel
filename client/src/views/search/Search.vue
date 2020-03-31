@@ -138,7 +138,7 @@
 
 <script lang="ts">
 import { Vue, Component, Watch } from "vue-property-decorator";
-import { formatter, formatDate, getDiff } from "@/common/ts/utill.ts";
+import { formatter, formatDate3, getDiff } from "@/common/ts/utill.ts";
 import { Toast } from "vant";
 import RoomList from "@/components/RoomList.vue";
 import { roomListAPI, locationListAPI } from "@/services/searchAPI.ts";
@@ -308,9 +308,9 @@ export default class CommentIndex extends Vue {
     this.$refs["calendar"].currentDate[0] = searchStartDateObj;
     this.$refs["calendar"].currentDate[1] = searchEndDateObj;
     this.date = {
-      start: formatDate(searchStartDateObj),
+      start: formatDate3(searchStartDateObj),
       days: getDiff(searchStartDateObj, searchEndDateObj),
-      end: formatDate(searchEndDateObj)
+      end: formatDate3(searchEndDateObj)
     };
   }
 
@@ -488,9 +488,9 @@ export default class CommentIndex extends Vue {
     const [start, end] = date;
     this.showDate = false;
     this.date = {
-      start: formatDate(start),
+      start: formatDate3(start),
       days: getDiff(start, end),
-      end: formatDate(end)
+      end: formatDate3(end)
     };
     this.searchDays = getDiff(start, end);
     this.searchStartDate =

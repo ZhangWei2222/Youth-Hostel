@@ -9,12 +9,12 @@
       <div class="overview" v-for="item in roomList" :key="item.id" @click="goDetails(item.id)">
         <div class="room">
           <van-swipe class="my-swipe" :loop="false" indicator-color="white">
-            <van-swipe-item>
-              <img src="@/common/images/home.jpg" alt />
+            <van-swipe-item v-for="keys in [1,2,3,4]" :key="keys">
+              <img
+                :src="`http://101.133.132.172/public/houseUploads/house${item.houseId}/room${item.id}/avator${keys}.jpg`"
+                alt
+              />
             </van-swipe-item>
-            <van-swipe-item>2</van-swipe-item>
-            <van-swipe-item>3</van-swipe-item>
-            <van-swipe-item>4</van-swipe-item>
           </van-swipe>
           <div class="details">
             <div>{{item.roomType}}</div>

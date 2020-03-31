@@ -2,14 +2,20 @@
  * @Description: 订单列表
  * @Author: Vivian
  * @Date: 2020-03-16 10:19:58
- * @LastEditTime: 2020-03-30 17:20:12
+ * @LastEditTime: 2020-03-31 12:10:06
  -->
 
 <template>
   <div class="order-list">
     <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
       <div class="order" v-for="item in list" :key="item.id" @click="goView(item.id)">
-        <img src="http://101.133.132.172/public/home.jpg" alt />
+        <van-image
+          class="img"
+          width="60"
+          height="60"
+          radius="3"
+          :src="`http://101.133.132.172/public/houseUploads/house${item.houseId}/room${item.roomId}/avator1.jpg`"
+        />
         <div class="details">
           <div class="title">{{item.name}}</div>
           <div
@@ -90,10 +96,11 @@ export default class OrderList extends Vue {
     background: @incarnadine;
     margin: 20px 0;
     justify-content: space-between;
-    img {
+    .img {
       width: 60px;
       height: 60px;
       border-radius: 3px;
+      object-fit: cover;
     }
     .details {
       height: 100%;

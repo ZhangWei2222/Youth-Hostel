@@ -9,15 +9,17 @@
     <div class="wrapper">
       <div class="room-info">
         <div class="detailBox">
-          <div
-            class="title"
-          >{{roomInfo.houseName}}·{{roomInfo.roomName}}·{{roomInfo.sex===1?'男生':'女生'}}</div>
+          <div class="title">{{roomInfo.roomName}}·{{roomInfo.sex===1?'男生':'女生'}}</div>
           <div class="type">{{roomInfo.roommateNum}}人间·{{roomInfo.toiletNum===1?'独卫':'公卫'}}</div>
           <div class="time">{{orderInfo.date}}·{{orderInfo.days}}晚</div>
         </div>
-        <div class="avator">
-          <img src="../../common/images/home.jpg" alt />
-        </div>
+        <van-image
+          class="img"
+          width="100"
+          height="80"
+          radius="3"
+          :src="`http://101.133.132.172/public/houseUploads/house${roomInfo.houseId}/room${roomInfo.id}/avator1.jpg`"
+        />
       </div>
 
       <div class="text">
@@ -74,6 +76,11 @@ export default class SubmitOrder extends Vue {
     message: ""
   };
 
+  getOrderDate(startDate: any, days: number): any {
+    startDate = startDate.replace(/-/g, "/");
+    return formatOrderDate(startDate, days);
+  }
+
   mounted(): void {
     this.init();
   }
@@ -85,7 +92,7 @@ export default class SubmitOrder extends Vue {
       // console.log("获取订单信息" + JSON.stringify(res.data));
       if (res.data.code === 0) {
         self.roomInfo = res.data.data[0];
-        self.orderInfo.date = formatOrderDate(
+        self.orderInfo.date = self.getOrderDate(
           self.$route.query.searchStartDate,
           Number(self.$route.query.searchDays)
         );
@@ -218,17 +225,10 @@ export default class SubmitOrder extends Vue {
       align-items: flex-start;
       .title {
         font-weight: bold;
+        text-align: left;
       }
       .time {
         font-size: @min-size;
-      }
-    }
-    .avator {
-      width: 100px;
-      height: 80px;
-      img {
-        width: 100px;
-        height: 80px;
       }
     }
   }
