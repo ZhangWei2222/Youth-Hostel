@@ -2,7 +2,7 @@
  * @Description: 订单相关接口
  * @Author: Vivian
  * @Date: 2020-03-11 16:29:45
- * @LastEditTime: 2020-03-27 16:46:54
+ * @LastEditTime: 2020-04-01 12:12:44
  */
 
 const globalAny: any = global;
@@ -115,14 +115,14 @@ router.post('/api/submitOrder', checkToken, async (ctx, next) => {
 
 // 退房
 router.post('/api/checkOutOrder', checkToken, async (ctx, next) => {
-  await userModel.changeOrderStatus({ orderId: ctx.request.body.orderId, status: -2 }).then(async (res) => {
-    globalAny.log.trace("[checkOutOrder] 退房成功" + JSON.stringify(res));
+  await userModel.changeOrderStatus({ orderId: ctx.request.body.orderId, status: -6 }).then(async (res) => {
+    globalAny.log.trace("[checkOutOrder] 退房申请发出成功" + JSON.stringify(res));
     ctx.body = {
       code: 0,
-      msg: '退房成功!'
+      msg: '退房申请发出成功!'
     }
   }).catch((err) => {
-    globalAny.log.error("[submitOrder] 下订单失败: " + err);
+    globalAny.log.error("[submitOrder] 退房申请发出失败: " + err);
     ctx.body = {
       code: -1,
       msg: err

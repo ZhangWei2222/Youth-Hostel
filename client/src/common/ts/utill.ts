@@ -2,7 +2,7 @@
  * @Description: 工具类-比如格式化函数等
  * @Author: Vivian
  * @Date: 2020-03-06 14:00:16
- * @LastEditTime: 2020-04-01 11:22:24
+ * @LastEditTime: 2020-04-01 12:16:53
  */
 
 // 自定义日期文案
@@ -127,6 +127,13 @@ export function formatOrderStatusText(status: number): any {
     disabledButton: false
   }
   switch (status) {
+    case -6:
+      temp = {
+        text: "退房中...",
+        commentText: "退房中...",
+        disabledButton: true
+      }
+      break;
     case -5:
       temp = {
         text: "已入住",
@@ -188,7 +195,7 @@ export function formatAdminStatusText(status: number, isCommented?: boolean): an
       temp = {
         text: "处理退房",
         commentText: "确认退房",
-        disabledButton: true
+        disabledButton: false
       }
       break;
     case -5:

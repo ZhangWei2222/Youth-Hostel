@@ -30,3 +30,7 @@ export const checkInOrderAPI = (params) => {
 export const userCommentsAPI = (params) => {
   return http.post('/api/userComments', params);
 }
+
+export const landlordcheckOutOrderAPI = (params) => {
+  return http.post('/api/landlordcheckOutOrder', params);
+}

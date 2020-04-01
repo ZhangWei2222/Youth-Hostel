@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Vivian
  * @Date: 2020-03-31 17:04:05
- * @LastEditTime: 2020-04-01 10:59:02
+ * @LastEditTime: 2020-04-01 12:10:52
  -->
 
 <template>
@@ -24,7 +24,7 @@
             class="info"
           >{{getOrderDate(item.startDate,item.days)}}·{{item.days}}晚·{{item.allPrice}}元</div>
           <div
-            :style="{'color':item.status===-3? '#bf3c20':'#323233'}"
+            :style="{'color':item.status===-1 || item.status===-6 ? '#bf3c20':item.status===-3 || item.status===-5 || item.status===-4 || item.status===-2 ? '#c8c9cc':'#323233'}"
           >{{getStatusText(item.status,item.isCommented)}}</div>
         </div>
       </div>

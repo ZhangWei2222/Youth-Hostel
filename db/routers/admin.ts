@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Vivian
  * @Date: 2020-03-31 16:23:18
- * @LastEditTime: 2020-04-01 11:30:13
+ * @LastEditTime: 2020-04-01 12:24:57
  */
 
 /*
@@ -178,6 +178,23 @@ router.post('/api/userComments', checkToken, async (ctx, next) => {
       code: -1,
       msg: err,
       data: []
+    }
+  })
+})
+
+// 退房
+router.post('/api/landlordcheckOutOrder', checkToken, async (ctx, next) => {
+  await userModel.landlordcheckOutOrder({ orderId: ctx.request.body.orderId, status: -2 }).then(async (res) => {
+    globalAny.log.trace("[landlordcheckOutOrder] 退房成功" + JSON.stringify(res));
+    ctx.body = {
+      code: 0,
+      msg: '退房成功!'
+    }
+  }).catch((err) => {
+    globalAny.log.error("[landlordcheckOutOrder] 退房失败: " + err);
+    ctx.body = {
+      code: -1,
+      msg: err
     }
   })
 })

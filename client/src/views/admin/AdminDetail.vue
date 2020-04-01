@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Vivian
  * @Date: 2020-03-31 17:52:26
- * @LastEditTime: 2020-04-01 11:31:30
+ * @LastEditTime: 2020-04-01 12:23:54
  -->
 
 <template>
@@ -51,7 +51,7 @@
         button-type="warning"
         :button-text="buttonText"
         :disabled="disabledButton"
-        @submit="buttonText==='确认入住'?checkDate():goComment()"
+        @submit="chooseHandle(buttonText)"
       >
         <div
           class="refuse"
@@ -74,7 +74,8 @@ import { Toast, Dialog } from "vant";
 import {
   adminDetailAPI,
   refuseOrderAPI,
-  checkInOrderAPI
+  checkInOrderAPI,
+  landlordcheckOutOrderAPI
 } from "@/services/adminAPI.ts";
 import {
   formatOrderDate,
@@ -123,6 +124,23 @@ export default class AdminDetail extends Vue {
       this.orderInfo.status,
       this.orderInfo.isCommented
     ).commentText;
+  }
+
+  // 选择操作方法
+  chooseHandle(buttonText: String): void {
+    switch (buttonText) {
+      case "确认入住":
+        this.checkDate();
+        break;
+      case "立即评价":
+        this.goComment();
+        break;
+      case "确认退房":
+        this.goCheckOut();
+        break;
+      default:
+        break;
+    }
   }
 
   // 对数据进行格式化
@@ -180,6 +198,7 @@ export default class AdminDetail extends Vue {
     });
   }
 
+  // 确认入住
   checkDate(): void {
     let self = this;
 
@@ -206,25 +225,30 @@ export default class AdminDetail extends Vue {
       });
   }
 
-  async goCheckOut(): Promise<any> {
+  // 确认退房
+  goCheckOut(): void {
     let self = this;
-    // const res = await checkOutOrderAPI({
-    //   orderId: self.$route.query.orderId,
-    //   roomId: self.orderInfo.roomId
-    // });
-    // try {
-    //   // console.log("退房成功" + JSON.stringify(res.data));
-    //   if (res.data.code === 0) {
-    //     Toast.success("退房成功");
-    //     window.location.reload();
-    //   } else if (res.data.code === 104) {
-    //     Toast.fail(res.data.msg);
-    //     self.$router.push("SignIn");
-    //   }
-    // } catch (error) {
-    //   Toast.fail("退房失败");
-    //   console.log("退房失败" + error);
-    // }
+    Dialog.confirm({
+      message: "是否确认退房"
+    })
+      .then(async () => {
+        const res = await landlordcheckOutOrderAPI({
+          orderId: self.$route.query.orderId
+        });
+        try {
+          // console.log("退房成功" + JSON.stringify(res.data));
+          if (res.data.code === 0) {
+            Toast.success("退房成功");
+            window.location.reload();
+          }
+        } catch (error) {
+          Toast.fail("退房失败");
+          console.log("退房失败" + error);
+        }
+      })
+      .catch(() => {
+        console.log("已取消");
+      });
   }
 
   goHome(): void {

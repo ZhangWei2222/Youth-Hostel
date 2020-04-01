@@ -2,7 +2,7 @@
  * @Description: type:0 roomDetail页面，type:1 submitOrder页面，type:2 orderDetail页面
  * @Author: Vivian
  * @Date: 2020-03-06 16:09:44
- * @LastEditTime: 2020-04-01 11:10:46
+ * @LastEditTime: 2020-04-01 11:59:20
  -->
 <template>
   <div class="notice-box" v-if="type !== 2">
@@ -60,6 +60,9 @@ export default class Notice extends Vue {
   getTipText(status: number): string {
     let temp: string = "";
     switch (status) {
+      case -6:
+        temp = "已发送退房申请，店家收到后会尽快处理，请耐心等待。";
+        break;
       case -5:
         temp = "订单已完成，但已超过退房日期三天，评价功能已关闭。";
         break;
@@ -85,6 +88,9 @@ export default class Notice extends Vue {
   getLandLordTipText(status: number): string {
     let temp: string = "";
     switch (status) {
+      case -6:
+        temp = "确认退房后，系统将在一日内将退款返回给房客。";
+        break;
       case -5:
         temp = "订单已完成，但已超过房客退房日期三天，评价功能已关闭。";
         break;

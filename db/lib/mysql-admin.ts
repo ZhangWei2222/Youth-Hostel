@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Vivian
  * @Date: 2020-03-31 16:23:11
- * @LastEditTime: 2020-04-01 11:24:34
+ * @LastEditTime: 2020-04-01 12:25:29
  */
 /*
  * @Description: 连接mysql、执行sql语句-用户相关
@@ -159,6 +159,12 @@ const userComments = (val) => { // 添加房客评论
   return query(result.sql, result.value)
 }
 
+const landlordcheckOutOrder = (val) => { // 确认退房
+  let sql = `CALL set_orderStatus(${val.orderId}, ${val.status})`
+  globalAny.log.trace("[landlordcheckOutOrder] sql语句: " + sql + " value参数: " + val);
+
+  return query(sql, val)
+}
 
 module.exports = {
   adminInfo,
@@ -167,7 +173,8 @@ module.exports = {
   adminDetail,
   refuseOrder,
   checkInOrder,
-  userComments
+  userComments,
+  landlordcheckOutOrder
 }
 
 export { };

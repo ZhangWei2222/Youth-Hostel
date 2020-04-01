@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Vivian
  * @Date: 2020-03-06 16:09:44
- * @LastEditTime: 2020-03-31 17:20:53
+ * @LastEditTime: 2020-04-01 12:15:56
  -->
 <template>
   <div class="order-detail">
@@ -54,8 +54,8 @@
       >
         <div
           class="delete"
-          @click="orderInfo.status!==-1? deleteOrder() : ''"
-        >{{orderInfo.status!==-1? '删除订单' : ''}}</div>
+          @click="orderInfo.status==-4 || orderInfo.status==-3 || orderInfo.status==-2 ? deleteOrder() : ''"
+        >{{orderInfo.status==-4 || orderInfo.status==-3 || orderInfo.status==-2 ? '删除订单' : ''}}</div>
         <span slot="tip">
           如果您对订单有疑惑，可
           <span>
@@ -191,15 +191,15 @@ export default class OrderDetail extends Vue {
     try {
       // console.log("退房成功" + JSON.stringify(res.data));
       if (res.data.code === 0) {
-        Toast.success("退房成功");
+        Toast.success("退房申请已发出");
         window.location.reload();
       } else if (res.data.code === 104) {
         Toast.fail(res.data.msg);
         self.$router.push("SignIn");
       }
     } catch (error) {
-      Toast.fail("退房失败");
-      console.log("退房失败" + error);
+      Toast.fail("退房申请失败");
+      console.log("退房申请失败" + error);
     }
   }
 
