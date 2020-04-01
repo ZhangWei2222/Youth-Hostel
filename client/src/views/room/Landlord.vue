@@ -24,7 +24,7 @@
         </div>
         <div class="item">
           总评分
-          <span>{{landlordInfo.commentData.totalScore}}</span>
+          <span>{{landlordInfo.commentData.totalScore?landlordInfo.commentData.totalScore:5}}</span>
         </div>
         <div class="item">
           总评价数
@@ -134,6 +134,9 @@ export default class LandlordIndex extends Vue {
   .person {
     display: flex;
     align-items: center;
+    background: @yellow;
+    border-radius: 5px;
+    padding: 10px;
     .img {
       width: 50px;
       height: 50px;
