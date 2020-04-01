@@ -67,7 +67,7 @@ router.get('/api/sumbitRoomInfo', async (ctx, next) => {
 
 router.get('/api/orderDetail', async (ctx, next) => {
   await userModel.orderDetail(ctx.query.orderId).then(async (res) => {
-    globalAny.log.trace("[orderDetail] 房间详情获取成功!" + JSON.stringify(res));
+    globalAny.log.trace("[orderDetail] 订单详情获取成功!" + JSON.stringify(res));
     ctx.body = {
       code: 0,
       msg: '订单详情获取成功',

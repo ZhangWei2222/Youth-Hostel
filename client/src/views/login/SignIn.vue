@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Vivian
  * @Date: 2020-03-06 16:09:44
- * @LastEditTime: 2020-03-30 11:03:17
+ * @LastEditTime: 2020-03-31 16:21:20
  -->
 <template>
   <div class="sign-in">
@@ -32,7 +32,7 @@ import { Vue, Component } from "vue-property-decorator";
 import { Toast } from "vant";
 import md5 from "js-md5";
 import cookie from "js-cookie";
-import { signInAPI } from "@/services/loginAPI.ts";
+import { signInAPI, landlordSignInAPI } from "@/services/loginAPI.ts";
 
 @Component({
   name: "SignIn"
@@ -50,26 +50,53 @@ export default class SignIn extends Vue {
   async signIn(): Promise<any> {
     let self = this;
     if (self.username && self.password) {
-      const res = await signInAPI({
-        username: self.username,
-        password: md5(self.password)
-      });
-      try {
-        console.log("登录信息" + JSON.stringify(res.data));
-        if (res.data.code === 0) {
-          Toast.success(res.data.msg);
-          cookie.set("assent_token", res.data.token, { expires: 1, path: "" });
-          if (self.$route.query.redirect) {
-            self.$router.replace("" + self.$route.query.redirect);
+      let res;
+      if (self.$route.query.type && self.$route.query.type === "admin") {
+        res = await landlordSignInAPI({
+          username: self.username,
+          password: md5(self.password)
+        });
+        try {
+          console.log("店家登录信息" + JSON.stringify(res.data));
+          if (res.data.code === 0) {
+            Toast.success(res.data.msg);
+            cookie.set("landlord_token", res.data.token, {
+              expires: 1,
+              path: ""
+            });
+            self.$router.replace("/admin");
           } else {
-            self.$router.replace("/");
+            Toast.fail(res.data.msg);
           }
-        } else {
-          Toast.fail(res.data.msg);
+        } catch (error) {
+          Toast.fail("店家登录失败");
+          console.log("店家登录失败" + error);
         }
-      } catch (error) {
-        Toast.fail("登录失败");
-        console.log("登录失败" + error);
+      } else {
+        res = await signInAPI({
+          username: self.username,
+          password: md5(self.password)
+        });
+        try {
+          console.log("用户登录信息" + JSON.stringify(res.data));
+          if (res.data.code === 0) {
+            Toast.success(res.data.msg);
+            cookie.set("assent_token", res.data.token, {
+              expires: 1,
+              path: ""
+            });
+            if (self.$route.query.redirect) {
+              self.$router.replace("" + self.$route.query.redirect);
+            } else {
+              self.$router.replace("/");
+            }
+          } else {
+            Toast.fail(res.data.msg);
+          }
+        } catch (error) {
+          Toast.fail("用户登录失败");
+          console.log("用户登录失败" + error);
+        }
       }
     } else {
       Toast.fail("请正确填写信息");

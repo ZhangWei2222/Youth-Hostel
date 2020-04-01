@@ -119,7 +119,29 @@ const router = new Router({
       path: '/order-comment',
       name: 'OrderComment',
       component: modules['OrderComment']
-    }
+    }, {
+      path: '/admin',
+      name: 'Admin',
+      component: modules['Admin'],
+      meta: {
+        admin: true
+      }
+    }, {
+      path: '/admin-detail',
+      name: 'AdminDetail',
+      component: modules['AdminDetail'],
+      meta: {
+        admin: true
+      }
+    },
+    {
+      path: '/user-comment',
+      name: 'UserComment',
+      component: modules['UserComment'],
+      meta: {
+        admin: true
+      }
+    },
 
   ],
   scrollBehavior(to, from, savedPosition) {

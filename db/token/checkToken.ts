@@ -2,7 +2,7 @@
  * @Description: 检查token
  * @Author: Vivian
  * @Date: 2020-03-03 10:26:57
- * @LastEditTime: 2020-03-05 10:56:56
+ * @LastEditTime: 2020-03-31 16:48:23
  */
 const jwt = require('jsonwebtoken');
 
@@ -12,7 +12,7 @@ module.exports = async (ctx, next) => {
   if (authorization == '') {
     ctx.body = {
       code: 104,
-      msg: '用户未登录'
+      msg: '未登录'
     }
     return false
   }
@@ -26,7 +26,7 @@ module.exports = async (ctx, next) => {
   } catch (err) {
     ctx.body = {
       code: 0,
-      msg: '用户登录验证失效'
+      msg: '登录验证失效'
     }
   }
   await next();

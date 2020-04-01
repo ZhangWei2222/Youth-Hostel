@@ -40,7 +40,6 @@ import { Vue, Component } from "vue-property-decorator";
 import { Dialog, Toast } from "vant";
 import cookie from "js-cookie";
 import { userInfoAPI, userImageAPI } from "@/services/userAPI.ts";
-import { State, Mutation } from "vuex-class";
 
 interface CacheUser {
   name: string;
@@ -59,9 +58,6 @@ interface CacheUser {
   name: "OwnerIndex"
 })
 export default class OwnerIndex extends Vue {
-  @State userState;
-  @Mutation SET_USER_AVATOR;
-
   isSignIn: boolean = false;
   user: CacheUser = {
     name: "",

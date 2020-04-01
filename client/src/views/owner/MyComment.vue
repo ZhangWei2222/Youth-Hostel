@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Vivian
  * @Date: 2020-03-06 16:09:44
- * @LastEditTime: 2020-03-18 16:22:22
+ * @LastEditTime: 2020-03-31 17:36:37
  -->
 <template>
   <div class="my-comment">
@@ -46,7 +46,12 @@ export default class MyComment extends Vue {
   // 获取用户评论信息
   async init(): Promise<any> {
     let self = this;
-    const res = await userCommentsAPI();
+    let res;
+    if (self.$route.query.userId) {
+      res = await userCommentsAPI({ userId: self.$route.query.userId });
+    } else {
+      res = await userCommentsAPI({});
+    }
     try {
       // console.log("获取用户评论信息成功" + JSON.stringify(res.data));
       self.userInfo.data = res.data.data;

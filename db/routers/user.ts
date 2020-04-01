@@ -2,7 +2,7 @@
  * @Description: 用户相关接口--获取用户信息、编辑用户信息、上传头像、获取用户评论
  * @Author: Vivian
  * @Date: 2020-03-03 10:26:57
- * @LastEditTime: 2020-03-18 12:51:36
+ * @LastEditTime: 2020-03-31 17:38:07
  */
 
 const globalAny: any = global;
@@ -17,7 +17,7 @@ router.get('/api/userInfo', checkToken, async (ctx, next) => {
     globalAny.log.trace("[userInfo] 用户信息获取成功!" + JSON.stringify(res));
     ctx.body = {
       code: 0,
-      msg: '用户登录成功!',
+      msg: '用户信息获取成功!',
       data: res
     }
   }).catch((err) => {
@@ -102,15 +102,16 @@ router.post('/api/userImage', checkToken, upload.single('avatar'), async (ctx, n
 
 router.get('/api/userComments', checkToken, async (ctx, next) => {
   // globalAny.log.debug("[userComments]" + JSON.stringify(ctx.userInfo));
+  let userId = ctx.query.userId ? ctx.query.userId : ctx.userInfo.userId
 
-  await userModel.userComments(ctx.userInfo.userId).then(async (res) => {
+  await userModel.userComments(userId).then(async (res) => {
     globalAny.log.trace("[userComments] 用户评价获取成功!" + JSON.stringify(res));
     ctx.body = {
       code: 0,
       data: res,
       average: ''
     }
-    await userModel.userCommentsAVG(ctx.userInfo.userId).then(async (res) => {
+    await userModel.userCommentsAVG(userId).then(async (res) => {
       globalAny.log.trace("[userCommentsAVG] 用户评价平均数：" + JSON.stringify(res));
       ctx.body.average = res;
     })

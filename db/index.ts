@@ -2,7 +2,7 @@
  * @Description: node主文件--完成服务器连接和日志服务
  * @Author: Vivian
  * @Date: 2020-03-03 10:26:57
- * @LastEditTime: 2020-03-24 09:38:01
+ * @LastEditTime: 2020-03-31 16:23:47
  */
 
 const globalAny: any = global;
@@ -51,14 +51,7 @@ app.use(require('./routers/user.ts').routes()) // 用户相关
 app.use(require('./routers/room.ts').routes()) // 房间相关
 app.use(require('./routers/order.ts').routes()) // 订单相关
 app.use(require('./routers/search.ts').routes()) // 搜索相关
-
-// app.use(require('./routers/createPosts.js').routes()) // 新建文章
-// app.use(require('./routers/postsList.js').routes()) // 搜索文章
-// app.use(require('./routers/postDetail.js').routes()) // 文章detail
-// app.use(require('./routers/updatePosts.js').routes()) // 修改文章
-
-// app.use(require('./routers/createComment.js').routes()) // 添加留言
-// app.use(require('./routers/commentList.js').routes()) // 获取留言
+app.use(require('./routers/admin.ts').routes()) // 店家系统相关
 
 // 监听端口
 app.listen(config.port, () => {

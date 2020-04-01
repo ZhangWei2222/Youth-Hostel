@@ -2,7 +2,7 @@
  * @Description: 连接mysql、执行sql语句-订单相关
  * @Author: Vivian
  * @Date: 2020-03-11 16:31:25
- * @LastEditTime: 2020-03-31 10:01:06
+ * @LastEditTime: 2020-03-31 17:09:17
  */
 
 const globalAny: any = global;
@@ -30,6 +30,7 @@ const query = function (sql, val) {
     })
   })
 }
+
 const orderList = (val) => { // 获取订单列表 0:全部，1:有效，-1:无效
   let stru = getSQLObject();
   stru["query"] = "select";

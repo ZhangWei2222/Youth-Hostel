@@ -2,7 +2,7 @@
  * @Description: 连接mysql、执行sql语句-用户相关
  * @Author: Vivian
  * @Date: 2020-03-03 10:26:57
- * @LastEditTime: 2020-03-10 11:29:54
+ * @LastEditTime: 2020-04-01 11:38:14
  */
 
 const globalAny: any = global;
@@ -44,6 +44,21 @@ const findUser = (val) => { // 查找所有User
   ];
   let result = _structureAnalysis(stru);
   globalAny.log.trace("[findUser] sql语句: " + result.sql + " value参数: " + result.value);
+  return query(result.sql, result.value)
+}
+
+const findLandlord = (val) => { // 查找所有Landlord
+  let stru = getSQLObject();
+  stru["query"] = "select";
+  stru["tables"] = "landlords";
+  stru["data"] = {
+    "*": '*'
+  };
+  stru["where"]["condition"] = [
+    "name = '" + val + "'",
+  ];
+  let result = _structureAnalysis(stru);
+  globalAny.log.trace("[findLandlord] sql语句: " + result.sql + " value参数: " + result.value);
   return query(result.sql, result.value)
 }
 
@@ -150,77 +165,10 @@ const userCommentsAVG = (val) => { // 获取用户评论平均数
   return query(result.sql, result.value)
 }
 
-// const createTable = (sql) => {
-//   query(sql, [])
-// }
-
-// const usersTable = `CREATE TABLE IF NOT EXISTS users (
-//    id VARCHAR(36) NOT NULL,
-//    userName VARCHAR(16) NOT NULL,
-//    passWord VARCHAR(16) NOT NULL,
-//    avator VARCHAR(50) NOT NULL,
-//    createTime VARCHAR(50) NOT NULL,
-//    PRIMARY KEY (id)
-// )`;
-
-// const postsTable = `CREATE TABLE IF NOT EXISTS posts (
-//    id INT NOT NULL AUTO_INCREMENT,
-//    userName VARCHAR(100) NOT NULL,
-//    userId VARCHAR(40) NOT NULL,
-//    avator VARCHAR(100) NOT NULL,
-//    title VARCHAR(100) NOT NULL,
-//    content TEXT(0) NOT NULL,
-//    hot VARCHAR(40) NOT NULL,
-//    comments VARCHAR(40) NOT NULL,
-//    createTime VARCHAR(100) NOT NULL,
-//    PRIMARY KEY (id)
-// )`;
-
-// const commentTable = `CREATE TABLE IF NOT EXISTS comment (
-//    id INT NOT NULL AUTO_INCREMENT,
-//    userName VARCHAR(100) NOT NULL,
-//    content TEXT(0) NOT NULL,
-//    postId VARCHAR(40) NOT NULL,
-//    avator VARCHAR(100) NOT NULL,
-//    createTime VARCHAR(100) NOT NULL,
-//    PRIMARY KEY (id)
-// )`;
-
-
-// // 建表
-// createTable(usersTable) // 用户表
-// createTable(postsTable) // 文章表
-// createTable(commentTable) // 评论表
-
-
-
-// const findUser = (val) => { // 查找所有User
-//   let _sql = `SELECT * FROM users WHERE userName = '${val}'`
-//   return query(_sql, val)
-// }
-
-// const createPosts = (val) => { // 新建posts
-//   let _sql = `INSERT INTO posts (userName, userId, avator, title, content, hot, comments, createTime) VALUES (?,?,?,?,?,?,?,?)`
-//   return query(_sql, val)
-// }
-
-// const updatePosts = (val) => { // 修改posts
-//   let _sql = `UPDATE posts SET title=?, content=? WHERE id=?`
-//   return query(_sql, val)
-// }
-
-// const updatePostsComment = (val) => { // 修改posts评论数量
-//   let _sql = `UPDATE posts SET comments=? WHERE id=?`
-//   return query(_sql, val)
-// }
-
-// const updatePostsHot = (val) => { // 修改posts查看人数
-//   let _sql = `UPDATE posts SET hot=? WHERE id=?`
-//   return q
-
 module.exports = {
   //暴露方法
   findUser,
+  findLandlord,
   insetUser,
   userInfo,
   editUserInfo,

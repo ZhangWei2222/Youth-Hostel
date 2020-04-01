@@ -2,7 +2,7 @@
  * @Description: 工具类-比如格式化函数等
  * @Author: Vivian
  * @Date: 2020-03-06 14:00:16
- * @LastEditTime: 2020-03-31 12:01:36
+ * @LastEditTime: 2020-04-01 11:22:24
  */
 
 // 自定义日期文案
@@ -84,7 +84,6 @@ export function formatRoomDate(date: any): any {
 
 // 格式化订的房间日期
 export function formatOrderDate(time: any, days: number): any {
-  console.log(time)
   let timeObj: any = new Date(time.toString());
   let year = timeObj.getFullYear();
   let month = timeObj.getMonth() + 1
@@ -131,7 +130,7 @@ export function formatOrderStatusText(status: number): any {
     case -5:
       temp = {
         text: "已入住",
-        commentText: "评论已关闭",
+        commentText: "评价已关闭",
         disabledButton: true
       }
       break;
@@ -169,6 +168,72 @@ export function formatOrderStatusText(status: number): any {
         text: "已评价",
         commentText: "已评价",
         disabledButton: true
+      }
+      break;
+    default:
+      break;
+  }
+  return temp;
+}
+
+// 格式化订单状态文案(店家管理页面)
+export function formatAdminStatusText(status: number, isCommented?: boolean): any {
+  let temp = {
+    text: "",
+    commentText: '',
+    disabledButton: false
+  }
+  switch (status) {
+    case -6:
+      temp = {
+        text: "处理退房",
+        commentText: "确认退房",
+        disabledButton: true
+      }
+      break;
+    case -5:
+      temp = {
+        text: "评价已关闭",
+        commentText: "评价已关闭",
+        disabledButton: true
+      }
+      break;
+    case -4:
+      temp = {
+        text: "未入住",
+        commentText: "未入住",
+        disabledButton: true
+      }
+      break;
+    case -3:
+      temp = {
+        text: "已取消",
+        commentText: "已取消",
+        disabledButton: true
+      }
+      break;
+    case -2:
+      temp = {
+        text: "已处理退房",
+        commentText: "已处理退房",
+        disabledButton: true
+      }
+      break;
+    case -1:
+      temp.text = "确认入住/取消入住";
+      temp.commentText = "确认入住"
+      break;
+    case 0:
+    case 1:
+      if (isCommented) {
+        temp = {
+          text: "已评价",
+          commentText: "已评价",
+          disabledButton: true
+        }
+      } else {
+        temp.text = "待评价";
+        temp.commentText = "立即评价"
       }
       break;
     default:

@@ -2,13 +2,13 @@
  * @Description:
  * @Author: Vivian
  * @Date: 2020-03-06 14:00:16
- * @LastEditTime: 2020-03-25 16:39:15
+ * @LastEditTime: 2020-03-31 16:14:49
  -->
 <template>
   <div id="app">
     <router-view />
 
-    <van-tabbar route active-color="#4f91ce" v-if="!$route.meta.child">
+    <van-tabbar route active-color="#4f91ce" v-if="!$route.meta.child && !$route.meta.admin">
       <van-tabbar-item replace to="/home" icon="home-o">首页</van-tabbar-item>
       <van-tabbar-item replace to="/orderlist" icon="orders-o" :dot="isDot">订单</van-tabbar-item>
       <van-tabbar-item replace to="/owner" icon="user-o">我的</van-tabbar-item>

@@ -18,6 +18,7 @@
           width="100"
           height="80"
           radius="3"
+          fit="cover"
           :src="`http://101.133.132.172/public/houseUploads/house${roomInfo.houseId}/room${roomInfo.id}/avator1.jpg`"
         />
       </div>

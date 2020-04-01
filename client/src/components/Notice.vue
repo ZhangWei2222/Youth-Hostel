@@ -2,7 +2,7 @@
  * @Description: type:0 roomDetail页面，type:1 submitOrder页面，type:2 orderDetail页面
  * @Author: Vivian
  * @Date: 2020-03-06 16:09:44
- * @LastEditTime: 2020-03-23 19:52:20
+ * @LastEditTime: 2020-04-01 11:10:46
  -->
 <template>
   <div class="notice-box" v-if="type !== 2">
@@ -43,10 +43,17 @@ export default class Notice extends Vue {
   @Prop()
   status: number;
 
+  @Prop()
+  isLandlord: boolean;
+
   @Watch("status")
   getStatus(cur, old) {
     if (cur !== "undefined") {
-      this.tipText = this.getTipText(cur);
+      if (this.isLandlord) {
+        this.tipText = this.getLandLordTipText(cur);
+      } else {
+        this.tipText = this.getTipText(cur);
+      }
     }
   }
 
@@ -65,6 +72,30 @@ export default class Notice extends Vue {
         break;
       case -2:
         temp = "退房成功，如可退款，退款将在当日内返还";
+        break;
+      case 0:
+        temp = "订单已完成，若超过退房日期三天，评价功能将关闭。";
+        break;
+      default:
+        break;
+    }
+    return temp;
+  }
+
+  getLandLordTipText(status: number): string {
+    let temp: string = "";
+    switch (status) {
+      case -5:
+        temp = "订单已完成，但已超过房客退房日期三天，评价功能已关闭。";
+        break;
+      case -4:
+        temp = "房客入住当天23：30前仍未确认，视为自动放弃订单。";
+        break;
+      case -3:
+        temp = "您已取消该订单。";
+        break;
+      case -2:
+        temp = "退房成功。";
         break;
       case 0:
         temp = "订单已完成，若超过退房日期三天，评价功能将关闭。";

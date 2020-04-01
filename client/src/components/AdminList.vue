@@ -1,30 +1,31 @@
 <!--
- * @Description: 订单列表
+ * @Description:
  * @Author: Vivian
- * @Date: 2020-03-16 10:19:58
- * @LastEditTime: 2020-03-31 17:20:19
+ * @Date: 2020-03-31 17:04:05
+ * @LastEditTime: 2020-04-01 10:59:02
  -->
 
 <template>
-  <div class="order-list">
-    <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
-      <div class="order" v-for="item in list" :key="item.id" @click="goView(item.id)">
+  <div class="admin-list">
+    <van-list v-model="loading" :finished="finished" @load="onLoad">
+      <div class="order" v-for="item in list" :key="item.id">
         <van-image
           class="img"
           width="60"
           height="60"
           radius="3"
           fit="cover"
-          :src="`http://101.133.132.172/public/houseUploads/house${item.houseId}/room${item.roomId}/avator1.jpg`"
+          :src="`http://101.133.132.172/public/userUploads/${item.userAvator}`"
+          @click="goView(0,item.userId)"
         />
-        <div class="details">
-          <div class="title">{{item.name}}</div>
+        <div class="details" @click="goView(-1,item.id)">
+          <div class="title">{{item.userName}}</div>
           <div
             class="info"
           >{{getOrderDate(item.startDate,item.days)}}·{{item.days}}晚·{{item.allPrice}}元</div>
           <div
             :style="{'color':item.status===-3? '#bf3c20':'#323233'}"
-          >{{getStatusText(item.status)}}</div>
+          >{{getStatusText(item.status,item.isCommented)}}</div>
         </div>
       </div>
     </van-list>
@@ -33,51 +34,58 @@
 
 <script lang="ts">
 import { Vue, Component, Prop } from "vue-property-decorator";
-import { formatOrderStatusText, formatOrderDate } from "@/common/ts/utill.ts";
+import { formatAdminStatusText, formatOrderDate } from "@/common/ts/utill.ts";
 
 @Component({
-  name: "OrderList"
+  name: "AdminList"
 })
-export default class OrderList extends Vue {
+export default class AdminList extends Vue {
   list: any = [];
   loading: boolean = false;
   finished: boolean = false;
 
   @Prop()
-  orderList;
+  adminList;
 
-  getStatusText(status: number): String {
-    return formatOrderStatusText(status).text;
+  getStatusText(status: number, isCommented: boolean): String {
+    return formatAdminStatusText(status, isCommented).text;
   }
 
   getOrderDate(startDate: any, days: number): any {
     return formatOrderDate(startDate, days);
   }
 
-  goView(id: number): void {
-    this.$router.push({
-      name: "OrderDetail",
-      query: { orderId: id.toString() }
-    });
+  goView(index: number, id: number): void {
+    if (index === 0) {
+      this.$router.push({
+        name: "MyComment",
+        query: { userId: id.toString() }
+      });
+    } else if (index === -1) {
+      this.$router.push({
+        name: "AdminDetail",
+        query: { orderId: id.toString() }
+      });
+    }
   }
 
   onLoad(): void {
     let self = this;
     setTimeout(() => {
-      for (let i = self.orderList.length - 1; i >= 0; i--) {
-        self.list.push(self.orderList[i]);
+      for (let i = self.adminList.length - 1; i >= 0; i--) {
+        self.list.push(self.adminList[i]);
       }
       self.loading = false;
-      if (self.list.length >= self.orderList.length) {
+      if (self.list.length >= self.adminList.length) {
         self.finished = true;
       }
-    }, 500);
+    }, 0);
   }
 }
 </script>
 
 <style lang="less">
-.order-list {
+.admin-list {
   .van-list__finished-text {
     font-size: 12px;
     line-height: 40px;
@@ -86,7 +94,7 @@ export default class OrderList extends Vue {
 </style>
 <style scoped lang="less">
 @import url("~@/common/style/Variable.less");
-.order-list {
+.admin-list {
   .order {
     height: 60px;
     padding: 10px;
