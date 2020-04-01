@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Vivian
  * @Date: 2020-03-31 16:23:11
- * @LastEditTime: 2020-04-01 12:25:29
+ * @LastEditTime: 2020-04-01 17:36:16
  */
 /*
  * @Description: 连接mysql、执行sql语句-用户相关
@@ -127,12 +127,22 @@ const adminDetail = (val) => { // 获取订单信息
 }
 
 const refuseOrder = (val) => { // 取消订单
-  let sql = `call set_orderStatus(${val}, -3)`
-  globalAny.log.trace("[refuseOrder] sql语句: " + sql + " value参数: " + val);
-  return query(sql, val)
+  let stru = getSQLObject();
+  stru["query"] = "update";
+  stru["tables"] = "orders";
+  stru["data"] = {
+    "refuseReason": val.refuseReason
+  };
+  stru["where"]["condition"] = [
+    "id = " + val.orderId,
+  ];
+  let result = _structureAnalysis(stru);
+  result.sql += `call set_orderStatus(${val.orderId}, -3)`
+  globalAny.log.trace("[refuseOrder] sql语句: " + result.sql + " value参数: " + result.value);
+  return query(result.sql, result.value)
 }
 
-const checkInOrder = (val) => { // 取消订单
+const checkInOrder = (val) => { // 确认入住
   let sql = `call set_checkIn(${val});call set_orderStatus(${val}, 0);`
   globalAny.log.trace("[checkInOrder] sql语句: " + sql + " value参数: " + val);
   return query(sql, val)

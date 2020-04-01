@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Vivian
  * @Date: 2020-03-31 16:23:18
- * @LastEditTime: 2020-04-01 12:24:57
+ * @LastEditTime: 2020-04-01 17:44:20
  */
 
 /*
@@ -119,7 +119,7 @@ router.get('/api/userComments', checkToken, async (ctx, next) => {
 })
 
 router.post('/api/refuseOrder', async (ctx, next) => {
-  await userModel.refuseOrder(ctx.request.body.orderId).then(async (res) => {
+  await userModel.refuseOrder({ orderId: ctx.request.body.orderId, refuseReason: ctx.request.body.refuseReason }).then(async (res) => {
     globalAny.log.trace("[refuseOrder] 取消入住成功!" + JSON.stringify(res));
     ctx.body = {
       code: 0,

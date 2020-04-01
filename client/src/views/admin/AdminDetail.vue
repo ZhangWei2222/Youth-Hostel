@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Vivian
  * @Date: 2020-03-31 17:52:26
- * @LastEditTime: 2020-04-01 12:23:54
+ * @LastEditTime: 2020-04-01 17:35:46
  -->
 
 <template>
@@ -55,7 +55,7 @@
       >
         <div
           class="refuse"
-          @click="orderInfo.status==-1? refuseOrder() : ''"
+          @click="orderInfo.status==-1? showRefuseDialogEvent() : ''"
         >{{orderInfo.status==-1? '取消入住' : ''}}</div>
         <span slot="tip">
           如果您对订单有疑惑，可
@@ -64,6 +64,24 @@
           </span>
         </span>
       </van-submit-bar>
+
+      <van-dialog
+        v-model="showRefuseDialog"
+        title="请输入取消入住理由"
+        show-cancel-button
+        @confirm="refuseOrder"
+      >
+        <van-field
+          v-model="refuseReason"
+          rows="3"
+          autosize
+          type="textarea"
+          maxlength="80"
+          placeholder="点击确认后，取消入住理由将自动通知房客（模拟短信接口）"
+          show-word-limit
+          clearable
+        />
+      </van-dialog>
     </div>
   </div>
 </template>
@@ -95,6 +113,8 @@ export default class AdminDetail extends Vue {
   statusText: string = "";
   disabledButton: boolean = false;
   orderDate: any = {};
+  showRefuseDialog: boolean = false;
+  refuseReason: string = "";
 
   mounted(): void {
     this.init();
@@ -161,29 +181,30 @@ export default class AdminDetail extends Vue {
     this.$router.go(-1);
   }
 
+  showRefuseDialogEvent(): void {
+    this.showRefuseDialog = true;
+  }
+
   async refuseOrder(): Promise<any> {
     let self = this;
-    Dialog.confirm({
-      message: "是否取消订单，确认后取消信息将自动通知用户（模拟短信接口）"
-    })
-      .then(async () => {
-        const res = await refuseOrderAPI({
-          orderId: self.$route.query.orderId
-        });
-        try {
-          // console.log("取消订单成功" + JSON.stringify(res.data));
-          if (res.data.code === 0) {
-            Toast.success("取消订单成功");
-            window.location.reload();
-          }
-        } catch (error) {
-          Toast.fail("取消订单失败");
-          console.log("取消订单失败" + error);
-        }
-      })
-      .catch(() => {
-        // on cancel
+    if (self.refuseReason) {
+      const res = await refuseOrderAPI({
+        orderId: self.$route.query.orderId,
+        refuseReason: self.refuseReason
       });
+      try {
+        // console.log("取消订单成功" + JSON.stringify(res.data));
+        if (res.data.code === 0) {
+          Toast.success("取消订单成功");
+          window.location.reload();
+        }
+      } catch (error) {
+        Toast.fail("取消订单失败");
+        console.log("取消订单失败" + error);
+      }
+    } else {
+      Toast.fail("请输入取消订单理由~");
+    }
   }
 
   // 评价订单

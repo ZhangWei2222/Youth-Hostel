@@ -2,7 +2,7 @@
  * @Description: type:0 roomDetail页面，type:1 submitOrder页面，type:2 orderDetail页面
  * @Author: Vivian
  * @Date: 2020-03-06 16:09:44
- * @LastEditTime: 2020-04-01 11:59:20
+ * @LastEditTime: 2020-04-01 17:43:23
  -->
 <template>
   <div class="notice-box" v-if="type !== 2">
@@ -23,6 +23,10 @@
     <div class="info">
       <div class="smallName" :style="{width:'2.5rem'}" v-if="status !== -1 && status !== 1">提示:</div>
       <div class="tip">{{tipText}}</div>
+    </div>
+    <div class="info" v-if="refuseReason" :style="{color:'#bf3c20'}">
+      <div class="smallName" :style="{width:'6rem'}">店家取消理由:</div>
+      <div class="tip">{{refuseReason}}</div>
     </div>
   </div>
 </template>
@@ -45,6 +49,9 @@ export default class Notice extends Vue {
 
   @Prop()
   isLandlord: boolean;
+
+  @Prop()
+  refuseReason: String;
 
   @Watch("status")
   getStatus(cur, old) {

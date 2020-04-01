@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Vivian
  * @Date: 2020-03-06 16:09:44
- * @LastEditTime: 2020-04-01 12:15:56
+ * @LastEditTime: 2020-04-01 17:39:48
  -->
 <template>
   <div class="order-detail">
@@ -44,7 +44,12 @@
       </div>
 
       <van-divider style="padding: 10px 0;" />
-      <Notice class="notice-box" :type="2" :status="orderInfo.status"></Notice>
+      <Notice
+        class="notice-box"
+        :type="2"
+        :status="orderInfo.status"
+        :refuseReason="orderInfo.refuseReason"
+      ></Notice>
 
       <van-submit-bar
         button-type="warning"
