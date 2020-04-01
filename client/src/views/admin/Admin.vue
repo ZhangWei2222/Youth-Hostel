@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Vivian
  * @Date: 2020-03-31 16:11:06
- * @LastEditTime: 2020-04-01 10:58:12
+ * @LastEditTime: 2020-04-01 12:44:05
  -->
 <template>
   <div class="own-index">
@@ -112,6 +112,7 @@ export default class OwnerIndex extends Vue {
         self.isSignIn = false;
         Toast("你已登出!");
         self.landlord.avator = "landlord.png";
+        window.scrollTo(0, 0);
         window.location.reload();
       })
       .catch(() => {
@@ -123,6 +124,10 @@ export default class OwnerIndex extends Vue {
     switch (key) {
       case -1:
         this.$router.push("/signIn");
+        this.$router.push({
+          name: "SignIn",
+          query: { type: "admin" }
+        });
         break;
       case 0:
         this.$router.push("/home");
