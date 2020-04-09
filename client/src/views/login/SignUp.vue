@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Vivian
  * @Date: 2020-03-06 16:09:44
- * @LastEditTime: 2020-03-12 11:40:12
+ * @LastEditTime: 2020-04-08 10:17:53
  -->
 <template>
   <div class="sign-up">
@@ -54,23 +54,27 @@ export default class SignUp extends Vue {
       message: userForm.message
     };
 
-    if (checkPhone(params.phoneNum) && !checkEmpty(params)) {
-      const res = await signUpAPI(params);
+    if (this.$refs["UserForm"].isAuthen) {
+      if (checkPhone(params.phoneNum) && !checkEmpty(params)) {
+        const res = await signUpAPI(params);
 
-      try {
-        console.log("注册信息" + JSON.stringify(res.data));
-        if (res.data.code === 0) {
-          Toast.success(res.data.msg);
-          self.$router.replace("/signIn");
-        } else {
-          Toast.fail("注册失败" + res.data.msg);
+        try {
+          console.log("注册信息" + JSON.stringify(res.data));
+          if (res.data.code === 0) {
+            Toast.success(res.data.msg);
+            self.$router.replace("/signIn");
+          } else {
+            Toast.fail("注册失败" + res.data.msg);
+          }
+        } catch (error) {
+          Toast.fail("注册失败");
+          console.log("注册失败" + error);
         }
-      } catch (error) {
-        Toast.fail("注册失败");
-        console.log("注册失败" + error);
+      } else {
+        Toast.fail("请正确填写信息");
       }
     } else {
-      Toast.fail("请正确填写信息");
+      Toast.fail("请完成高校认证");
     }
   }
 }

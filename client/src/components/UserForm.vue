@@ -84,7 +84,11 @@
       label="学校"
       placeholder="请输入学校"
       :disabled="isEdit"
-    />
+    >
+      <template #button v-if="!isEdit">
+        <van-button size="small" type="primary" @click="authenSchool">高校认证</van-button>
+      </template>
+    </van-field>
 
     <van-field
       readonly
@@ -144,6 +148,7 @@
 <script lang="ts">
 import { Vue, Component, Prop, Watch } from "vue-property-decorator";
 import md5 from "js-md5";
+import { Toast } from "vant";
 
 interface CacheUser {
   name: string;
@@ -178,6 +183,7 @@ export default class UserForm extends Vue {
   };
   isEdit: boolean = false;
   cachePassword: string = "000000";
+  isAuthen: boolean = false;
 
   @Watch("userInfo")
   getUserInfo(cur: any, old: any): void {
@@ -250,6 +256,12 @@ export default class UserForm extends Vue {
     var timer = date.getFullYear() + "-" + m;
     this.userForm.graduationTime = timer;
     this.showGraduationTimePicker = false;
+  }
+
+  // 进行高校认证
+  authenSchool(): void {
+    this.isAuthen = true;
+    Toast.success("高校认证成功");
   }
 }
 </script>

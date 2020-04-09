@@ -37,7 +37,7 @@
       <van-tab class="tab">
         <div slot="title">可入住房间</div>
         <!-- 商品列表 -->
-        <RoomList :roomInfo="landlordInfo.roomData"></RoomList>
+        <RoomList ref="roomList" :roomInfo="landlordInfo.roomData"></RoomList>
       </van-tab>
 
       <van-tab class="tab">
@@ -68,6 +68,7 @@ interface landlordInfo {
   }
 })
 export default class LandlordIndex extends Vue {
+  $refs: { quickEntry: HTMLFormElement };
   landlordInfo: landlordInfo = {
     landlordData: {},
     roomData: [],
@@ -99,6 +100,7 @@ export default class LandlordIndex extends Vue {
           totalScore: res.data.data.commentData.totalScore
         }
       };
+      this.$refs["roomList"].onLoad();
     } catch (error) {
       Toast.fail("获取用户评论信息失败");
       console.log("获取用户评论信息失败" + error);

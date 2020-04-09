@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Vivian
  * @Date: 2020-03-31 16:23:11
- * @LastEditTime: 2020-04-01 17:36:16
+ * @LastEditTime: 2020-04-08 12:24:54
  */
 /*
  * @Description: 连接mysql、执行sql语句-用户相关
@@ -82,13 +82,13 @@ const adminList = (val) => { // 获取订单列表
 const findComments = (val) => { // 获取订单列表
   let stru = getSQLObject();
   stru["query"] = "select";
-  stru["tables"] = "roomComments,orders_view";
+  stru["tables"] = "userComments,orders_view";
   stru["data"] = {
-    "roomComments.id": '*'
+    "userComments.id": '*'
   };
   stru["where"]["condition"] = [
     "orders_view.id = " + val,
-    "roomComments.orderId = orders_view.id"
+    "userComments.orderId = orders_view.id"
   ];
   let result = _structureAnalysis(stru);
   globalAny.log.trace("[findComments] sql语句: " + result.sql + " value参数: " + result.value);

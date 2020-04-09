@@ -16,8 +16,8 @@
           <van-rate v-model="comment.hygieneScore" />
         </div>
         <div class="rate">
-          管理
-          <van-rate v-model="comment.administrationScore" />
+          素质
+          <van-rate v-model="comment.qualityScore" />
         </div>
       </div>
 
@@ -47,7 +47,7 @@ interface comment {
   describeScore: number;
   communicateScore: number;
   hygieneScore: number;
-  administrationScore: number;
+  qualityScore: number;
   message: string;
   orderId: number;
   userId: number;
@@ -61,7 +61,7 @@ export default class UserComment extends Vue {
     describeScore: 5,
     communicateScore: 5,
     hygieneScore: 5,
-    administrationScore: 5,
+    qualityScore: 5,
     message: "",
     orderId: 0,
     userId: 0,

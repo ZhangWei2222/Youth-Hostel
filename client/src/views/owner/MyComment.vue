@@ -2,11 +2,16 @@
  * @Description:
  * @Author: Vivian
  * @Date: 2020-03-06 16:09:44
- * @LastEditTime: 2020-03-31 17:36:37
+ * @LastEditTime: 2020-04-08 12:25:42
  -->
 <template>
   <div class="my-comment">
-    <van-nav-bar title="我的评价" left-arrow @click-left="onClickLeft" :border="false" />
+    <van-nav-bar
+      :title="this.$route.query.userId?'房客评价':'我的评价'"
+      left-arrow
+      @click-left="onClickLeft"
+      :border="false"
+    />
     <div class="wrapper">
       <CommentRate :userInfo="userInfo"></CommentRate>
       <div class="divider"></div>

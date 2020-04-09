@@ -2,7 +2,7 @@
  * @Description: 登录接口
  * @Author: Vivian
  * @Date: 2020-03-03 21:24:17
- * @LastEditTime: 2020-03-31 16:04:17
+ * @LastEditTime: 2020-04-06 10:28:12
  */
 const globalAny: any = global;
 const router = require('koa-router')();
@@ -24,7 +24,7 @@ router.post('/api/signIn', async (ctx, next) => {
         msg: '用户未注册!',
         data: []
       }
-      globalAny.log.error("[findUser] 用户未注册!");
+      globalAny.log.error("[findUser] 房客未注册!");
     } else {
       // globalAny.log.debug("[findUser] 查看密码" + md5(res[0].password) + JSON.stringify(res[0]));
       if (res[0].password === user.password) {
