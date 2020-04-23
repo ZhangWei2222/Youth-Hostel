@@ -2,7 +2,7 @@
  * @Description: type:0 roomDetail页面，type:1 submitOrder页面，type:2 orderDetail页面
  * @Author: Vivian
  * @Date: 2020-03-06 16:09:44
- * @LastEditTime: 2020-04-01 17:43:23
+ * @LastEditTime: 2020-04-23 17:46:53
  -->
 <template>
   <div class="notice-box" v-if="type !== 2">
@@ -21,7 +21,11 @@
   </div>
   <div class="notice-box" v-else>
     <div class="info">
-      <div class="smallName" :style="{width:'2.5rem'}" v-if="status !== -1 && status !== 1">提示:</div>
+      <div
+        class="smallName"
+        :style="{width:'2.5rem'}"
+        v-if="(status == -1 && isCheckIn == 1) && status !== 1"
+      >提示:</div>
       <div class="tip">{{tipText}}</div>
     </div>
     <div class="info" v-if="refuseReason" :style="{color:'#bf3c20'}">
@@ -46,6 +50,9 @@ export default class Notice extends Vue {
 
   @Prop()
   status: number;
+
+  @Prop()
+  isCheckIn: number;
 
   @Prop()
   isLandlord: boolean;
@@ -82,6 +89,9 @@ export default class Notice extends Vue {
         break;
       case -2:
         temp = "退房成功，如可退款，退款将在当日内返还";
+        break;
+      case -1:
+        if (this.isCheckIn === 1) temp = "已完成入住，评价通道将在退房时开放";
         break;
       case 0:
         temp = "订单已完成，若超过退房日期三天，评价功能将关闭。";

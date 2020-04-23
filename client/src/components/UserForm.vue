@@ -260,8 +260,12 @@ export default class UserForm extends Vue {
 
   // 进行高校认证
   authenSchool(): void {
-    this.isAuthen = true;
-    Toast.success("高校认证成功");
+    if (this.userForm.schoolName) {
+      this.isAuthen = true;
+      Toast.success("高校认证成功");
+    } else {
+      Toast.fail("请输入高校名");
+    }
   }
 }
 </script>

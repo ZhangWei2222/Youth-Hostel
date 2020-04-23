@@ -2,7 +2,7 @@
  * @Description: 工具类-比如格式化函数等
  * @Author: Vivian
  * @Date: 2020-03-06 14:00:16
- * @LastEditTime: 2020-04-01 12:16:53
+ * @LastEditTime: 2020-04-23 17:41:31
  */
 
 // 自定义日期文案
@@ -120,7 +120,7 @@ export function formatOrderTime(time: any): any {
 }
 
 // 格式化订单状态文案
-export function formatOrderStatusText(status: number): any {
+export function formatOrderStatusText(status: number, isCheckIn?: number): any {
   let temp = {
     text: "",
     commentText: '',
@@ -163,8 +163,17 @@ export function formatOrderStatusText(status: number): any {
       }
       break;
     case -1:
-      temp.text = "待入住";
-      temp.commentText = "申请退房"
+      if (isCheckIn === 0) {
+        temp.text = "待入住";
+        temp.commentText = "申请退房"
+      } else {
+        temp = {
+          text: "已入住",
+          commentText: "已入住",
+          disabledButton: true
+        }
+      }
+
       break;
     case 0:
       temp.text = "待评价";

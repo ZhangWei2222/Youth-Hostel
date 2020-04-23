@@ -27,7 +27,7 @@
                 readonly
                 style="margin-right: 3px;"
               />
-              {{item.commentsNum}}条评价
+              {{item.commentsNum? item.commentsNum:0}}条评价
             </div>
           </div>
           <van-divider :style="{ width: '100%'}" />
@@ -67,6 +67,9 @@ export default class RoomList extends Vue {
         if (self.roomInfo[i].guestsNum >= self.roomInfo[i].roommateNum) {
           num--;
         } else {
+          if (!self.roomInfo[i].score) {
+            self.roomInfo[i].score = 5;
+          }
           self.roomList.push(self.roomInfo[i]);
         }
       }

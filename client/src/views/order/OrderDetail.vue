@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Vivian
  * @Date: 2020-03-06 16:09:44
- * @LastEditTime: 2020-04-01 17:39:48
+ * @LastEditTime: 2020-04-23 17:44:29
  -->
 <template>
   <div class="order-detail">
@@ -48,6 +48,7 @@
         class="notice-box"
         :type="2"
         :status="orderInfo.status"
+        :isCheckIn="orderInfo.isCheckIn"
         :refuseReason="orderInfo.refuseReason"
       ></Notice>
 
@@ -65,7 +66,7 @@
           如果您对订单有疑惑，可
           <span>
             <a
-              :href="'tel:'+ orderInfo.loandlordPhone"
+              :href="'tel:'+ orderInfo.landlordPhone"
               style="color: #4f91ce;font-weight: bold;"
             >致电店长</a>
           </span>
@@ -123,16 +124,23 @@ export default class OrderDetail extends Vue {
 
   get buttonText() {
     this.disabledButton = formatOrderStatusText(
-      this.orderInfo.status
+      this.orderInfo.status,
+      this.orderInfo.isCheckIn
     ).disabledButton;
-    return formatOrderStatusText(this.orderInfo.status).commentText;
+    return formatOrderStatusText(
+      this.orderInfo.status,
+      this.orderInfo.isCheckIn
+    ).commentText;
   }
 
   // 对数据进行格式化
   formatData(): void {
     let self = this;
     self.orderInfo.orderTime = formatOrderTime(self.orderInfo.orderTime);
-    self.statusText = formatOrderStatusText(self.orderInfo.status).text;
+    self.statusText = formatOrderStatusText(
+      self.orderInfo.status,
+      self.orderInfo.isCheckIn
+    ).text;
     self.orderDate = formatOrderDate(
       self.orderInfo.startDate,
       self.orderInfo.days

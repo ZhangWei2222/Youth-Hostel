@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Vivian
  * @Date: 2020-03-31 16:23:11
- * @LastEditTime: 2020-04-08 12:24:54
+ * @LastEditTime: 2020-04-23 17:30:04
  */
 /*
  * @Description: 连接mysql、执行sql语句-用户相关
@@ -143,7 +143,7 @@ const refuseOrder = (val) => { // 取消订单
 }
 
 const checkInOrder = (val) => { // 确认入住
-  let sql = `call set_checkIn(${val});call set_orderStatus(${val}, 0);`
+  let sql = `call set_checkIn(${val});`
   globalAny.log.trace("[checkInOrder] sql语句: " + sql + " value参数: " + val);
   return query(sql, val)
 }

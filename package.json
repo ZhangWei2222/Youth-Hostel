@@ -1,5 +1,5 @@
 {
-  "name": "hostel-server",
+  "name": "youth_hostel-server",
   "version": "1.0.0",
   "description": "服务端",
   "main": "./db/index.ts",
