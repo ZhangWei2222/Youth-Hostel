@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Vivian
  * @Date: 2020-02-11 16:25:52
- * @LastEditTime: 2020-04-29 18:53:47
+ * @LastEditTime: 2020-04-29 18:55:18
  -->
 # youth_hostel
 
@@ -31,7 +31,7 @@ npm run server
 ```
 
 ## 目录介绍
-
+```
 Youth-Hostel
 ├── client        // 前端 Vue 工程
 │   ├── build
@@ -123,3 +123,4 @@ Youth-Hostel
 ├── package.json
 ├── public
 └── README.md
+```
