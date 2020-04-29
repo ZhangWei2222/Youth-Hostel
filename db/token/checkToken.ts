@@ -2,7 +2,7 @@
  * @Description: 检查token
  * @Author: Vivian
  * @Date: 2020-03-03 10:26:57
- * @LastEditTime: 2020-03-31 16:48:23
+ * @LastEditTime: 2020-04-29 17:38:15
  */
 const jwt = require('jsonwebtoken');
 
@@ -19,7 +19,7 @@ module.exports = async (ctx, next) => {
   const token = authorization;
   let tokenContent;
   try {
-    // 根据 "kuaifengle" 钥解析 token 判断是否失效
+    // 根据 "wei" 钥解析 token 判断是否失效
     tokenContent = await jwt.verify(token, 'wei');     //如果token过期或验证失败，将抛出错误
     // 存入ctx 中 next() 可以获取到设置的 userInfo 数据
     ctx.userInfo = tokenContent

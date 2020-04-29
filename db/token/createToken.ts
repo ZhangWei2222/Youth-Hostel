@@ -2,7 +2,7 @@
  * @Description: 创建token
  * @Author: Vivian
  * @Date: 2020-03-03 10:26:57
- * @LastEditTime: 2020-03-05 10:56:29
+ * @LastEditTime: 2020-04-29 17:34:34
  */
 
 const jwt = require('jsonwebtoken');
@@ -19,7 +19,7 @@ module.exports = function (user) {
 
   const token = jwt.sign({
     userId: user.id
-  }, 'wei', {    // "kuaifengle"  是校验码    解析时需要一致 才能取到 user 信息
+  }, 'wei', {    // "wei"  是校验码    解析时需要一致 才能取到 user 信息
     expiresIn: '24h' //过期时间设置为24h 格式有(s, m, h , day)。那么decode这个token的时候得到的过期时间为 : 创建token的时间 +　设置的值
   });
   return token; // 返回token  前端存在浏览器cookie 中
