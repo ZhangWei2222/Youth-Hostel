@@ -2,7 +2,7 @@
  * @Description: 连接mysql、执行sql语句-订单相关
  * @Author: Vivian
  * @Date: 2020-03-11 16:31:25
- * @LastEditTime: 2020-04-23 17:32:39
+ * @LastEditTime: 2020-04-30 11:50:06
  */
 
 const globalAny: any = global;
@@ -44,14 +44,15 @@ const orderList = (val) => { // 获取订单列表 0:全部，1:有效，-1:无�
     "allPrice": '*',
     "roomId": "*",
     "houseId": "*",
+    "isCheckIn": "*"
   };
   stru["where"]["condition"] = [
     "userId = " + val.userId
   ];
   if (val.type === 1) {
-    stru["where"]["condition"].push("status = -1 or status = 0 or status = 1 or status = -5")
+    stru["where"]["condition"].push("(status = -1 or status = 0 or status = 1 or status = -5)")
   } else if (val.type === -1) {
-    stru["where"]["condition"].push("status = -3 or status = -2 or status = -6 or status = -4")
+    stru["where"]["condition"].push("(status = -3 or status = -2 or status = -6 or status = -4)")
   }
 
   let result = _structureAnalysis(stru);

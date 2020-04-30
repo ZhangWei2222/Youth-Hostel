@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Vivian
  * @Date: 2020-03-31 16:23:11
- * @LastEditTime: 2020-04-23 17:30:04
+ * @LastEditTime: 2020-04-30 16:48:35
  */
 /*
  * @Description: 连接mysql、执行sql语句-用户相关
@@ -116,7 +116,8 @@ const adminDetail = (val) => { // 获取订单信息
     "name": "*",
     "roommateNum": '*',
     "toiletNum": '*',
-    "allPrice": '*', "orderName": '*'
+    "allPrice": '*', "orderName": '*',
+    "isCheckIn": "*"
   };
   stru["where"]["condition"] = [
     "id = " + val
