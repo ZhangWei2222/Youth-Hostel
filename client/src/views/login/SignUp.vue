@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Vivian
  * @Date: 2020-03-06 16:09:44
- * @LastEditTime: 2020-04-08 10:17:53
+ * @LastEditTime: 2020-04-30 10:23:06
  -->
 <template>
   <div class="sign-up">
@@ -55,7 +55,11 @@ export default class SignUp extends Vue {
     };
 
     if (this.$refs["UserForm"].isAuthen) {
-      if (checkPhone(params.phoneNum) && !checkEmpty(params)) {
+      if (checkEmpty(params)) {
+        Toast.fail("请检查信息是否完整");
+      } else if (!checkPhone(params.phoneNum)) {
+        Toast.fail("请检查手机号码是否正确");
+      } else {
         const res = await signUpAPI(params);
 
         try {
@@ -70,8 +74,6 @@ export default class SignUp extends Vue {
           Toast.fail("注册失败");
           console.log("注册失败" + error);
         }
-      } else {
-        Toast.fail("请正确填写信息");
       }
     } else {
       Toast.fail("请完成高校认证");
@@ -86,7 +88,7 @@ export default class SignUp extends Vue {
   background: @incarnadine;
   .wrapper {
     padding: 30px 20px;
-    height: 93vh;
+    margin-bottom: 50px;
   }
 
   .group {

@@ -2,7 +2,7 @@
  * @Description: 工具类-比如格式化函数等
  * @Author: Vivian
  * @Date: 2020-03-06 14:00:16
- * @LastEditTime: 2020-04-23 17:41:31
+ * @LastEditTime: 2020-04-30 17:29:31
  */
 
 // 自定义日期文案
@@ -136,7 +136,7 @@ export function formatOrderStatusText(status: number, isCheckIn?: number): any {
       break;
     case -5:
       temp = {
-        text: "已入住",
+        text: "评价已关闭",
         commentText: "评价已关闭",
         disabledButton: true
       }
@@ -169,11 +169,10 @@ export function formatOrderStatusText(status: number, isCheckIn?: number): any {
       } else {
         temp = {
           text: "已入住",
-          commentText: "已入住",
+          commentText: "评价待开启",
           disabledButton: true
         }
       }
-
       break;
     case 0:
       temp.text = "待评价";
@@ -193,7 +192,7 @@ export function formatOrderStatusText(status: number, isCheckIn?: number): any {
 }
 
 // 格式化订单状态文案(店家管理页面)
-export function formatAdminStatusText(status: number, isCommented?: boolean): any {
+export function formatAdminStatusText(status: number, isCommented?: boolean, isCheckIn?: number): any {
   let temp = {
     text: "",
     commentText: '',
@@ -236,8 +235,11 @@ export function formatAdminStatusText(status: number, isCommented?: boolean): an
       }
       break;
     case -1:
-      temp.text = "确认入住/取消入住";
-      temp.commentText = "确认入住"
+      temp = {
+        text: "确认入住/取消入住",
+        commentText: "确认入住",
+        disabledButton: isCheckIn ? true : false
+      }
       break;
     case 0:
     case 1:
@@ -438,4 +440,22 @@ export function checkId(value) {
   }
 
   return true;
+}
+
+// 评价名格式化 混***王
+export function formatName(name) {
+  let newStr;
+  if (name.length === 2) {
+    newStr = name.substr(0, 1) + '*';
+  } else if (name.length > 2) {
+    let char = '';
+    for (let i = 0, len = name.length - 2; i < len; i++) {
+      char += '*';
+    }
+    newStr = name.substr(0, 1) + char + name.substr(-1, 1);
+  } else {
+    newStr = name;
+  }
+
+  return newStr;
 }

@@ -2,7 +2,7 @@
  * @Description: 订单列表
  * @Author: Vivian
  * @Date: 2020-03-16 10:19:58
- * @LastEditTime: 2020-04-01 12:08:27
+ * @LastEditTime: 2020-04-30 12:36:32
  -->
 
 <template>
@@ -17,14 +17,18 @@
           fit="cover"
           :src="`http://101.133.132.172/public/houseUploads/house${item.houseId}/room${item.roomId}/avator1.jpg`"
         />
-        <div class="details">
+        <div
+          class="details"
+          :style="{'color':item.status===-5 || item.status===-4 || item.status===-2 ? '#c8c9cc':'#323233'}"
+        >
           <div class="title">{{item.name}}</div>
           <div
             class="info"
           >{{getOrderDate(item.startDate,item.days)}}·{{item.days}}晚·{{item.allPrice}}元</div>
           <div
+            class="status"
             :style="{'color':item.status===-3 || item.status===-6 ? '#bf3c20':item.status===-5 || item.status===-4 || item.status===-2 ? '#c8c9cc':'#323233'}"
-          >{{getStatusText(item.status)}}</div>
+          >{{getStatusText(item.status,item.isCheckIn)}}</div>
         </div>
       </div>
     </van-list>
@@ -46,8 +50,8 @@ export default class OrderList extends Vue {
   @Prop()
   orderList;
 
-  getStatusText(status: number): String {
-    return formatOrderStatusText(status).text;
+  getStatusText(status: number, isCheckIn: number): String {
+    return formatOrderStatusText(status, isCheckIn).text;
   }
 
   getOrderDate(startDate: any, days: number): any {

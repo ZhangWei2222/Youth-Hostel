@@ -15,7 +15,7 @@
             <img v-else :src="'http://101.133.132.172/public/landlordUploads/'+ item.avator" alt />
           </div>
           <div class="box">
-            <div class="name">{{item.name}}</div>
+            <div class="name">{{getName(item.name)}}</div>
             <van-rate
               v-model="item.score"
               :size="12"
@@ -35,7 +35,7 @@
 
 <script lang="ts">
 import { Vue, Component, Prop } from "vue-property-decorator";
-import { formatDate2 } from "@/common/ts/utill.ts";
+import { formatDate2, formatName } from "@/common/ts/utill.ts";
 
 @Component({
   name: "CommentList"
@@ -51,6 +51,10 @@ export default class CommentList extends Vue {
   loading: boolean = false;
   finished: boolean = false;
   commentList: any = [];
+
+  getName(name: string): string {
+    return formatName(name);
+  }
 
   onClickLeft(): void {
     this.$router.go(-1);

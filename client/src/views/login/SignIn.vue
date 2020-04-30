@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Vivian
  * @Date: 2020-03-06 16:09:44
- * @LastEditTime: 2020-03-31 16:21:20
+ * @LastEditTime: 2020-04-30 10:47:05
  -->
 <template>
   <div class="sign-in">
@@ -109,9 +109,13 @@ export default class SignIn extends Vue {
 @import url("~@/common/style/Variable.less");
 .sign-in {
   background: @incarnadine;
+  height: 100%;
   .wrapper {
     padding: 20px;
-    height: 78vh;
+    // height: 78vh;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
     display: flex;
     flex-direction: column;
     justify-content: center;

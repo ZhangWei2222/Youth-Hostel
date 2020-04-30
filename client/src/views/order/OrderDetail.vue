@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Vivian
  * @Date: 2020-03-06 16:09:44
- * @LastEditTime: 2020-04-23 17:44:29
+ * @LastEditTime: 2020-04-30 18:15:23
  -->
 <template>
   <div class="order-detail">
@@ -13,14 +13,14 @@
     </van-nav-bar>
 
     <div class="wrapper">
-      <div class="room-info">
+      <div class="room-info" @click="goRoomDetail(orderInfo.roomId)">
         <div class="detailBox">
           <div class="title">{{orderInfo.name}}</div>
           <div class="type">{{orderInfo.roommateNum}}人间·{{orderInfo.toiletNum===1?'独卫':'公卫'}}</div>
           <div class="time">{{orderDate}}·{{orderInfo.days}}晚</div>
           <div
             class="status"
-            :style="{'color':orderInfo.status===-3? '#bf3c20':'#323233'}"
+            :style="{'color':orderInfo.status===-3 || orderInfo.status===-6 ? '#bf3c20':orderInfo.status===-5 || orderInfo.status===-4 || orderInfo.status===-2 ? '#969799':'#323233'}"
           >{{statusText}}</div>
         </div>
         <van-image
@@ -149,6 +149,21 @@ export default class OrderDetail extends Vue {
 
   onClickLeft(): void {
     this.$router.go(-1);
+  }
+
+  goRoomDetail(roomId): void {
+    let timeObj: any = new Date();
+    let year = timeObj.getFullYear();
+    let month = timeObj.getMonth() + 1;
+    let date = timeObj.getDate();
+    this.$router.push({
+      name: "RoomDetails",
+      query: {
+        id: roomId,
+        searchStartDate: `${year}-${month}-${date} 14:00:00`,
+        searchDays: "1"
+      }
+    });
   }
 
   // 评价订单

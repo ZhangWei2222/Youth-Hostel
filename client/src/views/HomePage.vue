@@ -114,9 +114,11 @@ export default class HomePage extends Vue {
 </style>
 <style scoped lang="less">
 @import url("~@/common/style/Variable.less");
+
 .home-page {
-  height: 100vh;
+  height: 100%;
   background: @incarnadine;
+  box-sizing: border-box;
 
   .img {
     width: 100%;

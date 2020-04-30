@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Vivian
  * @Date: 2020-03-06 16:09:44
- * @LastEditTime: 2020-03-30 17:20:37
+ * @LastEditTime: 2020-04-30 10:54:42
  -->
 <template>
   <div class="info-index">
@@ -94,7 +94,7 @@ export default class InfoIndex extends Vue {
   background: @incarnadine;
   .wrapper {
     padding: 30px 20px;
-    height: 93vh;
+    margin-bottom: 50px;
   }
 
   .group {

@@ -56,7 +56,7 @@
         </div>
         <div
           class="info"
-        >房源：{{roomDetail.houseData.bedroomNum}}间卧室·{{roomDetail.houseData.bedNum}}张床·{{roomDetail.houseData.tolietNum}}个卫生间·最多可住{{roomDetail.houseData.maxPepole}}人</div>
+        >房源：{{roomDetail.houseData.location}}·{{roomDetail.houseData.bedroomNum}}间卧室·{{roomDetail.houseData.bedNum}}张床·{{roomDetail.houseData.tolietNum}}个卫生间·最多可住{{roomDetail.houseData.maxPepole}}人</div>
       </div>
 
       <div class="facility">
@@ -111,7 +111,7 @@
         </div>
       </div>
 
-      <div class="comment">
+      <div class="comment" v-if="roomDetail.commentsData.list.length > 0">
         <div class="title">
           房客评价
           <span @click="goView(1, $route.query.id)">
@@ -157,7 +157,7 @@
               <div class="person-box">
                 <div
                   class="name"
-                >{{roomDetail.commentsData.list[roomDetail.commentsData.list.length-1].name}}</div>
+                >{{getName(roomDetail.commentsData.list[roomDetail.commentsData.list.length-1].name)}}</div>
                 <div
                   class="date"
                 >{{roomDetail.commentsData.list[roomDetail.commentsData.list.length-1].date}}</div>
@@ -207,7 +207,8 @@ import {
   getDiff,
   formatRoomDate,
   formatDate2,
-  returnFloat
+  returnFloat,
+  formatName
 } from "@/common/ts/utill.ts";
 import { formatFacilityList } from "@/common/ts/facility.ts";
 import merge from "webpack-merge";
@@ -269,6 +270,10 @@ export default class RoomDetails extends Vue {
 
   get roomDate() {
     return formatRoomDate(this.date);
+  }
+
+  getName(name: string): string {
+    return formatName(name);
   }
 
   initDate(): void {
@@ -384,6 +389,7 @@ export default class RoomDetails extends Vue {
         searchDays: this.searchDays
       })
     });
+    window.location.reload();
   }
 
   onClickLeft(): void {
@@ -445,7 +451,8 @@ export default class RoomDetails extends Vue {
   roomIntro(intro): void {
     Dialog.alert({
       title: `${this.roomDetail.houseData.houseName}`,
-      message: intro
+      message: intro,
+      messageAlign: "left"
     }).then(() => {
       // on close
     });

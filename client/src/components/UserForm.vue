@@ -270,6 +270,15 @@ export default class UserForm extends Vue {
 }
 </script>
 
+<style lang="less">
+.user-form {
+  .van-field__label {
+    width: 80px;
+    text-align: left;
+    margin-left: 10px;
+  }
+}
+</style>
 <style scoped lang="less">
 @import url("~@/common/style/Variable.less");
 .user-form {

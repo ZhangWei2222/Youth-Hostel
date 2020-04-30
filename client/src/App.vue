@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Vivian
  * @Date: 2020-03-06 14:00:16
- * @LastEditTime: 2020-03-31 16:14:49
+ * @LastEditTime: 2020-04-30 10:40:53
  -->
 <template>
   <div id="app">
@@ -52,10 +52,12 @@ export default class App extends Vue {
 @import url("./common/style/Variable.less");
 @import url("//at.alicdn.com/t/font_1639063_lgjy6mghkq.css");
 
-*,
-body {
-  margin: 0;
+html,
+body,
+#app {
+  height: 100%;
   padding: 0;
+  margin: 0;
 }
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;

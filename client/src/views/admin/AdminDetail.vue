@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Vivian
  * @Date: 2020-03-31 17:52:26
- * @LastEditTime: 2020-04-01 17:35:46
+ * @LastEditTime: 2020-04-30 16:57:35
  -->
 
 <template>
@@ -21,7 +21,7 @@
           <div class="time">{{orderDate}}·{{orderInfo.days}}晚</div>
           <div
             class="status"
-            :style="{'color':orderInfo.status===-3? '#bf3c20':'#323233'}"
+            :style="{'color':orderInfo.status===-1 || orderInfo.status===-6 ? '#bf3c20':orderInfo.status===-3 || orderInfo.status===-5 || orderInfo.status===-4 || orderInfo.status===-2 ? '#969799':'#323233'}"
           >{{statusText}}</div>
         </div>
         <van-image
@@ -45,7 +45,13 @@
       </div>
 
       <van-divider style="padding: 10px 0;" />
-      <Notice class="notice-box" :type="2" :isLandlord="true" :status="orderInfo.status"></Notice>
+      <Notice
+        class="notice-box"
+        :type="2"
+        :isLandlord="true"
+        :status="orderInfo.status"
+        :isCheckIn="orderInfo.isCheckIn"
+      ></Notice>
 
       <van-submit-bar
         button-type="warning"
@@ -56,7 +62,7 @@
         <div
           class="refuse"
           @click="orderInfo.status==-1? showRefuseDialogEvent() : ''"
-        >{{orderInfo.status==-1? '取消入住' : ''}}</div>
+        >{{orderInfo.status==-1 && !orderInfo.isCheckIn? '取消入住' : ''}}</div>
         <span slot="tip">
           如果您对订单有疑惑，可
           <span>
@@ -138,11 +144,13 @@ export default class AdminDetail extends Vue {
   get buttonText() {
     this.disabledButton = formatAdminStatusText(
       this.orderInfo.status,
-      this.orderInfo.isCommented
+      this.orderInfo.isCommented,
+      this.orderInfo.isCheckIn
     ).disabledButton;
     return formatAdminStatusText(
       this.orderInfo.status,
-      this.orderInfo.isCommented
+      this.orderInfo.isCommented,
+      this.orderInfo.isCheckIn
     ).commentText;
   }
 
@@ -169,7 +177,8 @@ export default class AdminDetail extends Vue {
     self.orderInfo.orderTime = formatOrderTime(self.orderInfo.orderTime);
     self.statusText = formatAdminStatusText(
       self.orderInfo.status,
-      this.orderInfo.isCommented
+      self.orderInfo.isCommented,
+      self.orderInfo.isCheckIn
     ).text;
     self.orderDate = formatOrderDate(
       self.orderInfo.startDate,

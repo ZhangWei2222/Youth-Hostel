@@ -2,7 +2,7 @@
  * @Description: type:0 roomDetail页面，type:1 submitOrder页面，type:2 orderDetail页面
  * @Author: Vivian
  * @Date: 2020-03-06 16:09:44
- * @LastEditTime: 2020-04-23 17:46:53
+ * @LastEditTime: 2020-04-30 17:03:46
  -->
 <template>
   <div class="notice-box" v-if="type !== 2">
@@ -16,7 +16,7 @@
     </div>
     <div class="info">
       <div :class="(type === 0 ? 'name' : 'smallName')">需要注意:</div>
-      <div class="tip">店家有权根据个人信息和个人评价，对订单进行拒绝。</div>
+      <div class="tip">店家有权根据个人信息，取消订单。</div>
     </div>
   </div>
   <div class="notice-box" v-else>
@@ -26,7 +26,7 @@
         :style="{width:'2.5rem'}"
         v-if="(status == -1 && isCheckIn == 1) && status !== 1"
       >提示:</div>
-      <div class="tip">{{tipText}}</div>
+      <div class="tip" :style="{width:'100%'}" v-html="tipText"></div>
     </div>
     <div class="info" v-if="refuseReason" :style="{color:'#bf3c20'}">
       <div class="smallName" :style="{width:'6rem'}">店家取消理由:</div>
@@ -118,7 +118,15 @@ export default class Notice extends Vue {
         temp = "您已取消该订单。";
         break;
       case -2:
-        temp = "退房成功。";
+        temp = "您已处理退房。";
+        break;
+      case -1:
+        if (this.isCheckIn === 0) {
+          temp =
+            "取消入住：如需取消入住，请在订单生效当天查看用户信息完成操作。<br>确认入住：请在房客入住时点击确认入住，方便后续状态管理。";
+        } else {
+          temp = "您已确认入住，评价功能将在退房日开启。";
+        }
         break;
       case 0:
         temp = "订单已完成，若超过退房日期三天，评价功能将关闭。";
@@ -138,8 +146,9 @@ export default class Notice extends Vue {
   text-align: left;
   line-height: 18px;
   .name {
+    font-size: @min-size;
     font-weight: bold;
-    width: 80px;
+    width: 65px;
   }
   .smallName {
     font-size: @min-size;

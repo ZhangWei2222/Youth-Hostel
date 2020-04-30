@@ -196,6 +196,7 @@ export default class SubmitOrder extends Vue {
     background: @incarnadine;
     .van-field__label {
       text-align: left;
+      margin-left: 10px;
       width: 65px;
     }
   }

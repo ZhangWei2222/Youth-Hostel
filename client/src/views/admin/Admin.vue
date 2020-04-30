@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Vivian
  * @Date: 2020-03-31 16:11:06
- * @LastEditTime: 2020-04-01 12:44:05
+ * @LastEditTime: 2020-04-30 17:24:40
  -->
 <template>
   <div class="own-index">
@@ -25,8 +25,15 @@
 
       <div class="title" v-if="this.isSignIn">订单列表</div>
 
-      <AdminList ref="adminList" :adminList="adminList" v-if="this.isSignIn"></AdminList>
-
+      <AdminList
+        ref="adminList"
+        :adminList="adminList"
+        v-if="this.isSignIn && adminList.length > 0"
+      ></AdminList>
+      <div
+        v-if="this.isSignIn && adminList.length === 0"
+        :style="{'text-align':'left','margin':'20px 0'}"
+      >暂无订单</div>
       <van-button class="exit-button" type="info" block @click="signOut" v-if="this.isSignIn">退出登录</van-button>
     </div>
   </div>
@@ -93,7 +100,7 @@ export default class OwnerIndex extends Vue {
       // console.log("获取订单信息" + JSON.stringify(res.data));
       if (res.data.code === 0) {
         self.adminList = res.data.data;
-        this.$refs["adminList"].onLoad();
+        if (this.$refs["adminList"]) this.$refs["adminList"].onLoad();
       }
     } catch (error) {
       Toast.fail("获取店家信息失败");
@@ -174,11 +181,19 @@ export default class OwnerIndex extends Vue {
     font-size: @middle-size;
     font-weight: bold;
     text-align: left;
-    margin-top: 10px;
+    margin-top: 30px;
   }
 
-  .exit-button {
-    margin-top: 50px;
+  .button-wrapper {
+    // position: fixed;
+    // width: 90%;
+    // bottom: 0;
+    // padding: 20px;
+    // left: 50%;
+    // transform: translateX(-50%);
+    .exit-button {
+      margin-top: 50px;
+    }
   }
 }
 </style>

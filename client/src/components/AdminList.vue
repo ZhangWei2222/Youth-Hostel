@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Vivian
  * @Date: 2020-03-31 17:04:05
- * @LastEditTime: 2020-04-01 12:10:52
+ * @LastEditTime: 2020-04-30 16:36:00
  -->
 
 <template>
@@ -18,7 +18,11 @@
           :src="`http://101.133.132.172/public/userUploads/${item.userAvator}`"
           @click="goView(0,item.userId)"
         />
-        <div class="details" @click="goView(-1,item.id)">
+        <div
+          class="details"
+          @click="goView(-1,item.id)"
+          :style="{'color':item.status===-3 || item.status===-5 || item.status===-4 || item.status===-2 ? '#c8c9cc':'#323233'}"
+        >
           <div class="title">{{item.userName}}</div>
           <div
             class="info"
