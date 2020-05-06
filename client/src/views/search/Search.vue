@@ -242,9 +242,8 @@ export default class CommentIndex extends Vue {
           contents[i] = "";
         }
         if (contents[i].match("人间")) {
-          roommateNumParams = isNumber(contents[i][0])
-            ? contents[i][0]
-            : word2number(contents[i][0]);
+          let num = contents[i].split("人")[0];
+          roommateNumParams = isNumber(num) ? num : word2number(num);
           contents[i] = "";
         }
       }
