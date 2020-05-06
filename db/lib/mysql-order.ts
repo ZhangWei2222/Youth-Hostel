@@ -2,7 +2,7 @@
  * @Description: 连接mysql、执行sql语句-订单相关
  * @Author: Vivian
  * @Date: 2020-03-11 16:31:25
- * @LastEditTime: 2020-04-30 11:50:06
+ * @LastEditTime: 2020-05-06 10:25:55
  */
 
 const globalAny: any = global;
@@ -105,7 +105,8 @@ const orderDetail = (val) => { // 获取订单信息
     "toiletNum": '*',
     "allPrice": '*',
     "landlordPhone": '*',
-    "refuseReason": "*"
+    "refuseReason": "*",
+    "orderName": "*"
   };
   stru["where"]["condition"] = [
     "id = " + val

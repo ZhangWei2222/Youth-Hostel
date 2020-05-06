@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Vivian
  * @Date: 2020-03-06 16:09:44
- * @LastEditTime: 2020-04-30 18:15:23
+ * @LastEditTime: 2020-05-06 10:25:01
  -->
 <template>
   <div class="order-detail">
@@ -37,7 +37,7 @@
         <div class="title">订单信息</div>
         <van-field :value="orderInfo.value" label="订单号码" readonly />
         <van-field :value="orderInfo.orderTime" type="number" label="订单时间" readonly />
-        <van-field :value="orderInfo.userName" label="入住人" readonly />
+        <van-field :value="orderInfo.orderName" label="入住人" readonly />
         <van-field :value="orderInfo.phoneNum" type="tel" label="联系手机" readonly />
         <van-field :value="orderInfo.message" label="留言" readonly />
         <van-field :value="'￥'+orderInfo.allPrice" type="number" label="房费" readonly />
