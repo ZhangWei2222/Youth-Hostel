@@ -2,7 +2,7 @@
  * @Description: 连接mysql、执行sql语句-搜索相关
  * @Author: Vivian
  * @Date: 2020-03-24 09:37:39
- * @LastEditTime: 2020-05-06 19:13:12
+ * @LastEditTime: 2020-05-06 20:52:50
  */
 
 const globalAny: any = global;
@@ -57,8 +57,14 @@ const roomList = (val) => { // 获取房间列表
         stru["where"]["condition"].push(`houseName like '%${JSON.parse(val.searchFilter).houseName}%'`);
       }
       stru["options"]["order by"] = [
-        "RAND()"
+        "score desc, price"
       ];
+      if (JSON.parse(val.searchFilter).roommateNum) {
+        stru["where"]["condition"].push(`roommateNum >= ${JSON.parse(val.searchFilter).roommateNum}`);
+        stru["options"]["order by"] = [
+          "roommateNum"
+        ];
+      }
       break;
     default:
       break;

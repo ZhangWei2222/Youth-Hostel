@@ -21,7 +21,7 @@
           show-action
           shape="round"
           background="#86cd71"
-          placeholder="输入城市、店名或性别"
+          placeholder="输入城市、店名、性别或几人间"
           @search="onSearch"
         >
           <div slot="action" class="date-box" @click="showDate = true">
@@ -138,7 +138,13 @@
 
 <script lang="ts">
 import { Vue, Component, Watch } from "vue-property-decorator";
-import { formatter, formatDate3, getDiff } from "@/common/ts/utill.ts";
+import {
+  formatter,
+  formatDate3,
+  getDiff,
+  isNumber,
+  word2number
+} from "@/common/ts/utill.ts";
 import { Toast } from "vant";
 import RoomList from "@/components/RoomList.vue";
 import { roomListAPI, locationListAPI } from "@/services/searchAPI.ts";
@@ -227,11 +233,18 @@ export default class CommentIndex extends Vue {
     let sexParams = "";
     let houseParams = "";
     let locationParams = "";
+    let roommateNumParams = "";
     for (let i = 0; i < contents.length; i++) {
       for (let j = 0; j < this.sexList.length; j++) {
         if (contents[i].match(this.sexList[j].value)) {
           sexParams =
             contents[i].match(this.sexList[j].value)[0] === "男" ? "1" : "0";
+          contents[i] = "";
+        }
+        if (contents[i].match("人间")) {
+          roommateNumParams = isNumber(contents[i][0])
+            ? contents[i][0]
+            : word2number(contents[i][0]);
           contents[i] = "";
         }
       }
@@ -252,7 +265,8 @@ export default class CommentIndex extends Vue {
     return {
       sex: sexParams,
       houseName: houseParams,
-      location: locationParams
+      location: locationParams,
+      roommateNum: roommateNumParams
     };
   }
 
@@ -336,6 +350,7 @@ export default class CommentIndex extends Vue {
       this.searchValue = this.$route.query.searchContent;
       this.searchStartDate = this.$route.query.searchStartDate;
       this.searchDays = this.$route.query.searchDays;
+      this.formatterSearchContent(this.searchValue);
       this.getRoomList(
         "search",
         {

@@ -2,7 +2,7 @@
  * @Description: 工具类-比如格式化函数等
  * @Author: Vivian
  * @Date: 2020-03-06 14:00:16
- * @LastEditTime: 2020-04-30 17:29:31
+ * @LastEditTime: 2020-05-06 20:32:28
  */
 
 // 自定义日期文案
@@ -458,4 +458,41 @@ export function formatName(name) {
   }
 
   return newStr;
+}
+
+// 判断是否为数字
+export function isNumber(val) {
+  var regPos = /^\d+(\.\d+)?$/; //非负浮点数
+  var regNeg = /^(-(([0-9]+\.[0-9]*[1-9][0-9]*)|([0-9]*[1-9][0-9]*\.[0-9]+)|([0-9]*[1-9][0-9]*)))$/; //负浮点数
+  if (regPos.test(val) || regNeg.test(val)) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+// 中文数字转阿拉伯数字
+export function word2number(w) {
+  var e = "零一二三四五六七八九";
+  var ew = ["十", "百", "千"];
+  var ej = ["万", "亿"];
+  var rss = "^([" + e + ew.join("") + "]+" + ej[1] + ")?([" + e + ew.join("") + "]+" + ej[0] + ")?([" + e + ew.join("") + "]+)?$";
+  //     ^([零一二三四五六七八九十百千]+亿)?([零一二三四五六七八九十百千]+万)?([零一二三四五六七八九十百千]+)?$
+  var arr = new RegExp(rss).exec(w);
+  function foh(str) {
+    str = new String(str);
+    var a = 0;
+    if (str.indexOf(ew[0]) == 0) a = 10;
+    str = str.replace(new RegExp(e.charAt(0), "g"), "");
+    if (new RegExp("([" + e + "])$").test(str))
+      a += e.indexOf(RegExp.$1);
+    if (new RegExp("([" + e + "])" + ew[0]).test(str))
+      a += e.indexOf(RegExp.$1) * 10;
+    if (new RegExp("([" + e + "])" + ew[1]).test(str))
+      a += e.indexOf(RegExp.$1) * 100;
+    if (new RegExp("([" + e + "])" + ew[2]).test(str))
+      a += e.indexOf(RegExp.$1) * 1000;
+    return a;
+  }
+  return foh(arr[1]) * 100000000 + foh(arr[2]) * 10000 + foh(arr[3]);
 }

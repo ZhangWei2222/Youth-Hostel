@@ -12,7 +12,7 @@
       @confirm="onDateConfirm"
     />
     <div class="search">
-      <van-field v-model="text" clearable placeholder="输入城市、店名或性别" />
+      <van-field v-model="text" clearable placeholder="输入城市、店名、性别或几人间" />
       <div class="date-box" @click="show = true">
         <div>{{date.start}}</div>
         <div class="line-box">{{date.days}}晚</div>
