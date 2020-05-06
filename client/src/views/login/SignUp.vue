@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Vivian
  * @Date: 2020-03-06 16:09:44
- * @LastEditTime: 2020-04-30 10:23:06
+ * @LastEditTime: 2020-05-06 11:57:47
  -->
 <template>
   <div class="sign-up">
@@ -59,6 +59,8 @@ export default class SignUp extends Vue {
         Toast.fail("请检查信息是否完整");
       } else if (!checkPhone(params.phoneNum)) {
         Toast.fail("请检查手机号码是否正确");
+      } else if (this.$refs["UserForm"].errorMessage) {
+        Toast.fail("请确认密码");
       } else {
         const res = await signUpAPI(params);
 

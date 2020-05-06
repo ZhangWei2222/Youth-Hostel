@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Vivian
  * @Date: 2020-03-06 16:09:44
- * @LastEditTime: 2020-04-30 10:54:42
+ * @LastEditTime: 2020-05-06 11:55:46
  -->
 <template>
   <div class="info-index">
@@ -59,9 +59,10 @@ export default class InfoIndex extends Vue {
   async editInfo(): Promise<any> {
     let self = this;
     let userForm = self.$refs["UserForm"].userForm;
-
+    let errorMessage = self.$refs["UserForm"].errorMessage;
     if (
       userForm.password &&
+      !errorMessage &&
       checkPhone(userForm.phoneNum) &&
       userForm.message
     ) {

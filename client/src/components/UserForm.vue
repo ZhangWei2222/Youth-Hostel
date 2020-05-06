@@ -10,22 +10,23 @@
     />
 
     <van-field
-      v-if="!isEdit"
-      v-model="userForm.password"
+      v-model="password"
       required
       clearable
       type="password"
       label="密码"
       placeholder="请输入密码"
+      @blur="PasswordBlur"
     />
     <van-field
-      v-else
-      v-model="cachePassword"
+      v-model="passwordConfirm"
+      :error-message="errorMessage"
       required
       clearable
       type="password"
-      label="密码"
-      placeholder="请输入密码"
+      placeholder="请再次输入密码"
+      label="确认密码"
+      @blur="PasswordOkBlur"
     />
 
     <van-field
@@ -182,13 +183,50 @@ export default class UserForm extends Vue {
     avator: ""
   };
   isEdit: boolean = false;
+  okPassword: string = "";
   cachePassword: string = "000000";
+  cacheOkPassword: string = "000000";
+  errorMessage: string = "";
   isAuthen: boolean = false;
+
+  get password() {
+    if (!this.isEdit) {
+      return this.userForm.password;
+    } else {
+      return this.cachePassword;
+    }
+  }
+
+  set password(val) {
+    if (!this.isEdit) {
+      this.userForm.password = val;
+    } else {
+      this.cachePassword = val;
+    }
+  }
+
+  get passwordConfirm() {
+    if (!this.isEdit) {
+      return this.okPassword;
+    } else {
+      return this.cacheOkPassword;
+    }
+  }
+
+  set passwordConfirm(val) {
+    if (!this.isEdit) {
+      this.okPassword = val;
+    } else {
+      this.cacheOkPassword = val;
+    }
+  }
 
   @Watch("userInfo")
   getUserInfo(cur: any, old: any): void {
-    this.userForm = this.userInfo;
-    this.isEdit = true;
+    if (cur) {
+      this.userForm = this.userInfo;
+      this.isEdit = true;
+    }
   }
 
   @Watch("cachePassword")
@@ -198,7 +236,42 @@ export default class UserForm extends Vue {
     } else {
       this.userForm.password = "";
     }
-    console.log(this.userForm.password);
+  }
+
+  PasswordBlur() {
+    if (
+      (this.isEdit && !this.cachePassword) ||
+      (!this.isEdit && !this.userForm.password)
+    ) {
+      this.cacheOkPassword = "";
+      this.okPassword = "";
+      this.errorMessage = "请再次输入密码";
+    } else if (
+      (this.isEdit && this.cachePassword !== this.cacheOkPassword) ||
+      (!this.isEdit && this.userForm.password !== this.okPassword)
+    ) {
+      this.errorMessage = "两次输入密码不一致!";
+    } else {
+      this.errorMessage = "";
+    }
+  }
+
+  PasswordOkBlur() {
+    if (
+      (this.isEdit && this.cachePassword === this.cacheOkPassword) ||
+      (!this.isEdit && this.userForm.password === this.okPassword)
+    ) {
+      if (
+        (this.isEdit && !this.cachePassword) ||
+        (!this.isEdit && !this.userForm.password)
+      ) {
+        this.errorMessage = "请再次输入密码";
+      } else {
+        this.errorMessage = "";
+      }
+    } else {
+      this.errorMessage = "两次输入密码不一致!";
+    }
   }
 
   // 性别下拉框
