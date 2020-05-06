@@ -2,7 +2,7 @@
  * @Description: 连接mysql、执行sql语句-搜索相关
  * @Author: Vivian
  * @Date: 2020-03-24 09:37:39
- * @LastEditTime: 2020-03-30 12:31:50
+ * @LastEditTime: 2020-05-06 19:13:12
  */
 
 const globalAny: any = global;
@@ -43,7 +43,7 @@ const roomList = (val) => { // 获取房间列表
   switch (val.type) {
     case 'all':
       stru["options"]["order by"] = [
-        "RAND()"
+        "score desc, price"
       ];
       break;
     case 'search':
@@ -69,7 +69,7 @@ const roomList = (val) => { // 获取房间列表
     switch (JSON.parse(val.filter).sortType) {
       case 'all':
         stru["options"]["order by"] = [
-          "id"
+          "score desc, price"
         ];
         break;
       case 'score':
