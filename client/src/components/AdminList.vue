@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Vivian
  * @Date: 2020-03-31 17:04:05
- * @LastEditTime: 2020-04-30 16:36:00
+ * @LastEditTime: 2020-05-07 17:50:32
  -->
 
 <template>
@@ -15,7 +15,7 @@
           height="60"
           radius="3"
           fit="cover"
-          :src="`http://101.133.132.172/public/userUploads/${item.userAvator}`"
+          :src="`http://101.133.132.172/public/userUploads/${item.userAvator?item.userAvator:'user.png'}`"
           @click="goView(0,item.userId)"
         />
         <div
