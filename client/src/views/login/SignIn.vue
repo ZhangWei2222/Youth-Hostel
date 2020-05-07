@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Vivian
  * @Date: 2020-03-06 16:09:44
- * @LastEditTime: 2020-04-30 10:47:05
+ * @LastEditTime: 2020-05-07 10:27:38
  -->
 <template>
   <div class="sign-in">
@@ -111,11 +111,14 @@ export default class SignIn extends Vue {
   background: @incarnadine;
   height: 100%;
   .wrapper {
+    width: 89.3%;
+    margin: auto;
     padding: 20px;
     // height: 78vh;
     position: absolute;
     top: 50%;
-    transform: translateY(-50%);
+    left: 50%;
+    transform: translate(-50%, -50%);
     display: flex;
     flex-direction: column;
     justify-content: center;
