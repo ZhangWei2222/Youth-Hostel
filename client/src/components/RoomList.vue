@@ -18,7 +18,7 @@
           </van-swipe>
           <div class="details">
             <div>{{item.roomType}}</div>
-            <div style="font-weight: bold;">{{item.roomName}}·{{item.sex===1?'男':'女'}}</div>
+            <div style="font-weight: bold;">{{item.roomName}}·{{item.sex===1?'男生':'女生'}}</div>
             <div class="comment">
               <van-rate
                 v-model="item.score"
