@@ -41,7 +41,7 @@
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
 import { Toast } from "vant";
-import { userCommentsAPI } from "@/services/adminAPI.ts";
+import { postUserCommentsAPI } from "@/services/adminAPI.ts";
 
 interface comment {
   describeScore: number;
@@ -77,10 +77,10 @@ export default class UserComment extends Vue {
   async onCommit(): Promise<any> {
     let self = this;
     self.comment.orderId = Number(this.$route.query.orderId);
-    self.comment.userId = Number(this.$route.params.userId);
-    self.comment.landlordId = Number(this.$route.params.landlordId);
+    self.comment.userId = Number(this.$route.query.userId);
+    self.comment.landlordId = Number(this.$route.query.landlordId);
     if (!self.comment.message) self.comment.message = "默认好评。";
-    const res = await userCommentsAPI(self.comment);
+    const res = await postUserCommentsAPI(self.comment);
     try {
       // console.log("评价成功" + JSON.stringify(res.data));
       if (res.data.code === 0) {

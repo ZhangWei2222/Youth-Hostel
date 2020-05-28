@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Vivian
  * @Date: 2020-03-31 17:04:05
- * @LastEditTime: 2020-05-07 17:50:32
+ * @LastEditTime: 2020-05-29 01:10:44
  -->
 
 <template>
@@ -28,8 +28,8 @@
             class="info"
           >{{getOrderDate(item.startDate,item.days)}}·{{item.days}}晚·{{item.allPrice}}元</div>
           <div
-            :style="{'color':item.status===-1 || item.status===-6 ? '#bf3c20':item.status===-3 || item.status===-5 || item.status===-4 || item.status===-2 ? '#c8c9cc':'#323233'}"
-          >{{getStatusText(item.status,item.isCommented)}}</div>
+            :style="{'color':item.status===-1 && !item.isCheckIn  || item.status===-6 ? '#bf3c20':item.status===-3 || item.status===-5 || item.status===-4 || item.status===-2 ? '#c8c9cc':'#323233'}"
+          >{{getStatusText(item.status, item.isCommented, item.overCommented, item.isCheckIn)}}</div>
         </div>
       </div>
     </van-list>
@@ -51,8 +51,14 @@ export default class AdminList extends Vue {
   @Prop()
   adminList;
 
-  getStatusText(status: number, isCommented: boolean): String {
-    return formatAdminStatusText(status, isCommented).text;
+  getStatusText(
+    status: number,
+    isCommented: boolean,
+    overCommented: boolean,
+    isCheckIn: number
+  ): String {
+    return formatAdminStatusText(status, isCommented, overCommented, isCheckIn)
+      .text;
   }
 
   getOrderDate(startDate: any, days: number): any {

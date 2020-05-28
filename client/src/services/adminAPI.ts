@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Vivian
  * @Date: 2020-03-31 16:22:10
- * @LastEditTime: 2020-04-01 11:15:20
+ * @LastEditTime: 2020-05-29 00:19:36
  */
 
 import http from './lib/http'
@@ -27,8 +27,8 @@ export const checkInOrderAPI = (params) => {
   return http.post('/api/checkInOrder', params);
 }
 
-export const userCommentsAPI = (params) => {
-  return http.post('/api/userComments', params);
+export const postUserCommentsAPI = (params) => {
+  return http.post('/api/postuserComments', params);
 }
 
 export const landlordcheckOutOrderAPI = (params) => {

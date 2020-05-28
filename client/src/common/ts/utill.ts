@@ -2,7 +2,7 @@
  * @Description: 工具类-比如格式化函数等
  * @Author: Vivian
  * @Date: 2020-03-06 14:00:16
- * @LastEditTime: 2020-05-06 20:32:28
+ * @LastEditTime: 2020-05-29 01:37:04
  */
 
 // 自定义日期文案
@@ -192,7 +192,7 @@ export function formatOrderStatusText(status: number, isCheckIn?: number): any {
 }
 
 // 格式化订单状态文案(店家管理页面)
-export function formatAdminStatusText(status: number, isCommented?: boolean, isCheckIn?: number): any {
+export function formatAdminStatusText(status: number, isCommented?: boolean, overCommented?: boolean, isCheckIn?: number, ): any {
   let temp = {
     text: "",
     commentText: '',
@@ -236,8 +236,8 @@ export function formatAdminStatusText(status: number, isCommented?: boolean, isC
       break;
     case -1:
       temp = {
-        text: "确认入住/取消入住",
-        commentText: "确认入住",
+        text: isCheckIn ? "现已入住" : "确认入住/取消入住",
+        commentText: isCheckIn ? "现已入住" : "确认入住",
         disabledButton: isCheckIn ? true : false
       }
       break;
@@ -250,8 +250,16 @@ export function formatAdminStatusText(status: number, isCommented?: boolean, isC
           disabledButton: true
         }
       } else {
-        temp.text = "待评价";
-        temp.commentText = "立即评价"
+        if (overCommented) {
+          temp = {
+            text: "评价已关闭",
+            commentText: "评价已关闭",
+            disabledButton: true
+          }
+        } else {
+          temp.text = "待评价";
+          temp.commentText = "立即评价"
+        }
       }
       break;
     default:

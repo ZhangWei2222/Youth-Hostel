@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Vivian
  * @Date: 2020-03-31 16:23:18
- * @LastEditTime: 2020-04-01 17:44:20
+ * @LastEditTime: 2020-05-29 01:16:49
  */
 
 /*
@@ -51,6 +51,10 @@ router.get('/api/adminList', checkToken, async (ctx, next) => {
     }
     for (let i = 0; i < ctx.body.data.length; i++) {
       ctx.body.data[i].isCommented = false
+      ctx.body.data[i].overCommented = false
+      if (new Date() > new Date((ctx.body.data[i].startDate / 1000 + (86400 * ctx.body.data[i].days)) * 1000) && ctx.body.data[i].status == 1) {
+        ctx.body.data[i].overCommented = true
+      }
       await userModel.findComments(ctx.body.data[i].id).then(async (res) => {
         globalAny.log.trace("[findComments] 订单是否评价获取成功!" + JSON.stringify(res[0]));
         if (res[0]) {
@@ -77,6 +81,9 @@ router.get('/api/adminDetail', async (ctx, next) => {
       msg: '订单详情获取成功',
       data: res
     }
+    if (new Date() > new Date((ctx.body.data[0].startDate / 1000 + (86400 * ctx.body.data[0].days)) * 1000) && ctx.body.data[0].status == 1) {
+      ctx.body.data[0].overCommented = true
+    }
     await userModel.findComments(ctx.body.data[0].id).then(async (res) => {
       globalAny.log.trace("[findComments] 订单是否评价获取成功!" + JSON.stringify(res[0]));
       if (res[0]) {
@@ -93,30 +100,30 @@ router.get('/api/adminDetail', async (ctx, next) => {
   })
 })
 
-router.get('/api/userComments', checkToken, async (ctx, next) => {
-  // globalAny.log.debug("[userComments]" + JSON.stringify(ctx.userInfo));
+// router.get('/api/userComments', checkToken, async (ctx, next) => {
+//   // globalAny.log.debug("[userComments]" + JSON.stringify(ctx.userInfo));
 
-  await userModel.userComments(ctx.userInfo.userId).then(async (res) => {
-    globalAny.log.trace("[userComments] 用户评价获取成功!" + JSON.stringify(res));
-    ctx.body = {
-      code: 0,
-      data: res,
-      average: ''
-    }
-    await userModel.userCommentsAVG(ctx.userInfo.userId).then(async (res) => {
-      globalAny.log.trace("[userCommentsAVG] 用户评价平均数：" + JSON.stringify(res));
-      ctx.body.average = res;
-    })
+//   await userModel.userComments(ctx.userInfo.userId).then(async (res) => {
+//     globalAny.log.trace("[userComments] 用户评价获取成功!" + JSON.stringify(res));
+//     ctx.body = {
+//       code: 0,
+//       data: res,
+//       average: ''
+//     }
+//     await userModel.userCommentsAVG(ctx.userInfo.userId).then(async (res) => {
+//       globalAny.log.trace("[userCommentsAVG] 用户评价平均数：" + JSON.stringify(res));
+//       ctx.body.average = res;
+//     })
 
-  }).catch((err) => {
-    globalAny.log.error("[userComments] 用户评价获取失败!" + err);
-    ctx.body = {
-      code: -1,
-      msg: err,
-      data: []
-    }
-  })
-})
+//   }).catch((err) => {
+//     globalAny.log.error("[userComments] 用户评价获取失败!" + err);
+//     ctx.body = {
+//       code: -1,
+//       msg: err,
+//       data: []
+//     }
+//   })
+// })
 
 router.post('/api/refuseOrder', async (ctx, next) => {
   await userModel.refuseOrder({ orderId: ctx.request.body.orderId, refuseReason: ctx.request.body.refuseReason }).then(async (res) => {
@@ -155,9 +162,10 @@ router.post('/api/checkInOrder', async (ctx, next) => {
 })
 
 // 评论房客
-router.post('/api/userComments', checkToken, async (ctx, next) => {
+router.post('/api/postuserComments', async (ctx, next) => {
+  console.log(ctx.request.body.landlordId)
   let temp = {
-    userId: ctx.userInfo.userId,
+    userId: ctx.request.body.userId,
     orderId: ctx.request.body.orderId,
     landlordId: ctx.request.body.landlordId,
     describeScore: ctx.request.body.describeScore,
@@ -166,14 +174,14 @@ router.post('/api/userComments', checkToken, async (ctx, next) => {
     qualityScore: ctx.request.body.qualityScore,
     message: ctx.request.body.message,
   };
-  await userModel.userComments(temp).then(async (res) => {
-    globalAny.log.trace("[userComments] 评价房客成功" + JSON.stringify(res));
+  await userModel.postuserComments(temp).then(async (res) => {
+    globalAny.log.trace("[postuserComments] 评价房客成功" + JSON.stringify(res));
     ctx.body = {
       code: 0,
       data: res
     }
   }).catch((err) => {
-    globalAny.log.error("[userComments] 评价房客失败:" + err);
+    globalAny.log.error("[postuserComments] 评价房客失败:" + err);
     ctx.body = {
       code: -1,
       msg: err,

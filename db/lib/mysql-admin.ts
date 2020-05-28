@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Vivian
  * @Date: 2020-03-31 16:23:11
- * @LastEditTime: 2020-04-30 16:48:35
+ * @LastEditTime: 2020-05-29 01:02:20
  */
 /*
  * @Description: 连接mysql、执行sql语句-用户相关
@@ -69,6 +69,7 @@ const adminList = (val) => { // 获取订单列表
     "userAvator": "*",
     "userName": "*",
     "userId": "*",
+    "isCheckIn": ""
   };
   stru["where"]["condition"] = [
     "landlordId = " + val.landlordId
@@ -149,7 +150,7 @@ const checkInOrder = (val) => { // 确认入住
   return query(sql, val)
 }
 
-const userComments = (val) => { // 添加房客评论
+const postuserComments = (val) => { // 添加房客评论
   let stru = getSQLObject();
   stru["query"] = "insert";
   stru["tables"] = "userComments";
@@ -165,7 +166,7 @@ const userComments = (val) => { // 添加房客评论
   };
 
   let result = _structureAnalysis(stru);
-  globalAny.log.trace("[userComments] sql语句: " + result.sql + " value参数: " + result.value);
+  globalAny.log.trace("[postuserComments] sql语句: " + result.sql + " value参数: " + result.value);
 
   return query(result.sql, result.value)
 }
@@ -184,7 +185,7 @@ module.exports = {
   adminDetail,
   refuseOrder,
   checkInOrder,
-  userComments,
+  postuserComments,
   landlordcheckOutOrder
 }
 

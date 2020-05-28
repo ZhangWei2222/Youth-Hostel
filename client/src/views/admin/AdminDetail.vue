@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Vivian
  * @Date: 2020-03-31 17:52:26
- * @LastEditTime: 2020-04-30 16:57:35
+ * @LastEditTime: 2020-05-29 01:17:35
  -->
 
 <template>
@@ -145,11 +145,13 @@ export default class AdminDetail extends Vue {
     this.disabledButton = formatAdminStatusText(
       this.orderInfo.status,
       this.orderInfo.isCommented,
+      this.orderInfo.overCommented,
       this.orderInfo.isCheckIn
     ).disabledButton;
     return formatAdminStatusText(
       this.orderInfo.status,
       this.orderInfo.isCommented,
+      this.orderInfo.overCommented,
       this.orderInfo.isCheckIn
     ).commentText;
   }
@@ -178,6 +180,7 @@ export default class AdminDetail extends Vue {
     self.statusText = formatAdminStatusText(
       self.orderInfo.status,
       self.orderInfo.isCommented,
+      self.orderInfo.overCommented,
       self.orderInfo.isCheckIn
     ).text;
     self.orderDate = formatOrderDate(
@@ -220,8 +223,8 @@ export default class AdminDetail extends Vue {
   goComment(): void {
     this.$router.push({
       name: "UserComment",
-      query: { orderId: this.$route.query.orderId },
-      params: {
+      query: {
+        orderId: this.$route.query.orderId,
         userId: this.orderInfo.userId,
         landlordId: this.orderInfo.landlordId
       }
