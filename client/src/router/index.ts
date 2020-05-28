@@ -55,7 +55,8 @@ const router = new Router({
       name: 'MyComment',
       component: modules['MyComment'],
       meta: {
-        requireAuth: true
+        requireAuth: true,
+        adminComment: true
       }
     },
     {
@@ -157,7 +158,7 @@ router.beforeEach((to, from, next) => {
   let token = cookie.get('assent_token');
 
   if (to.meta.requireAuth) {
-    if (token) {
+    if (token || to.meta.adminComment) {
       next();
     } else {
       next({

@@ -2,7 +2,7 @@
  * @Description: 用户相关API--用户信息、编辑信息、上传头像、用户评论
  * @Author: Vivian
  * @Date: 2020-03-03 21:24:17
- * @LastEditTime: 2020-03-31 17:39:55
+ * @LastEditTime: 2020-05-29 00:13:25
  */
 
 import http from './lib/http'
@@ -21,4 +21,8 @@ export const userImageAPI = (params, config) => {
 
 export const userCommentsAPI = params => {
   return http.get('/api/userComments', { params });
+}
+
+export const usersCommentsAPI = params => {
+  return http.get('/api/usersComments', { params });
 }

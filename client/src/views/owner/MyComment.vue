@@ -2,7 +2,7 @@
  * @Description:
  * @Author: Vivian
  * @Date: 2020-03-06 16:09:44
- * @LastEditTime: 2020-04-08 12:25:42
+ * @LastEditTime: 2020-05-29 00:14:01
  -->
 <template>
   <div class="my-comment">
@@ -25,7 +25,7 @@ import { Vue, Component } from "vue-property-decorator";
 import CommentList from "@/components/CommentList.vue";
 import CommentRate from "@/components/CommentRate.vue";
 import { Toast } from "vant";
-import { userCommentsAPI } from "@/services/userAPI.ts";
+import { userCommentsAPI, usersCommentsAPI } from "@/services/userAPI.ts";
 
 interface userInfo {
   data: any[];
@@ -53,7 +53,7 @@ export default class MyComment extends Vue {
     let self = this;
     let res;
     if (self.$route.query.userId) {
-      res = await userCommentsAPI({ userId: self.$route.query.userId });
+      res = await usersCommentsAPI({ userId: self.$route.query.userId });
     } else {
       res = await userCommentsAPI({});
     }
